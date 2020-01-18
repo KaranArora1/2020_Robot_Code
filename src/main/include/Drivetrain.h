@@ -7,7 +7,20 @@
 
 #pragma once
 
+#include "RobotMap.h"
+
 class Drivetrain {
- public:
-  Drivetrain();
+  public:
+    Drivetrain();
+    void Drive(double, double);
+
+  private:
+  
+    WPI_TalonFX front_left{12};
+    WPI_TalonFX front_right{9};
+    WPI_TalonFX back_left{11};
+    WPI_TalonFX back_right{10};
+
+    double turn, fwd, leftThrot, rightThrot;
+
 };

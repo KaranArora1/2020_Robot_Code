@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "RobotMap.h"
+
 class Climber {
  public:
   Climber();

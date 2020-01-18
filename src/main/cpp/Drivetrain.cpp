@@ -8,3 +8,7 @@
 #include "Drivetrain.h"
 
 Drivetrain::Drivetrain() {}
+
+void Drivetrain::Drive(double forward, double turn) {
+    
+}
