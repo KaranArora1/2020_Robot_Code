@@ -11,5 +11,14 @@
 
 class Shooter {
  public:
-  Shooter();
+    Shooter();
+    void Shoot(double);
+    void Intake(double);
+
+  private:
+    rev::CANSparkMax intake{1, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax shooter{2, rev::CANSparkMax::MotorType::kBrushless};
+    
+    rev::CANEncoder intakeEncoder = intake.GetEncoder();
+    rev::CANEncoder shooterEncoder = shooter.GetEncoder();
 };

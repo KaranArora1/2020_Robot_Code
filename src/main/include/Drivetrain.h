@@ -21,6 +21,6 @@ class Drivetrain {
     WPI_TalonFX back_left{11};
     WPI_TalonFX back_right{10};
 
-    double turn, fwd, leftThrot, rightThrot;
+    double turn, forward, leftThrot, rightThrot;
 
 };

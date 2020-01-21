@@ -7,4 +7,6 @@
 
 #include "Climber.h"
 
-Climber::Climber() {}
+Climber::Climber() {
+    
+}

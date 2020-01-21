@@ -43,6 +43,7 @@ class Robot : public frc::TimedRobot {
     frc::Joystick joy{0};
 
     Drivetrain Drive{};
+    Shooter Shoot{};
 
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";

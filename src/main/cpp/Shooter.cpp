@@ -7,4 +7,16 @@
 
 #include "Shooter.h"
 
-Shooter::Shooter() {}
+Shooter::Shooter() {
+  
+}
+
+void Shooter::Shoot(double input) {
+    shooter.Set(input);
+    std::cout << shooterEncoder.GetVelocity() << std::endl;
+}
+
+void Shooter::Intake(double input) {
+    intake.Set(input);
+    std::cout << intakeEncoder.GetVelocity() << std::endl;
+}

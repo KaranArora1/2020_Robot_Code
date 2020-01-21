@@ -7,4 +7,6 @@
 
 #include "Vision.h"
 
-Vision::Vision() {}
+Vision::Vision() {
+    
+}

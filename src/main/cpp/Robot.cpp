@@ -13,22 +13,6 @@ void Robot::RobotInit() {
   //m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   //m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-
-  //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
-  /*back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-  back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-  front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-  front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);*/
-
-  back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-  back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-  front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-  front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-  
-  front_right.SetSelectedSensorPosition(0);
-  back_right.SetSelectedSensorPosition(0);
-  front_left.SetSelectedSensorPosition(0);
-  back_left.SetSelectedSensorPosition(0);
 }
 
 /**
@@ -93,31 +77,12 @@ double Robot::Deadzone(double input) {
 //11 12
 void Robot::TeleopPeriodic() {
 
-  fwd = Deadzone(joy.GetRawAxis(1));
-  turn = Deadzone(joy.GetRawAxis(4));
-
-  leftThrot = turn - fwd;
-  rightThrot = turn + fwd;
-
   //motor1.Set(ControlMode::PercentOutput, Deadzone(joy.GetRawAxis(1)));
   //motor2.Set(ControlMode::PercentOutput, Deadzone(joy.GetRawAxis(1)));
 
-  back_left.Set(ControlMode::PercentOutput, leftThrot);
-  front_left.Set(ControlMode::PercentOutput, leftThrot);
-  back_right.Set(ControlMode::PercentOutput, rightThrot);
-  front_right.Set(ControlMode::PercentOutput, rightThrot);
-
-  std::cout << "Back left:";
-  std::cout << back_left.GetSelectedSensorPosition(0) << std::endl;
-
-  std::cout << "Front left:";
-  std::cout << front_left.GetSelectedSensorPosition(0) << std::endl;
-
-  std::cout << "Back right:";
-  std::cout << back_right.GetSelectedSensorPosition(0) << std::endl;
-
-  std::cout << "Front right:";
-  std::cout << front_right.GetSelectedSensorPosition(0) << std::endl;
+  Drive.Drive(joy.GetRawAxis(fwdJoyChl), joy.GetRawAxis(trnJoyChl));
+  Shoot.Shoot(joy.GetRawAxis(shootJoyChl));
+  Shoot.Intake(joy.GetRawAxis(shootIntakeJoyChl));
 }
 
 void Robot::TestPeriodic() {}

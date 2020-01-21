@@ -9,34 +9,13 @@
 #include "rev/ColorSensorV3.h"
 #include "rev/ColorMatch.h"
 #include "ctre/Phoenix.h"
+#include "rev/CANSparkMax.h"
 
 constexpr int fwdJoyChl = 1;
 constexpr int trnJoyChl = 4;
 
-constexpr int shiftBtn = 1; //A
-constexpr int shiftStick = 9; //left stick
-
-constexpr int hatchRun = 1; //A
-constexpr int hatchAbort = 2; //B
-
-constexpr int eleLift = 6; //Right Bumper
-constexpr int eleLower = 5; //Left Bumper
-constexpr int eleOverride = 3; //X
-constexpr int eleOverrideAxis = 1; //Axis 1
-
-constexpr int climbIncStage = 8; //Menu
-constexpr int climbDecStage = 7; //View
-constexpr int climbWheelAxis = 1; //Axis 1
-
-constexpr int cargoToggle = 4; //Y
-constexpr int cargoIntakeAxis = 2; //Eject Is Right Trigger, Intake Is Left Trigger
-constexpr int cargoEjectAxis = 3;
-
-constexpr int climberWheelsFwdAxis = 2;
-constexpr int climberWheelsRevAxis = 3;
-
-constexpr int pressureTransID = 0;
-
+constexpr int shootJoyChl = 2;
+constexpr int shootIntakeJoyChl = 3;
 
 //
 //

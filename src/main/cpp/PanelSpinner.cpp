@@ -7,4 +7,6 @@
 
 #include "PanelSpinner.h"
 
-PanelSpinner::PanelSpinner() {}
+PanelSpinner::PanelSpinner() {
+    
+}
