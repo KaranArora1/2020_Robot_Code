@@ -22,5 +22,6 @@ class Drivetrain {
     WPI_TalonFX back_right{10};
 
     double turn, forward, leftThrot, rightThrot;
+    int velocity;
 
 };

@@ -38,7 +38,12 @@ void Drivetrain::Drive(double forward, double turn) {
     front_right.Set(ControlMode::PercentOutput, rightThrot);
 
     std::cout << "Back left:";
-    std::cout << back_left.GetSelectedSensorPosition(0) << std::endl;
+    std::cout << back_left.GetSelectedSensorPosition(0) << " counts" << std::endl;
+
+    velocity = back_left.GetSelectedSensorVelocity(0);
+    
+    std::cout << velocity << " counts/100ms" << std::endl;
+    std::cout << 
 
     std::cout << "Front left:";
     std::cout << front_left.GetSelectedSensorPosition(0) << std::endl;

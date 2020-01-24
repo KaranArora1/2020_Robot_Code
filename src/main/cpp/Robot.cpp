@@ -8,6 +8,7 @@
 #include "Robot.h"
 
 //https://www.ctr-electronics.com/downloads/api/cpp/html/index.html
+// https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
 
 void Robot::RobotInit() {
   //m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
