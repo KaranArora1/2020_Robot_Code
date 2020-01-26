@@ -8,8 +8,13 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "Drivetrain.h"
 
 class Vision {
  public:
   Vision();
+  void Run(double, double);
+ 
+ private:
+  //float tv, tx, ty;
 };

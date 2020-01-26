@@ -11,18 +11,15 @@
 
 #include "Climber.h"
 #include "Drivetrain.h"
-#include "Intake.h"
+#include "BallPickup.h"
 #include "Lights.h"
 #include "Logger.h"
 #include "PanelSpinner.h"
 #include "Shooter.h"
 #include "Vision.h"
+#include "ColorSensor.h"
 
 class Robot : public frc::TimedRobot {
-  //rev::ColorSensorV3 m_colorSensor{i2cPort};
-  //rev::ColorMatch m_colorMatcher;
-
-  //static constexpr frc::Color kBlueTarget = frc::Color(
     
   public:
 
@@ -37,13 +34,14 @@ class Robot : public frc::TimedRobot {
 
   private:
 
-    //WPI_TalonSRX motor1{2};
-    //WPI_TalonSRX motor{3};
-
-    frc::Joystick joy{0};
+    frc::Joystick joy{driverJoyUSBPort};
+    frc::Joystick joy2{operatorJoyUSBPort};
 
     Drivetrain Drive{};
     Shooter Shoot{};
+    Climber Climb{};
+    BallPickup Pickup{};
+    PanelSpinner Spinner{};
 
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";

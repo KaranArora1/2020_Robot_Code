@@ -12,4 +12,10 @@
 class PanelSpinner {
  public:
   PanelSpinner();
+  void SpinRevolutions(double);
+  void SpinColor(double);
+
+ private:
+
+ WPI_TalonSRX spinner{spinnerID};
 };

@@ -1,13 +1,49 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*
+ * Logger.h
+ *
+ *  Created on: Jan 21, 2016
+ *      Author: feds
+ */
 
 #pragma once
 
+#include "MyTimer.h"
+#include "RobotMap.h"
+
 class Logger {
- public:
-  Logger();
+public:
+	struct CSVVals {
+		double voltage;
+		double totalCurrent;
+
+		int motor1Position, motor2Position, motor3Position, motor4Position;
+		int motor1Velocity, motor2Velocity, motor3Velocity, motor4Velocity;
+	};
+
+	virtual ~Logger();
+
+	void logError(const char *msg, ... );
+	void logInfo(const char *msg, ... );
+
+	void logCSV(struct CSVVals *data);
+
+    static Logger *instance()
+    {
+        if (!singlton)
+        	singlton = new Logger();
+        return singlton;
+    }
+private:
+
+    MyTimer timer;
+
+    struct timeval startTime;
+
+    std::ofstream logFile;
+    std::ofstream csvFile;
+
+    void save();
+
+	Logger();
+	static Logger *singlton;
 };

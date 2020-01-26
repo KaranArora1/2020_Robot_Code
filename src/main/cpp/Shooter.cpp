@@ -17,6 +17,20 @@ void Shooter::Shoot(double input) {
 }
 
 void Shooter::Intake(double input) {
-    intake.Set(input);
-    std::cout << intakeEncoder.GetVelocity() << std::endl;
+    //intake.Set(input);
+    //std::cout << intakeEncoder.GetVelocity() << std::endl;
+}
+
+void Shooter::moveWrist(double input) {
+
+   /*if(currentPos == Home){
+       master.Set(ControlMode::Position, downPos + sensorOffset);
+       slave.Follow(master);
+       currentPos = Down;
+   }else if(currentPos == Down){
+        master.Set(ControlMode::Position, homePos + sensorOffset);
+        slave.Follow(master);
+        currentPos = Home;
+       }*/
+
 }

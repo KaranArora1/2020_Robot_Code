@@ -5,8 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Intake.h"
+#pragma once
 
-Intake::Intake() {
-    
-}
+#include "RobotMap.h"
+
+class BallPickup {
+ public:
+  BallPickup();
+};

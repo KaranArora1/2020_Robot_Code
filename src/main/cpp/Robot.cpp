@@ -8,7 +8,7 @@
 #include "Robot.h"
 
 //https://www.ctr-electronics.com/downloads/api/cpp/html/index.html
-// https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
+//https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json
 
 void Robot::RobotInit() {
   //m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
@@ -75,11 +75,7 @@ double Robot::Deadzone(double input) {
     return input;
    }
 
-//11 12
 void Robot::TeleopPeriodic() {
-
-  //motor1.Set(ControlMode::PercentOutput, Deadzone(joy.GetRawAxis(1)));
-  //motor2.Set(ControlMode::PercentOutput, Deadzone(joy.GetRawAxis(1)));
 
   Drive.Drive(joy.GetRawAxis(fwdJoyChl), joy.GetRawAxis(trnJoyChl));
   Shoot.Shoot(joy.GetRawAxis(shootJoyChl));

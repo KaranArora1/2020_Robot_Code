@@ -10,20 +10,20 @@
 Drivetrain::Drivetrain() {
 
      //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
-    /*back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);*/
+    //back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    //back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    //front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    //front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
 
-    back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+    backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+    backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+    frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+    frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
   
-    front_right.SetSelectedSensorPosition(0);
-    back_right.SetSelectedSensorPosition(0);
-    front_left.SetSelectedSensorPosition(0);
-    back_left.SetSelectedSensorPosition(0);
+    frontRight.SetSelectedSensorPosition(0);
+    backRight.SetSelectedSensorPosition(0);
+    frontLeft.SetSelectedSensorPosition(0);
+    backLeft.SetSelectedSensorPosition(0);
 
 }
 
@@ -32,25 +32,49 @@ void Drivetrain::Drive(double forward, double turn) {
     leftThrot = turn - forward;
     rightThrot = turn + forward;
     
-    back_left.Set(ControlMode::PercentOutput, leftThrot);
-    front_left.Set(ControlMode::PercentOutput, leftThrot);
-    back_right.Set(ControlMode::PercentOutput, rightThrot);
-    front_right.Set(ControlMode::PercentOutput, rightThrot);
+    backLeft.Set(ControlMode::PercentOutput, leftThrot);
+    frontLeft.Set(ControlMode::PercentOutput, leftThrot);
+    backRight.Set(ControlMode::PercentOutput, rightThrot);
+    frontRight.Set(ControlMode::PercentOutput, rightThrot);
 
-    std::cout << "Back left:";
-    std::cout << back_left.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    Drivetrain::Printer();
+}
 
-    velocity = back_left.GetSelectedSensorVelocity(0);
+//void Drivetrain::Vision(double fwdspeed, double trnspeed) {
     
-    std::cout << velocity << " counts/100ms" << std::endl;
-    std::cout << 
+//}
+
+//Math goes here
+//re ajusting goes here
+//shoot method goes here
+//storage system eject method goes here
+
+
+//    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);// sets pipeline to pipe 1 (the human one)}
+//
+
+void Shift() {
+    
+}
+
+void Drivetrain::Printer() {
+    std::cout << "Back left:";
+    std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << std::endl;
 
     std::cout << "Front left:";
-    std::cout << front_left.GetSelectedSensorPosition(0) << std::endl;
+    std::cout << frontLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    std::cout << frontLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << std::endl;
 
     std::cout << "Back right:";
-    std::cout << back_right.GetSelectedSensorPosition(0) << std::endl;
+    std::cout << backRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    std::cout << backRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << std::endl;
 
     std::cout << "Front right:";
-    std::cout << front_right.GetSelectedSensorPosition(0) << std::endl;
+    std::cout << frontRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    std::cout << frontRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << std::endl;
 }

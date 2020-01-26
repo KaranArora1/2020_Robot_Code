@@ -7,24 +7,7 @@
 
 #pragma once
 
-#include "RobotMap.h"
-
-class Drivetrain {
-  public:
-    Drivetrain();
-    void Drive(double, double);
-    void Vision(double, double);
-    void Shift();
-    void Printer();
-
-  private:
-  
-    WPI_TalonFX frontLeft{frontLeftMotorID};
-    WPI_TalonFX frontRight{frontRightMotorID};
-    WPI_TalonFX backLeft{backLeftMotorID};
-    WPI_TalonFX backRight{backRightMotorID};
-
-    frc::DoubleSolenoid shifter{PCMID, 4 , 3};
-
-    double turn, forward, leftThrot, rightThrot;
+class ColorSensor {
+ public:
+  ColorSensor();
 };

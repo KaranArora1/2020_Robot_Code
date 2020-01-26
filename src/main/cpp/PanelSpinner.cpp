@@ -8,5 +8,14 @@
 #include "PanelSpinner.h"
 
 PanelSpinner::PanelSpinner() {
+
+}
+
+void PanelSpinner::SpinRevolutions(double speed) { //Eventually Parameter for speed won't be needed, it will be automatic
+    spinner.Set(ControlMode::PercentOutput, speed);
+    //Add color sensor code that stops the motor here
+}
+
+void PanelSpinner::SpinColor(double speed) {
     
 }
