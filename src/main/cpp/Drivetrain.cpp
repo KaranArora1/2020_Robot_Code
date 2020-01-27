@@ -37,43 +37,39 @@ void Drivetrain::Drive(double forward, double turn) {
     backRight.Set(ControlMode::PercentOutput, rightThrot);
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
 
-    Drivetrain::Printer();
+    Printer();
 }
 
-//void Drivetrain::Vision(double fwdspeed, double trnspeed) {
-    
-//}
-
-//Math goes here
-//re ajusting goes here
-//shoot method goes here
-//storage system eject method goes here
-
-
-//    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);// sets pipeline to pipe 1 (the human one)}
-//
-
-void Shift() {
-    
+void Drivetrain::Shift() {
+    if (shifter.Get() == frc::DoubleSolenoid::Value::kForward) {
+		shifter.Set(frc::DoubleSolenoid::Value::kReverse);
+		//currentGear = 2;
+		//gearHasChanged = true;
+	}
+    else {
+		shifter.Set(frc::DoubleSolenoid::Value::kForward);
+		//currentGear = 1;
+		//gearHasChanged = true;
+	}
 }
 
 void Drivetrain::Printer() {
-    std::cout << "Back left:";
+    std::cout << "Back left:" << std::endl;
     std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
     std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Front left:";
+    std::cout << "Front left:" << std::endl;
     std::cout << frontLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
     std::cout << frontLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Back right:";
+    std::cout << "Back right:" << std::endl;
     std::cout << backRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
     std::cout << backRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Front right:";
+    std::cout << "Front right:" << std::endl;
     std::cout << frontRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
     std::cout << frontRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
     std::cout << std::endl;

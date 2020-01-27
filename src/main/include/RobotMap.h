@@ -15,8 +15,10 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "networktables/NetworkTable.h" //Vision
 #include "networktables/NetworkTableInstance.h" //Vision
+#include "cameraserver/CameraServer.h"
 #include "rev/ColorSensorV3.h" //Color Sensor
 #include "rev/ColorMatch.h" //Color Sensor
+#include "rev/CIEColor.h" //Color Sensor
 #include "ctre/Phoenix.h"
 #include "rev/CANSparkMax.h" //Sparks
 
@@ -24,15 +26,17 @@
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
 constexpr int operatorJoyUSBPort = 1;
 
-constexpr int fwdJoyChl = 1; //Y Axis on Left Joystick
-constexpr int trnJoyChl = 4; //X Axis on Right Joystick
+constexpr int fwdJoyChl = 1; //Y Axis on Left Joystick (Driver)
+constexpr int trnJoyChl = 4; //X Axis on Right Joystick (Driver)
+constexpr int shifterBtn = 1; //A Button (Driver)
 
-constexpr int shootJoyChl = 3;  //Right Trigger
-constexpr int shootIntakeJoyChl = 2; //Left Trigger
-constexpr int shootChangeLevelUpBtn = 6; //Right Bumper
-constexpr int shootChangeLevelDownBtn = 5; //Left Bumper
+constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
+constexpr int shootIntakeJoyChl = 2; //Left Trigger (Operator)
+constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
+constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
-constexpr int climbBtn = 8; //Menu button
+constexpr int climbBtn = 8; //Menu button (Operator)
+constexpr int climbChl = 1; //Y Axis on Left Joystick (Operator)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -40,18 +44,24 @@ constexpr int frontRightMotorID = 9; //FX
 constexpr int backLeftMotorID = 11; //FX
 constexpr int backRightMotorID = 10; //FX
 
-constexpr int PCMID = 100; //FIX
-constexpr int 
+constexpr int PCMID = 0; 
+constexpr int shiferFirstGear = 3; 
+constexpr int shifterSecondGear = 4; 
 
 //Climber
-constexpr int climbID = 100; //SRX Probably (FIX)
-constexpr int setShifterFirstGear = ;
-constexpr int setShifterSecondGear = 4;
+constexpr int winchID = 4; //SRX
 
 //Intake
 
 //PanelSpinner
 constexpr int spinnerID = 100; //SRX? Fix
+
+static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
+
+static constexpr frc::Color kBlueTarget = frc::Color(0.121, 0.430, 0.447);
+static constexpr frc::Color kGreenTarget = frc::Color(0.165, 0.587, 0.249);
+static constexpr frc::Color kRedTarget = frc::Color(0.520, 0.356, 0.125);
+static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 
 //Shooter
 constexpr int shooterID = 1; //Spark

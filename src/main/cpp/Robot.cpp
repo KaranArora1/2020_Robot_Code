@@ -77,9 +77,26 @@ double Robot::Deadzone(double input) {
 
 void Robot::TeleopPeriodic() {
 
-  Drive.Drive(joy.GetRawAxis(fwdJoyChl), joy.GetRawAxis(trnJoyChl));
-  Shoot.Shoot(joy.GetRawAxis(shootJoyChl));
-  Shoot.Intake(joy.GetRawAxis(shootIntakeJoyChl));
+  Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
+  Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+  Shoot.Intake(Deadzone(operatorJoy.GetRawAxis(shootIntakeJoyChl)));
+
+  if (driverJoy.GetRawButtonPressed(shifterBtn)) {
+    Drive.Shift();
+  }
+
+  if (operatorJoy.GetRawButtonPressed(climbBtn)) {
+    if (climbStatus) {
+      climbStatus = false;
+    }
+    else {
+      climbStatus = true;
+    }
+  }
+
+  if (climbStatus) {
+    Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbChl)));
+  }
 }
 
 void Robot::TestPeriodic() {}

@@ -92,6 +92,10 @@ void Logger::save()
 	csvFile.flush();
 }
 
+void Logger::Run() {
+
+}
+
 Logger::~Logger() {
 	// TODO Auto-generated destructor stub
 }

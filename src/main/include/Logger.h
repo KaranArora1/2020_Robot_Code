@@ -24,8 +24,8 @@ public:
 
 	void logError(const char *msg, ... );
 	void logInfo(const char *msg, ... );
-
 	void logCSV(struct CSVVals *data);
+	void Run();
 
     static Logger *instance()
     {

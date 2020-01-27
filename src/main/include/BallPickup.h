@@ -12,4 +12,8 @@
 class BallPickup {
  public:
   BallPickup();
+ 
+ private:
+  WPI_TalonSRX motor1{100};
+  WPI_TalonSRX motor2{100};
 };

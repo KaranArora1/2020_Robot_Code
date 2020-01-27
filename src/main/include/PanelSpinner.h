@@ -12,10 +12,20 @@
 class PanelSpinner {
  public:
   PanelSpinner();
+  std::string DetectColor();
   void SpinRevolutions(double);
-  void SpinColor(double);
+  void SpinToColor(double);
 
  private:
+  rev::ColorSensorV3 m_colorSensor{i2cPort}; // The color sensor is on the 12cPort
+  rev::ColorMatch colorSensor; 
 
- WPI_TalonSRX spinner{spinnerID};
+  frc::Color detectedColor;
+  frc::Color matchedColor;
+  
+  std::string colorString;
+
+  double confidence;
+
+  WPI_TalonSRX spinner{spinnerID};
 };

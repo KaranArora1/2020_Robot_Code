@@ -24,7 +24,8 @@ class Drivetrain {
     WPI_TalonFX backLeft{backLeftMotorID};
     WPI_TalonFX backRight{backRightMotorID};
 
-    frc::DoubleSolenoid shifter{PCMID, 4 , 3};
+    frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
+
 
     double turn, forward, leftThrot, rightThrot;
 };

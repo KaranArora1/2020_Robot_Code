@@ -12,4 +12,8 @@
 class Climber {
  public:
   Climber();
+  void Climb(double);
+ 
+ private:
+  WPI_TalonSRX winch{winchID};
 };

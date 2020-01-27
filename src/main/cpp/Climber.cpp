@@ -10,3 +10,7 @@
 Climber::Climber() {
     
 }
+
+void Climber::Climb(double speed) {
+    winch.Set(ControlMode::PercentOutput, speed);
+}

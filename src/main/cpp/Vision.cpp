@@ -50,19 +50,21 @@ void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
             }
         }
     }
-
-
-
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1); //Sets pipeline to pipe 1 (the human one)
+}
 
 //Math goes here
+//re ajusting goes here
+//shoot method goes here
+//storage system eject method goes here
 
 //power port height h1= 91 in
 //robot shooter height h2=  10in 
 //the angle from 0 - 90 
 
 //put a method here that takes the shooters encoder counts and converts them into degrees 0-90 and have it equal to shooterAng
-float shooterang = 45;
-float distance = (91 - 10)/tan(shooterang);
+/*shooterang = 45;
+distance = (91 - 10)/tan(shooterang);
 
 
 if (distance <= 5.3){
@@ -73,4 +75,4 @@ if (distance <= 5.3){
 
 //storage system eject method goes here
 
-}
+}*/

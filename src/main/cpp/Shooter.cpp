@@ -8,12 +8,14 @@
 #include "Shooter.h"
 
 Shooter::Shooter() {
-  
+    slaveShooter.SetInverted(true);
 }
 
-void Shooter::Shoot(double input) {
-    shooter.Set(input);
+void Shooter::Shoot(double speed) {
+    shooter.Set(speed);
+    slaveShooter.Set(speed);
     std::cout << shooterEncoder.GetVelocity() << std::endl;
+    std::cout << slaveShooterEncoder.GetVelocity() << std::endl;
 }
 
 void Shooter::Intake(double input) {
@@ -33,4 +35,8 @@ void Shooter::moveWrist(double input) {
         currentPos = Home;
        }*/
 
+}
+
+void Shooter::Printer() {
+    
 }

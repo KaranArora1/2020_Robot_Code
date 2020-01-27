@@ -16,5 +16,6 @@ class Vision {
   void Run(double, double);
  
  private:
-  //float tv, tx, ty;
+  float tv, tx, ty;
+  float shooterang, distance;
 };

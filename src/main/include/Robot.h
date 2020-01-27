@@ -9,15 +9,14 @@
 
 #include "RobotMap.h"
 
-#include "Climber.h"
+//#include "Climber.h"
 #include "Drivetrain.h"
-#include "BallPickup.h"
-#include "Lights.h"
+//#include "BallPickup.h"
+//#include "Lights.h"
 #include "Logger.h"
-#include "PanelSpinner.h"
+//#include "PanelSpinner.h"
 #include "Shooter.h"
 #include "Vision.h"
-#include "ColorSensor.h"
 
 class Robot : public frc::TimedRobot {
     
@@ -34,14 +33,16 @@ class Robot : public frc::TimedRobot {
 
   private:
 
-    frc::Joystick joy{driverJoyUSBPort};
-    frc::Joystick joy2{operatorJoyUSBPort};
+    frc::Joystick driverJoy{driverJoyUSBPort};
+    frc::Joystick operatorJoy{operatorJoyUSBPort};
 
     Drivetrain Drive{};
     Shooter Shoot{};
     Climber Climb{};
-    BallPickup Pickup{};
-    PanelSpinner Spinner{};
+    //BallPickup Pickup{};
+    //PanelSpinner Spinner{};
+
+    bool climbStatus = false;
 
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";

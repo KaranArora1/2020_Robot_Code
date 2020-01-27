@@ -15,6 +15,7 @@ class Shooter {
     void Shoot(double);
     void Intake(double);
     void moveWrist(double);
+    void Printer();
 
   private:
     rev::CANSparkMax shooter{shooterID, rev::CANSparkMax::MotorType::kBrushless};
@@ -25,6 +26,6 @@ class Shooter {
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();
 
-    int posList[2] = {1000, 1000};
+    int posList[5] = {1000, 1000, 1000, 1000, 1000};
 
 };
