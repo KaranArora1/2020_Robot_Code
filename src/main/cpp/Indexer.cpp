@@ -5,15 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "Indexer.h"
 
-#include "RobotMap.h"
+Indexer::Indexer() {}
 
-class Climber {
- public:
-  Climber();
-  void Climb(double);
- 
- private:
-  WPI_TalonSRX winch{winchMotorID};
-};
+void Indexer::Spin(double speed) {
+    index.Set(ControlMode::PercentOutput, speed);
+}

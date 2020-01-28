@@ -27,5 +27,5 @@ class PanelSpinner {
 
   double confidence;
 
-  WPI_TalonSRX spinner{spinnerID};
+  WPI_TalonSRX spinner{spinnerMotorID};
 };

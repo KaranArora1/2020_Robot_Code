@@ -79,7 +79,8 @@ void Robot::TeleopPeriodic() {
 
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
   Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
-  Shoot.Intake(Deadzone(operatorJoy.GetRawAxis(shootIntakeJoyChl)));
+  Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
+  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexChl)));
 
   if (driverJoy.GetRawButtonPressed(shifterBtn)) {
     Drive.Shift();

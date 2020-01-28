@@ -14,13 +14,7 @@ Shooter::Shooter() {
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
-    std::cout << shooterEncoder.GetVelocity() << std::endl;
-    std::cout << slaveShooterEncoder.GetVelocity() << std::endl;
-}
-
-void Shooter::Intake(double input) {
-    //intake.Set(input);
-    //std::cout << intakeEncoder.GetVelocity() << std::endl;
+    Printer();
 }
 
 void Shooter::moveWrist(double input) {
@@ -34,9 +28,14 @@ void Shooter::moveWrist(double input) {
         slave.Follow(master);
         currentPos = Home;
        }*/
-
 }
 
 void Shooter::Printer() {
-    
+    /*std::cout << "Back left:" << std::endl;
+    std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
+    std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << std::endl;
+    std::cout << shooterEncoder.GetVelocity() << std::endl;
+    std::cout << slaveShooterEncoder.GetVelocity() << std::endl;*/
 }
+

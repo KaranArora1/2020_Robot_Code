@@ -9,14 +9,15 @@
 
 #include "RobotMap.h"
 
-//#include "Climber.h"
+#include "Climber.h"
 #include "Drivetrain.h"
-//#include "BallPickup.h"
+#include "BallPickup.h"
+#include "Indexer.h"
 //#include "Lights.h"
 #include "Logger.h"
 //#include "PanelSpinner.h"
 #include "Shooter.h"
-#include "Vision.h"
+//#include "Vision.h"
 
 class Robot : public frc::TimedRobot {
     
@@ -39,8 +40,9 @@ class Robot : public frc::TimedRobot {
     Drivetrain Drive{};
     Shooter Shoot{};
     Climber Climb{};
-    //BallPickup Pickup{};
+    BallPickup Pickup{};
     //PanelSpinner Spinner{};
+    Indexer Index{};
 
     bool climbStatus = false;
 

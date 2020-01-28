@@ -12,8 +12,8 @@
 class BallPickup {
  public:
   BallPickup();
+  void Pickup(double);
  
  private:
-  WPI_TalonSRX motor1{100};
-  WPI_TalonSRX motor2{100};
+  WPI_TalonSRX pickup{pickupMotorID};
 };

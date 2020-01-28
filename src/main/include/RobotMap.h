@@ -22,6 +22,11 @@
 #include "ctre/Phoenix.h"
 #include "rev/CANSparkMax.h" //Sparks
 
+/* CONTROLS
+   
+   
+*/
+
 //Joystick
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
 constexpr int operatorJoyUSBPort = 1;
@@ -31,12 +36,15 @@ constexpr int trnJoyChl = 4; //X Axis on Right Joystick (Driver)
 constexpr int shifterBtn = 1; //A Button (Driver)
 
 constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
-constexpr int shootIntakeJoyChl = 2; //Left Trigger (Operator)
 constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
 constexpr int climbBtn = 8; //Menu button (Operator)
 constexpr int climbChl = 1; //Y Axis on Left Joystick (Operator)
+
+constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
+
+constexpr int indexChl = 3; //Trigger (Left = Positive, Right = Negative)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -49,12 +57,13 @@ constexpr int shiferFirstGear = 3;
 constexpr int shifterSecondGear = 4; 
 
 //Climber
-constexpr int winchID = 4; //SRX
+constexpr int winchMotorID = 4; //SRX
 
-//Intake
+//Ball Pickup
+constexpr int pickupMotorID = 0; //SRX
 
 //PanelSpinner
-constexpr int spinnerID = 100; //SRX? Fix
+constexpr int spinnerMotorID = 100; //SRX? Fix
 
 static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
@@ -64,11 +73,14 @@ static constexpr frc::Color kRedTarget = frc::Color(0.520, 0.356, 0.125);
 static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 
 //Shooter
-constexpr int shooterID = 1; //Spark
-constexpr int slaveShoooterID = 2; //Spark
-constexpr int wristID = 100; //SRX Fix
+constexpr int shooterMotorID = 1; //Spark
+constexpr int slaveShoooterMotorID = 2; //Spark
+constexpr int wristMotorID = 100; //SRX Fix
 
-//Drivetrain
+//Indexer 
+constexpr int indexerMotorID = 100; //SRX FIX
+
+//Andy's Drivetrain
 
 constexpr int pigeonID = 0; //Fix
 

@@ -13,15 +13,16 @@ class Shooter {
  public:
     Shooter();
     void Shoot(double);
-    void Intake(double);
     void moveWrist(double);
     void Printer();
 
   private:
-    rev::CANSparkMax shooter{shooterID, rev::CANSparkMax::MotorType::kBrushless};
-    rev::CANSparkMax slaveShooter{slaveShoooterID, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
 
-    WPI_TalonSRX wrist{wristID};
+    //Rename this possibly if I don't make it into a slave
+    rev::CANSparkMax slaveShooter{slaveShoooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave
+
+    WPI_TalonSRX wrist{wristMotorID};
     
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();

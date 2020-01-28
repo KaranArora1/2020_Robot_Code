@@ -8,3 +8,8 @@
 #include "BallPickup.h"
 
 BallPickup::BallPickup() {}
+
+void BallPickup::Pickup(double speed) {
+    pickup.Set(ControlMode::PercentOutput, speed);
+}
+

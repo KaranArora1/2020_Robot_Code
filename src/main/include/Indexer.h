@@ -9,11 +9,11 @@
 
 #include "RobotMap.h"
 
-class Climber {
+class Indexer {
  public:
-  Climber();
-  void Climb(double);
- 
+  Indexer();
+  void Spin(double);
+
  private:
-  WPI_TalonSRX winch{winchMotorID};
+  WPI_TalonSRX index{indexerMotorID};
 };
