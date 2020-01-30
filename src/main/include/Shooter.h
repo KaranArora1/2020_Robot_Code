@@ -15,6 +15,7 @@ class Shooter {
     void Shoot(double);
     void moveWrist(double);
     void Printer();
+    void DashboardPrinter();
 
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};

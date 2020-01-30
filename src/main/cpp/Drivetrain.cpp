@@ -56,21 +56,29 @@ void Drivetrain::Shift() {
 void Drivetrain::Printer() {
     std::cout << "Back left:" << std::endl;
     std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    //std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << backLeft.GetSelectedSensorVelocity(0) * velToRPM << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front left:" << std::endl;
     std::cout << frontLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    std::cout << frontLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    //std::cout << frontLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << frontLeft.GetSelectedSensorVelocity(0) * velToRPM << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Back right:" << std::endl;
     std::cout << backRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    std::cout << backRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    //std::cout << backRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << backRight.GetSelectedSensorVelocity(0) * velToRPM << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front right:" << std::endl;
     std::cout << frontRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    std::cout << frontRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    //std::cout << frontRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << frontRight.GetSelectedSensorVelocity(0) * velToRPM << " RPM" << std::endl;
     std::cout << std::endl;
+}
+
+void Drivetrain::DashboardPrinter() {
+
 }

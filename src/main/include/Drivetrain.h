@@ -16,6 +16,7 @@ class Drivetrain {
     void Vision(double, double);
     void Shift();
     void Printer();
+    void DashboardPrinter();
 
   private:
   
@@ -25,7 +26,6 @@ class Drivetrain {
     WPI_TalonFX backRight{backRightMotorID};
 
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
-
 
     double turn, forward, leftThrot, rightThrot;
 };

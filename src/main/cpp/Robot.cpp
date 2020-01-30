@@ -80,13 +80,13 @@ void Robot::TeleopPeriodic() {
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
   Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
-  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexChl)));
+  Index.Spin(operatorJoy.GetRawAxis(indexJoyChl) * 0.1);
 
   if (driverJoy.GetRawButtonPressed(shifterBtn)) {
     Drive.Shift();
   }
 
-  if (operatorJoy.GetRawButtonPressed(climbBtn)) {
+  if (operatorJoy.GetRawButtonPressed(climbStatusBtn)) {
     if (climbStatus) {
       climbStatus = false;
     }
@@ -96,7 +96,7 @@ void Robot::TeleopPeriodic() {
   }
 
   if (climbStatus) {
-    Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbChl)));
+    Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbJoyChl)));
   }
 }
 

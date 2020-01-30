@@ -31,11 +31,10 @@ void Shooter::moveWrist(double input) {
 }
 
 void Shooter::Printer() {
-    /*std::cout << "Back left:" << std::endl;
-    std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << std::endl;
-    std::cout << shooterEncoder.GetVelocity() << std::endl;
-    std::cout << slaveShooterEncoder.GetVelocity() << std::endl;*/
+    std::cout << "Shooter (CAN ID 1) " << shooterEncoder.GetVelocity() << " RPM" << std::endl;
+    std::cout << "Slave Shooter (CAN ID 2) " << slaveShooterEncoder.GetVelocity() << " RPM" << std::endl;
 }
 
+void Shooter::DashboardPrinter() {
+    
+}

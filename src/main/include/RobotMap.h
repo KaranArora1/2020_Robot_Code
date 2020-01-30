@@ -23,9 +23,24 @@
 #include "rev/CANSparkMax.h" //Sparks
 
 /* CONTROLS
-   
-   
+   Driver: 
+   Drive Forward - Left Joystick Y Axis
+   Turn - Right Joystick X Axis
+   Shift Gears - A Button
+
+   Operator: 
+   Shoot - Left Joystick Y Axis
+   Move Shooter Up One Position - Right Bumper (Temporary)
+   Move Shooter Down One Position - Left Bumper (Temporary)
+   Ball Pickup - Right Joystick Y Axis
+   Index - Right Trigger
+   Climb - Left Trigger
+   Toggle Climb Status - Menu Button
 */
+
+//Misc
+constexpr double velToRPM = (1000 * 60) / 4096; /* Conversion factor from counts/100ms to RPM = 14.6484375
+                                                   X counts/100ms * 1000ms/1s * 60s/1min * 1rev/4096 counts */
 
 //Joystick
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
@@ -39,12 +54,12 @@ constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
 constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
-constexpr int climbBtn = 8; //Menu button (Operator)
-constexpr int climbChl = 1; //Y Axis on Left Joystick (Operator)
+constexpr int climbStatusBtn = 8; //Menu button (Operator)
+constexpr int climbJoyChl = 2; //Left Trigger (Operator)
 
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 
-constexpr int indexChl = 3; //Trigger (Left = Positive, Right = Negative)
+constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -78,7 +93,7 @@ constexpr int slaveShoooterMotorID = 2; //Spark
 constexpr int wristMotorID = 100; //SRX Fix
 
 //Indexer 
-constexpr int indexerMotorID = 100; //SRX FIX
+constexpr int indexerMotorID = 7; //SRX 
 
 //Andy's Drivetrain
 
