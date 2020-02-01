@@ -14,3 +14,9 @@ Climber::Climber() {
 void Climber::Climb(double speed) {
     winch.Set(ControlMode::PercentOutput, speed);
 }
+
+void Climber::Printer() {
+
+}
+
+void Climber::DashboardPrinter() {}

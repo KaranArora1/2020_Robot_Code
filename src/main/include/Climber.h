@@ -13,6 +13,8 @@ class Climber {
  public:
   Climber();
   void Climb(double);
+  void Printer();
+  void DashboardPrinter();
  
  private:
   WPI_TalonSRX winch{winchMotorID};

@@ -10,6 +10,7 @@
 //#include "frc/WPILib.h"
 #include "frc/Joystick.h"
 #include "frc/DoubleSolenoid.h"
+#include "frc/SerialPort.h" //Lights
 #include "frc/TimedRobot.h"
 #include "frc/smartdashboard/SendableChooser.h"
 #include "frc/smartdashboard/SmartDashboard.h"
@@ -27,6 +28,7 @@
    Drive Forward - Left Joystick Y Axis
    Turn - Right Joystick X Axis
    Shift Gears - A Button
+   Push Ball out of Indexer - B Button
 
    Operator: 
    Shoot - Left Joystick Y Axis
@@ -39,8 +41,11 @@
 */
 
 //Misc
-constexpr double velToRPM = (1000 * 60) / 4096; /* Conversion factor from counts/100ms to RPM = 14.6484375
-                                                   X counts/100ms * 1000ms/1s * 60s/1min * 1rev/4096 counts */
+constexpr double velToRPM_SRX = (1000 * 60) / 4096; /* Conversion factor from counts/100ms to RPM = 14.6484375
+                                                       X counts/100ms * 1000ms/1s * 60s/1min * 1rev/4096 counts */
+
+constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from counts/100ms to RPM = 29.296875
+                                                      X counts/100ms * 1000ms/1s * 60s/1min * 1rev/2048 counts */
 
 //Joystick
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
@@ -60,6 +65,7 @@ constexpr int climbJoyChl = 2; //Left Trigger (Operator)
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 
 constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
+constexpr int indexPusherBtn = 1; //B (Driver)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -94,6 +100,9 @@ constexpr int wristMotorID = 100; //SRX Fix
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
+
+constexpr int pusherKReverse = 2;
+constexpr int pusherKForward = 5;
 
 //Andy's Drivetrain
 

@@ -93,7 +93,7 @@ void Logger::save()
 }
 
 void Logger::Run() {
-
+	
 }
 
 Logger::~Logger() {

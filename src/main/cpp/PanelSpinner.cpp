@@ -14,6 +14,9 @@ PanelSpinner::PanelSpinner() {
     colorSensor.AddColorMatch(kGreenTarget);
     colorSensor.AddColorMatch(kRedTarget);
     colorSensor.AddColorMatch(kYellowTarget);
+
+    /*spinner.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10); //Relative or Absolute? 
+    spinner.SetSelectedSensorPosition(0);*/
 }
 
 void PanelSpinner::SpinRevolutions(double speed) { //Eventually Parameter for speed won't be needed, it will be automatic
@@ -58,3 +61,14 @@ std::string PanelSpinner::DetectColor() {
     return colorString;
 }
 
+void PanelSpinner::Printer() {
+    std::cout << "Spinner Position " << spinner.GetSelectedSensorPosition(0) << " counts " << std::endl;
+    std::cout << "Spinner Velocity " << spinner.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
+    std::cout << "Spinner RPM " << spinner.GetSelectedSensorVelocity(0) * velToRPM_SRX << std::endl;
+}
+
+void PanelSpinner::DashboardPrinter() {
+    frc::SmartDashboard::PutNumber("Spinner Position (counts)", spinner.GetSelectedSensorPosition(0));
+    frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", spinner.GetSelectedSensorVelocity(0));
+    frc::SmartDashboard::PutNumber("Spinner RPM", spinner.GetSelectedSensorVelocity(0) * velToRPM_SRX);
+}

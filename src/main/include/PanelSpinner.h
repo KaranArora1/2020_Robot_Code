@@ -15,6 +15,8 @@ class PanelSpinner {
   std::string DetectColor();
   void SpinRevolutions(double);
   void SpinToColor(double);
+  void Printer();
+  void DashboardPrinter();
 
  private:
   rev::ColorSensorV3 m_colorSensor{i2cPort}; // The color sensor is on the 12cPort

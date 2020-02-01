@@ -36,5 +36,6 @@ void Shooter::Printer() {
 }
 
 void Shooter::DashboardPrinter() {
-    
+    frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", shooterEncoder.GetVelocity());
+    frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", slaveShooterEncoder.GetVelocity());
 }

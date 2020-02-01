@@ -12,3 +12,15 @@ Indexer::Indexer() {}
 void Indexer::Spin(double speed) {
     index.Set(ControlMode::PercentOutput, speed);
 }
+
+void Indexer::PushBall() {
+    
+}
+
+void Indexer::Printer() {
+
+}
+
+void Indexer::DashboardPrinter() {
+
+}
