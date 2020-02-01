@@ -38,6 +38,7 @@ void Drivetrain::Drive(double forward, double turn) {
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
 
     //Printer();
+    DashboardPrinter();
 }
 
 void Drivetrain::Shift() {
@@ -53,46 +54,87 @@ void Drivetrain::Shift() {
 	}
 }
 
-void Drivetrain::Printer() {
+int * Drivetrain::getPositions() {
+    positions[0] = backLeft.GetSelectedSensorPosition(0);
+    positions[1] = frontLeft.GetSelectedSensorPosition(0);
+    positions[2] = backRight.GetSelectedSensorPosition(0);
+    positions[3] = frontRight.GetSelectedSensorPosition(0);
+
+    return positions;
+}
+
+int * Drivetrain::getVelocities() {
+    velocities[0] = backLeft.GetSelectedSensorVelocity(0);
+    velocities[1] = frontLeft.GetSelectedSensorVelocity(0);
+    velocities[2] = backRight.GetSelectedSensorVelocity(0);
+    velocities[3] = frontRight.GetSelectedSensorVelocity(0);
+
+    return velocities;
+}
+
+double * Drivetrain::getRPMs() {
+    rpms[0] = backLeft.GetSelectedSensorVelocity(0) * velToRPM_FX;
+    rpms[1] = frontLeft.GetSelectedSensorVelocity(0) * velToRPM_FX;
+    rpms[2] = backRight.GetSelectedSensorVelocity(0) * velToRPM_FX;
+    rpms[3] = frontRight.GetSelectedSensorVelocity(0) * velToRPM_FX;
+
+    return rpms;
+}
+
+double * Drivetrain::getCurrents() {
+
+}
+
+void Drivetrain::Printer() { 
+
+    getPositions();
+    getVelocities();
+    getRPMs();
+
     std::cout << "Back left:" << std::endl;
-    std::cout << backLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    //std::cout << backLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << backLeft.GetSelectedSensorVelocity(0) * velToRPM_FX << " RPM" << std::endl;
+    std::cout << positions[0] << " counts" << std::endl;
+    //std::cout << velocities[0] << " counts/100ms" << std::endl;
+    std::cout << rpms[0] << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front left:" << std::endl;
-    std::cout << frontLeft.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    //std::cout << frontLeft.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << frontLeft.GetSelectedSensorVelocity(0) * velToRPM_FX << " RPM" << std::endl;
+    std::cout << positions[1] << " counts" << std::endl;
+    //std::cout << velocities[1] << " counts/100ms" << std::endl;
+    std::cout << rpms[1] << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Back right:" << std::endl;
-    std::cout << backRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    //std::cout << backRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << backRight.GetSelectedSensorVelocity(0) * velToRPM_FX << " RPM" << std::endl;
+    std::cout << positions[2] << " counts" << std::endl;
+    //std::cout << velocities[2] << " counts/100ms" << std::endl;
+    std::cout << rpms[2] << " RPM" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front right:" << std::endl;
-    std::cout << frontRight.GetSelectedSensorPosition(0) << " counts" << std::endl;
-    //std::cout << frontRight.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << frontRight.GetSelectedSensorVelocity(0) * velToRPM_FX << " RPM" << std::endl;
+    std::cout << positions[3] << " counts" << std::endl;
+    //std::cout << velocities[3] << " counts/100ms" << std::endl;
+    std::cout << rpms[3] << " RPM" << std::endl;
     std::cout << std::endl;
 }
 
 void Drivetrain::DashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", backLeft.GetSelectedSensorPosition(0));
-    frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", backLeft.GetSelectedSensorVelocity(0));
-    frc::SmartDashboard::PutNumber("Back Left Motor RPM", backLeft.GetSelectedSensorVelocity(0) * velToRPM_FX);
 
-    frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", frontLeft.GetSelectedSensorPosition(0));
-    frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", frontLeft.GetSelectedSensorVelocity(0));
-    frc::SmartDashboard::PutNumber("Front Left Motor RPM", frontLeft.GetSelectedSensorVelocity(0) * velToRPM_FX);
+    getPositions();
+    getVelocities();
+    getRPMs();
 
-    frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", backRight.GetSelectedSensorPosition(0));
-    frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", backRight.GetSelectedSensorVelocity(0));
-    frc::SmartDashboard::PutNumber("Back Right Motor RPM", backRight.GetSelectedSensorVelocity(0) * velToRPM_FX);
+    frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
 
-    frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", frontRight.GetSelectedSensorPosition(0));
-    frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", frontRight.GetSelectedSensorVelocity(0));
-    frc::SmartDashboard::PutNumber("Front Right Motor RPM", frontRight.GetSelectedSensorVelocity(0) * velToRPM_FX);
+    frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
+
+    frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
+
+    frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
 }

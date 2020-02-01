@@ -14,7 +14,12 @@ void Indexer::Spin(double speed) {
 }
 
 void Indexer::PushBall() {
-    
+    if (pusher.Get() == frc::DoubleSolenoid::Value::kForward) {
+		pusher.Set(frc::DoubleSolenoid::Value::kReverse);
+	}
+    else {
+		pusher.Set(frc::DoubleSolenoid::Value::kForward);
+	}
 }
 
 void Indexer::Printer() {

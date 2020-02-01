@@ -61,14 +61,26 @@ std::string PanelSpinner::DetectColor() {
     return colorString;
 }
 
+int PanelSpinner::getPosition() {
+    return spinner.GetSelectedSensorPosition(0);
+}
+
+int PanelSpinner::getVelocity() {
+    return spinner.GetSelectedSensorVelocity(0);
+}
+
+double PanelSpinner::getRPM() {
+    return spinner.GetSelectedSensorVelocity(0) * velToRPM_SRX;
+}
+
 void PanelSpinner::Printer() {
-    std::cout << "Spinner Position " << spinner.GetSelectedSensorPosition(0) << " counts " << std::endl;
-    std::cout << "Spinner Velocity " << spinner.GetSelectedSensorVelocity(0) << " counts/100ms" << std::endl;
-    std::cout << "Spinner RPM " << spinner.GetSelectedSensorVelocity(0) * velToRPM_SRX << std::endl;
+    std::cout << "Spinner Position " << getPosition() << " counts " << std::endl;
+    std::cout << "Spinner Velocity " << getVelocity() << " counts/100ms" << std::endl;
+    std::cout << "Spinner RPM " << getRPM() << std::endl;
 }
 
 void PanelSpinner::DashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Spinner Position (counts)", spinner.GetSelectedSensorPosition(0));
-    frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", spinner.GetSelectedSensorVelocity(0));
-    frc::SmartDashboard::PutNumber("Spinner RPM", spinner.GetSelectedSensorVelocity(0) * velToRPM_SRX);
+    frc::SmartDashboard::PutNumber("Spinner Position (counts)", getPosition());
+    frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", getVelocity());
+    frc::SmartDashboard::PutNumber("Spinner RPM", getRPM());
 }

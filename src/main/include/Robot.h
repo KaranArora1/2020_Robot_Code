@@ -15,7 +15,7 @@
 #include "Indexer.h"
 //#include "IndicatorLights.h"
 #include "Logger.h"
-//#include "PanelSpinner.h"
+#include "PanelSpinner.h"
 #include "Shooter.h"
 //#include "Vision.h"
 
@@ -37,14 +37,22 @@ class Robot : public frc::TimedRobot {
     frc::Joystick driverJoy{driverJoyUSBPort};
     frc::Joystick operatorJoy{operatorJoyUSBPort};
 
+    frc::PowerDistributionPanel pdp{pdpID};
+    //frc::AnalogInput pressure{pressureID};
+
     Drivetrain Drive{};
     Shooter Shoot{};
     Climber Climb{};
     BallPickup Pickup{};
-    //PanelSpinner Spinner{};
+    PanelSpinner Spinner{};
     Indexer Index{};
+    //IndicatorLights Lights {"ttyUSB0", frc::SerialPort::Port::kUSB};
 
     bool climbStatus = false;
+
+    bool logThisTime = false;
+    int logTicker = 0;
+    int logInterval = 20;
 
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";

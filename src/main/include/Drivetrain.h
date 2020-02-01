@@ -15,6 +15,10 @@ class Drivetrain {
     void Drive(double, double);
     void Vision(double, double);
     void Shift();
+    int * getPositions();
+    int * getVelocities();
+    double * getRPMs();
+    double * getCurrents(); //DO
     void Printer();
     void DashboardPrinter();
 
@@ -24,6 +28,11 @@ class Drivetrain {
     WPI_TalonFX frontRight{frontRightMotorID};
     WPI_TalonFX backLeft{backLeftMotorID};
     WPI_TalonFX backRight{backRightMotorID};
+
+    int positions[4];
+    int velocities[4];
+    double rpms[4];
+    double currents[4];
 
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
 

@@ -13,3 +13,10 @@ void BallPickup::Pickup(double speed) {
     pickup.Set(ControlMode::PercentOutput, speed);
 }
 
+void BallPickup::Printer() {
+
+}
+
+void BallPickup::DashboardPrinter() {
+    
+}

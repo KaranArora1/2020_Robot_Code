@@ -30,18 +30,24 @@ Logger::Logger() {
 			<< "time" << ','
 			<< "voltage" << ','
 			<< "totalCurrent" << ','
-			<< "motor1Position" << ','
-			<< "motor2Position" << ','
-			<< "motor3Position" << ','
-			<< "motor4Position" << ','
-			<< "motor1Velocity" << ','
-			<< "motor2Velocity" << ','
-			<< "motor3Velocity" << ','
-			<< "motor4Velocity" << std::endl;
+			<< "backLeftPosition" << ','
+			<< "frontLeftPosition" << ','
+			<< "backRightPosition" << ','
+			<< "frontRightPosition" << ','
+			<< "backLeftVelocity" << ','
+			<< "frontLeftVelocity" << ','
+			<< "backRightVelocity" << ','
+			<< "frontRightVelocity" << ','
+			<< "backLeftRPM" << ','
+			<< "frontLeftRPM" << ','
+			<< "backRightRPM" << ','
+			<< "frontRightRPM" << ','
+			<< "shooterRPM" << ','
+			<< "slaveShooterRPM" << ','
+			<< std::endl;
 }
 
-void Logger::logInfo(const char *msg, ... )
-{
+void Logger::logInfo(const char *msg, ... ) {
 	va_list args;
 	va_start(args,msg);
 
@@ -50,11 +56,10 @@ void Logger::logInfo(const char *msg, ... )
 
 	logFile << timer.getTotalTime() << " - [INFO] " << buffer << std::endl;
 	std::cout << timer.getTotalTime() << " - [INFO] " << buffer << std::endl;
-	save();
+	Save();
 }
 
-void Logger::logError(const char *msg, ... )
-{
+void Logger::logError(const char *msg, ... ) {
 	va_list args;
 	va_start(args,msg);
 
@@ -63,37 +68,71 @@ void Logger::logError(const char *msg, ... )
 
 	logFile << "[ERROR] " << buffer << std::endl;
 	std::cerr << "[ERROR] " << buffer << std::endl;
-	save();
+	Save();
 }
 
-void Logger::logCSV(struct CSVVals *data)
-{
+void Logger::logCSV(struct CSVVals *data) {
+	
 	double time = timer.getTotalTime();
 
 	csvFile
 		/*General Data*/
 			<< time << ','
-			<< data->voltage << ','
-			<< data->totalCurrent << ','
-			<< data-> motor1Position << ','
-			<< data-> motor2Position << ','
-			<< data-> motor3Position << ','
-			<< data-> motor4Position << ','
-			<< data-> motor1Velocity << ','
-			<< data-> motor2Velocity << ','
-			<< data-> motor3Velocity << ','
-			<< data-> motor4Velocity << std::endl;
-	save();
+			<< data-> voltage << ','
+			<< data-> totalCurrent << ','
+
+			<< data-> backLeftPosition << ','
+			<< data-> frontLeftPosition << ','
+			<< data-> backRightPosition << ','
+			<< data-> frontRightPosition << ','
+
+			<< data-> backLeftVelocity << ','
+			<< data-> frontLeftVelocity << ','
+			<< data-> backRightVelocity << ','
+			<< data-> frontRightVelocity << ',' 
+
+			<< data-> backLeftRPM << ','
+			<< data-> frontLeftRPM << ','
+			<< data-> backRightRPM << ','
+			<< data-> frontRightRPM << ','
+			
+			<< data-> shooterRPM << ','
+			<< data-> slaveShooterRPM <<
+			std::endl;
+	Save();
 }
 
-void Logger::save()
-{
+void Logger::Save() {
 	logFile.flush();
 	csvFile.flush();
 }
 
-void Logger::Run() {
+void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs, double * shooterRPMs) {
 	
+	struct Logger::CSVVals csvData;
+
+	csvData.totalCurrent = 0;
+	csvData.voltage = 0;
+
+	csvData.backLeftPosition = drivePositions[0];
+	csvData.frontLeftPosition = drivePositions[1];
+	csvData.backRightPosition = drivePositions[2];
+	csvData.frontRightPosition = drivePositions[3];
+
+	csvData.backLeftVelocity = driveVelocities[0];
+	csvData.frontLeftVelocity = driveVelocities[1];
+	csvData.backRightVelocity = driveVelocities[2];
+	csvData.frontRightVelocity = driveVelocities[3];
+
+	csvData.backLeftRPM = driveRPMs[0];
+	csvData.frontLeftRPM = driveRPMs[1];
+	csvData.backRightRPM = driveRPMs[2];
+	csvData.frontRightRPM = driveRPMs[3];
+
+	csvData.shooterRPM = shooterRPMs[0];
+	csvData.slaveShooterRPM = shooterRPMs[1];
+		
+	logCSV(&csvData);
 }
 
 Logger::~Logger() {

@@ -14,7 +14,8 @@ Shooter::Shooter() {
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
-    Printer();
+    //Printer();
+    DashboardPrinter();
 }
 
 void Shooter::moveWrist(double input) {
@@ -30,12 +31,23 @@ void Shooter::moveWrist(double input) {
        }*/
 }
 
+double * Shooter::getRPMs() {
+    rpms[0] = shooterEncoder.GetVelocity();
+    rpms[1] = slaveShooterEncoder.GetVelocity();
+
+    return rpms;
+}
+
 void Shooter::Printer() {
-    std::cout << "Shooter (CAN ID 1) " << shooterEncoder.GetVelocity() << " RPM" << std::endl;
-    std::cout << "Slave Shooter (CAN ID 2) " << slaveShooterEncoder.GetVelocity() << " RPM" << std::endl;
+    getRPMs();
+
+    std::cout << "Shooter (CAN ID 1) " << rpms[0] << " RPM" << std::endl;
+    std::cout << "Slave Shooter (CAN ID 2) " << rpms[1] << " RPM" << std::endl;
 }
 
 void Shooter::DashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", shooterEncoder.GetVelocity());
-    frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", slaveShooterEncoder.GetVelocity());
+    getRPMs();
+
+    frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
+    frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
 }

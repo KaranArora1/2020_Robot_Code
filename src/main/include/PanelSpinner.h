@@ -15,6 +15,9 @@ class PanelSpinner {
   std::string DetectColor();
   void SpinRevolutions(double);
   void SpinToColor(double);
+  int getPosition();
+  int getVelocity();
+  double getRPM();
   void Printer();
   void DashboardPrinter();
 
