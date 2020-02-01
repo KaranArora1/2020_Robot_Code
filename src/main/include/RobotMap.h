@@ -11,6 +11,8 @@
 #include "frc/Joystick.h"
 #include "frc/DoubleSolenoid.h"
 #include "frc/SerialPort.h" //Lights
+#include "frc/PowerDistributionPanel.h"
+#include "frc/AnalogInput.h"
 #include "frc/TimedRobot.h"
 #include "frc/smartdashboard/SendableChooser.h"
 #include "frc/smartdashboard/SmartDashboard.h"
@@ -46,6 +48,9 @@ constexpr double velToRPM_SRX = (1000 * 60) / 4096; /* Conversion factor from co
 
 constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from counts/100ms to RPM = 29.296875
                                                       X counts/100ms * 1000ms/1s * 60s/1min * 1rev/2048 counts */
+
+constexpr int pdpID = 0;
+constexpr int pressureID = 1000; //FIX
 
 //Joystick
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station

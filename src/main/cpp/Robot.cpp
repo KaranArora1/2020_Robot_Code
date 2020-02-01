@@ -77,6 +77,14 @@ double Robot::Deadzone(double input) {
 
 void Robot::TeleopPeriodic() {
 
+  logThisTime = false;
+	logTicker++;
+	
+  if(logTicker == logInterval){
+		logTicker = 0;
+		logThisTime = true;
+	}
+
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
   Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
@@ -86,6 +94,11 @@ void Robot::TeleopPeriodic() {
     Drive.Shift();
   }
 
+  if (driverJoy.GetRawButtonPressed(indexPusherBtn)) {
+    Index.PushBall();
+  }
+
+  //Change Climb Status
   if (operatorJoy.GetRawButtonPressed(climbStatusBtn)) {
     if (climbStatus) {
       climbStatus = false;
@@ -95,8 +108,14 @@ void Robot::TeleopPeriodic() {
     }
   }
 
+  //Climb
   if (climbStatus) {
     Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbJoyChl)));
+  }
+
+  //Logging
+  if (logThisTime) {
+    Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Shoot.getRPMs());
   }
 }
 

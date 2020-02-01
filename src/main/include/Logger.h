@@ -15,9 +15,25 @@ public:
 	struct CSVVals {
 		double voltage;
 		double totalCurrent;
+		
+		//Drivetrain
+		int backLeftPosition, frontLeftPosition, backRightPosition, frontRightPosition;
+		int backLeftVelocity, frontLeftVelocity, backRightVelocity, frontRightVelocity;
+		double backLeftRPM, frontLeftRPM, backRightRPM, frontRightRPM;
 
-		int motor1Position, motor2Position, motor3Position, motor4Position;
-		int motor1Velocity, motor2Velocity, motor3Velocity, motor4Velocity;
+		//Shooter
+		int shooterRPM, slaveShooterRPM;
+
+		//Ball Pickup
+
+		//Climber
+
+		//Indexer
+
+		//Panel Spinner
+		int spinneerPosition;
+		int spinnerVelocity;
+		double spinnerRPM;
 	};
 
 	virtual ~Logger();
@@ -25,14 +41,15 @@ public:
 	void logError(const char *msg, ... );
 	void logInfo(const char *msg, ... );
 	void logCSV(struct CSVVals *data);
-	void Run();
+	void Run(int *, int *, double *, double *);
+	void Save();
 
-    static Logger *instance()
-    {
+    static Logger *instance() {
         if (!singlton)
         	singlton = new Logger();
         return singlton;
     }
+
 private:
 
     MyTimer timer;
@@ -41,8 +58,6 @@ private:
 
     std::ofstream logFile;
     std::ofstream csvFile;
-
-    void save();
 
 	Logger();
 	static Logger *singlton;

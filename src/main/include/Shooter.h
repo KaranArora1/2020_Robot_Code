@@ -14,6 +14,7 @@ class Shooter {
     Shooter();
     void Shoot(double);
     void moveWrist(double);
+    double * getRPMs();
     void Printer();
     void DashboardPrinter();
 
@@ -29,5 +30,6 @@ class Shooter {
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();
 
     int posList[5] = {1000, 1000, 1000, 1000, 1000};
+    double rpms[2];
 
 };

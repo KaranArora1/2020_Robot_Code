@@ -7,7 +7,7 @@
 
 #include "IndicatorLights.h"
 
-IndicatorLights::IndicatorLights(const wpi::Twine& device, const wpi::Twine& deviceAlternate frc::SerialPort::Port port = frc::SerialPort::Port::kUSB) {
+IndicatorLights::IndicatorLights(const wpi::Twine& device, const wpi::Twine& deviceAlternate, frc::SerialPort::Port port = frc::SerialPort::Port::kUSB) {
 	// Try to connect to first device ID.
 	try {
 		// Create SerialPort instance with specified settings.
