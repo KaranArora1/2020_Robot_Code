@@ -7,10 +7,22 @@
 
 #include "IndicatorLights.h"
 
-IndicatorLights::IndicatorLights(const wpi::Twine& device, frc::SerialPort::Port port = frc::SerialPort::Port::kUSB) {
-	// Create SerialPort instance with specified settings.
-	// We will use this to interface with the USB connection to the arduino.
-	serial = new frc::SerialPort(BAUD, device, port);
+IndicatorLights::IndicatorLights(const wpi::Twine& device, const wpi::Twine& deviceAlternate frc::SerialPort::Port port = frc::SerialPort::Port::kUSB) {
+	// Try to connect to first device ID.
+	try {
+		// Create SerialPort instance with specified settings.
+		// We will use this to interface with the USB connection to the arduino.
+		serial = new frc::SerialPort(BAUD, device, port);
+	} catch(...) {
+		// Failed, try the second device ID
+		try {
+			serial = new frc::SerialPort(BAUD, deviceAlternate, port);
+		} catch (...) {
+			// Oh well.
+			return;
+		}
+	}
+	
 	// We set the buffer size to 3, for each of the 3 color channel bytes.
 	// We set the buffer to auto flush when it is full.
 	serial->SetWriteBufferSize(3);

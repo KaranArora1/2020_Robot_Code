@@ -13,7 +13,7 @@ class IndicatorLights {
 public:
 	enum COLOR {NONE = 0, RED, GREEN, BLUE, YELLOW};
 
-	IndicatorLights(const wpi::Twine&, frc::SerialPort::Port);
+	IndicatorLights(const wpi::Twine&, const wpi::Twine&, frc::SerialPort::Port);
 	~IndicatorLights();
 	void SetColor(COLOR);
 	void SetColor(int, int, int);
