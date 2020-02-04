@@ -9,11 +9,11 @@
 
 #include "RobotMap.h"
 
-class MyTimer{
+class MyTimer {
 public:
 	MyTimer();
 	double getTotalTime();
-	void reset();
+	void Reset();
 	double getDt();
 	
 private:

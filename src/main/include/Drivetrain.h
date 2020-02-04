@@ -18,9 +18,9 @@ class Drivetrain {
     int * getPositions();
     int * getVelocities();
     double * getRPMs();
-    double * getCurrents(); //DO
+    double * getCurrents(); 
     void Printer();
-    void DashboardPrinter();
+    void dashboardPrinter();
 
   private:
   

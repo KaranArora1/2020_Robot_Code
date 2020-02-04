@@ -19,16 +19,30 @@ PanelSpinner::PanelSpinner() {
     spinner.SetSelectedSensorPosition(0);*/
 }
 
-void PanelSpinner::SpinRevolutions(double speed) { //Eventually Parameter for speed won't be needed, it will be automatic
+void PanelSpinner::deployArm() {
+
+}
+
+void PanelSpinner::spinRevolutions(double speed) { //Eventually Parameter for speed won't be needed, it will be automatic
     spinner.Set(ControlMode::PercentOutput, speed);
-    ///Add color sensor code that stops the motor here charliewas here
+    ///Add color sensor code that stops the motor here 
+    //Printer();
+    dashboardPrinter();
 }
 
-void PanelSpinner::SpinToColor(double speed) {
-    
+void PanelSpinner::spinToColor(double speed) {
+    //Printer();
+    dashboardPrinter();
 }
 
-std::string PanelSpinner::DetectColor() {
+double PanelSpinner::getConfidence() { //Is this fine? 
+    detectedColor = m_colorSensor.GetColor();
+	matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
+
+    return confidence;
+}
+
+std::string PanelSpinner::detectColor() {
 	detectedColor = m_colorSensor.GetColor();
 	matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
 	
@@ -79,7 +93,7 @@ void PanelSpinner::Printer() {
     std::cout << "Spinner RPM " << getRPM() << std::endl;
 }
 
-void PanelSpinner::DashboardPrinter() {
+void PanelSpinner::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Spinner Position (counts)", getPosition());
     frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", getVelocity());
     frc::SmartDashboard::PutNumber("Spinner RPM", getRPM());

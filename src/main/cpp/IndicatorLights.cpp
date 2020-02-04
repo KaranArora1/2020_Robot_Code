@@ -37,22 +37,22 @@ IndicatorLights::~IndicatorLights() {
 }
 
 // Sets the LEDs to a predefined color from the COLOR enum.
-void IndicatorLights::SetColor(COLOR color) {
+void IndicatorLights::setColor(COLOR color) {
 	switch (color) {
 	case RED:
-		SetColor(255, 0, 0);
+		setColor(255, 0, 0);
 		break;
 	case GREEN:
-		SetColor(0, 255, 0);
+		setColor(0, 255, 0);
 		break;
 	case BLUE:
-		SetColor(0, 0, 255);
+		setColor(0, 0, 255);
 		break;
 	case YELLOW:
-		SetColor(255, 255, 0);
+		setColor(255, 255, 0);
 		break;
 	default:
-		SetColor(0, 0, 0);
+		setColor(0, 0, 0);
 		break;
 	}
 }
@@ -60,7 +60,7 @@ void IndicatorLights::SetColor(COLOR color) {
 // Sets the LEDs to a custom RGB color.
 // Only the lower 8 bits are used.
 // Basically only use numbers 0-255.
-void IndicatorLights::SetColor(int r, int g, int b) {
+void IndicatorLights::setColor(int r, int g, int b) {
 	// Create array to house each of our color channels.
 	// We cast to char as SerialPort::Write() takes a char pointer.
 	const char buffer [3] = { (char) r, (char) g, (char) b };

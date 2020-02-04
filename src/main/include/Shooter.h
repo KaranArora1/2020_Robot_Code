@@ -15,8 +15,9 @@ class Shooter {
     void Shoot(double);
     void moveWrist(double);
     double * getRPMs();
+    int getWristPosition();
     void Printer();
-    void DashboardPrinter();
+    void dashboardPrinter();
 
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
@@ -31,5 +32,4 @@ class Shooter {
 
     int posList[5] = {1000, 1000, 1000, 1000, 1000};
     double rpms[2];
-
 };

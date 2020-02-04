@@ -15,8 +15,8 @@ public:
 
 	IndicatorLights(const wpi::Twine&, const wpi::Twine&, frc::SerialPort::Port);
 	~IndicatorLights();
-	void SetColor(COLOR);
-	void SetColor(int, int, int);
+	void setColor(COLOR);
+	void setColor(int, int, int);
 
 private:
 	// Baud is the speed of data transfer in bits/second.

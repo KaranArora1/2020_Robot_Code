@@ -42,8 +42,18 @@ Logger::Logger() {
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','
 			<< "frontRightRPM" << ','
+			<< "backLeftCurrent" << ','
+			<< "frontLeftCurrent" << ','
+			<< "backRightCurrent" << ','
+			<< "frontRightCurrent" << ','
 			<< "shooterRPM" << ','
 			<< "slaveShooterRPM" << ','
+			<< "wristPosition" << ','
+			<< "wristPosition" << ','
+			<< "spinnerPosition" << ','
+			<< "spinnerVelocity" << ','
+			<< "spinnerRPM" << ','
+			<< "confidence"
 			<< std::endl;
 }
 
@@ -95,9 +105,22 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> frontLeftRPM << ','
 			<< data-> backRightRPM << ','
 			<< data-> frontRightRPM << ','
+
+			<< data-> backLeftCurrent << ','
+			<< data-> frontLeftCurrent << ','
+			<< data-> backRightCurrent << ','
+			<< data-> frontRightCurrent << ','
 			
 			<< data-> shooterRPM << ','
-			<< data-> slaveShooterRPM <<
+			<< data-> slaveShooterRPM << ','
+			<< data-> wristPosition << ','
+
+			<< data-> winchPosition << ','
+
+			<< data-> spinnerPosition << ','
+			<< data-> spinnerVelocity << ','
+			<< data-> spinnerRPM << ','
+			<< data-> confidence <<
 			std::endl;
 	Save();
 }
@@ -107,13 +130,16 @@ void Logger::Save() {
 	csvFile.flush();
 }
 
-void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs, double * shooterRPMs) {
+void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs, double * driveCurrents, double * shooterRPMs, 
+				 int wristPosition, int spinnerPosition, int spinnerVelocity, double spinnerRPM, double confidence, int winchPos) {
 	
 	struct Logger::CSVVals csvData;
 
+	//General
 	csvData.totalCurrent = 0;
 	csvData.voltage = 0;
 
+	//Drive 
 	csvData.backLeftPosition = drivePositions[0];
 	csvData.frontLeftPosition = drivePositions[1];
 	csvData.backRightPosition = drivePositions[2];
@@ -129,8 +155,25 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	csvData.backRightRPM = driveRPMs[2];
 	csvData.frontRightRPM = driveRPMs[3];
 
+	csvData.backLeftCurrent = driveCurrents[0];
+	csvData.frontLeftCurrent = driveCurrents[1];
+	csvData.backRightCurrent = driveCurrents[2];
+	csvData.frontRightCurrent = driveCurrents[3];
+
+	//Climber
+	csvData.winchPosition = winchPos;
+
+	//Shooter
 	csvData.shooterRPM = shooterRPMs[0];
 	csvData.slaveShooterRPM = shooterRPMs[1];
+
+	csvData.wristPosition = wristPosition;
+
+	//Panel Spinner
+	csvData.spinnerPosition = spinnerPosition;
+	csvData.spinnerVelocity = spinnerVelocity;
+	csvData.spinnerRPM = spinnerRPM;
+	csvData.confidence = confidence;
 		
 	logCSV(&csvData);
 }

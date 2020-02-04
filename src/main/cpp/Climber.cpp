@@ -8,15 +8,33 @@
 #include "Climber.h"
 
 Climber::Climber() {
-    
+    /* winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    winch.SetSelectedSensorPosition(0); */
 }
 
-void Climber::Climb(double speed) {
+void Climber::Climb(double speed) { //Eventually will be a follower with no parameters to the encoder pos target
     winch.Set(ControlMode::PercentOutput, speed);
+    //Printer();
+    dashboardPrinter();
+}
+
+int Climber::getWinchPosition() {
+    return winch.GetSelectedSensorPosition(0);
 }
 
 void Climber::Printer() {
-
+    std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
 }
 
-void Climber::DashboardPrinter() {}
+void Climber::dashboardPrinter() {
+    frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
+}
+
+void Climber::scissorLift() { //Fix
+    if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
+		scissor.Set(frc::DoubleSolenoid::Value::kReverse);
+	}
+    else {
+		scissor.Set(frc::DoubleSolenoid::Value::kForward);
+	}
+}

@@ -38,7 +38,7 @@ void Drivetrain::Drive(double forward, double turn) {
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
 
     //Printer();
-    DashboardPrinter();
+    dashboardPrinter();
 }
 
 void Drivetrain::Shift() {
@@ -82,59 +82,74 @@ double * Drivetrain::getRPMs() {
 }
 
 double * Drivetrain::getCurrents() {
+    currents[0] = backLeft.GetOutputCurrent();
+    currents[1] = frontLeft.GetOutputCurrent();
+    currents[2] = backRight.GetOutputCurrent();
+    currents[3] = frontRight.GetOutputCurrent();
 
+    return currents;
 }
 
-void Drivetrain::Printer() { 
+void Drivetrain::Printer() {
 
     getPositions();
     getVelocities();
     getRPMs();
+    getCurrents();
 
     std::cout << "Back left:" << std::endl;
     std::cout << positions[0] << " counts" << std::endl;
     //std::cout << velocities[0] << " counts/100ms" << std::endl;
     std::cout << rpms[0] << " RPM" << std::endl;
+    std::cout << currents[0] << " Amps" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front left:" << std::endl;
     std::cout << positions[1] << " counts" << std::endl;
     //std::cout << velocities[1] << " counts/100ms" << std::endl;
     std::cout << rpms[1] << " RPM" << std::endl;
+    std::cout << currents[1] << " Amps" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Back right:" << std::endl;
     std::cout << positions[2] << " counts" << std::endl;
     //std::cout << velocities[2] << " counts/100ms" << std::endl;
     std::cout << rpms[2] << " RPM" << std::endl;
+    std::cout << currents[2] << " Amps" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Front right:" << std::endl;
     std::cout << positions[3] << " counts" << std::endl;
     //std::cout << velocities[3] << " counts/100ms" << std::endl;
     std::cout << rpms[3] << " RPM" << std::endl;
+    std::cout << currents[3] << " Amps" << std::endl;
     std::cout << std::endl;
 }
 
-void Drivetrain::DashboardPrinter() {
+void Drivetrain::dashboardPrinter() { 
 
     getPositions();
     getVelocities();
     getRPMs();
+    getCurrents();
 
     frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
 
     frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
 
     frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
 
     frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 }

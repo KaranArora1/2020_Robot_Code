@@ -7,16 +7,20 @@
 
 #include "BallPickup.h"
 
-BallPickup::BallPickup() {}
+BallPickup::BallPickup() {
+   //Encoder should be here I think
+}
 
 void BallPickup::Pickup(double speed) {
     pickup.Set(ControlMode::PercentOutput, speed);
+    //Printer();
+    dashboardPrinter();
 }
 
 void BallPickup::Printer() {
-
+    
 }
 
-void BallPickup::DashboardPrinter() {
+void BallPickup::dashboardPrinter() {
     
 }

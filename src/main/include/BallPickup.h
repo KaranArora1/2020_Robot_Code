@@ -14,7 +14,7 @@ class BallPickup {
   BallPickup();
   void Pickup(double);
   void Printer();
-  void DashboardPrinter();
+  void dashboardPrinter();
  
  private:
   WPI_TalonSRX pickup{pickupMotorID};

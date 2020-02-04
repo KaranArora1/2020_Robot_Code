@@ -90,12 +90,14 @@ void Robot::TeleopPeriodic() {
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
   Index.Spin(operatorJoy.GetRawAxis(indexJoyChl) * 0.1);
 
+  //Add scissor lift, deployArm? assign them to buttons
+
   if (driverJoy.GetRawButtonPressed(shifterBtn)) {
     Drive.Shift();
   }
 
-  if (driverJoy.GetRawButtonPressed(indexPusherBtn)) {
-    Index.PushBall();
+  if (driverJoy.GetRawButtonPressed(indexFeederBtn)) {
+    Index.feedBall();
   }
 
   //Change Climb Status
@@ -115,7 +117,9 @@ void Robot::TeleopPeriodic() {
 
   //Logging
   if (logThisTime) {
-    Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Shoot.getRPMs());
+    Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
+                            Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
+                            Spinner.getConfidence(), Climb.getWinchPosition());
   }
 }
 

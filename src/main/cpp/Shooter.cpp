@@ -9,13 +9,15 @@
 
 Shooter::Shooter() {
     slaveShooter.SetInverted(true);
+    wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
+    wrist.SetSelectedSensorPosition(0);
 }
 
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
     //Printer();
-    DashboardPrinter();
+    dashboardPrinter();
 }
 
 void Shooter::moveWrist(double input) {
@@ -38,16 +40,22 @@ double * Shooter::getRPMs() {
     return rpms;
 }
 
+int Shooter::getWristPosition() {
+    return wrist.GetSelectedSensorPosition(0);
+}
+
 void Shooter::Printer() {
     getRPMs();
 
     std::cout << "Shooter (CAN ID 1) " << rpms[0] << " RPM" << std::endl;
     std::cout << "Slave Shooter (CAN ID 2) " << rpms[1] << " RPM" << std::endl;
+    std::cout << "Wrist Position " << getWristPosition() << " counts" << std::endl;
 }
 
-void Shooter::DashboardPrinter() {
+void Shooter::dashboardPrinter() {
     getRPMs();
 
     frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
+    frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
 }

@@ -9,10 +9,11 @@
 
 #include "RobotMap.h"
 
+//Not needed - made by Michael Kaatz. Just a better version of Mitch's MyTimer, but not in use right now
+
 class YourTimer {
 public:
   YourTimer();
-
   void SetStart();
   double Total();
   void SetDiffStart();

@@ -7,18 +7,22 @@
 
 #include "Indexer.h"
 
-Indexer::Indexer() {}
+Indexer::Indexer() {
+	//Encoder should be here I think
+}
 
 void Indexer::Spin(double speed) {
     index.Set(ControlMode::PercentOutput, speed);
+	//Printer();
+	dashboardPrinter();
 }
 
-void Indexer::PushBall() {
-    if (pusher.Get() == frc::DoubleSolenoid::Value::kForward) {
-		pusher.Set(frc::DoubleSolenoid::Value::kReverse);
+void Indexer::feedBall() {
+    if (feeder.Get() == frc::DoubleSolenoid::Value::kForward) {
+		feeder.Set(frc::DoubleSolenoid::Value::kReverse);
 	}
     else {
-		pusher.Set(frc::DoubleSolenoid::Value::kForward);
+		feeder.Set(frc::DoubleSolenoid::Value::kForward);
 	}
 }
 
@@ -26,6 +30,6 @@ void Indexer::Printer() {
 
 }
 
-void Indexer::DashboardPrinter() {
+void Indexer::dashboardPrinter() {
 
 }

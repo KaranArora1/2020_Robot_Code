@@ -13,11 +13,11 @@ class Indexer {
  public:
   Indexer();
   void Spin(double);
-  void PushBall();
+  void feedBall();
   void Printer();
-  void DashboardPrinter();
+  void dashboardPrinter();
 
  private:
   WPI_TalonSRX index{indexerMotorID};
-  frc::DoubleSolenoid pusher{PCMID, pusherKReverse, pusherKForward};
+  frc::DoubleSolenoid feeder{PCMID, pusherKReverse, pusherKForward};
 };

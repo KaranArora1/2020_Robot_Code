@@ -42,6 +42,10 @@
    Toggle Climb Status - Menu Button
 */
 
+/* There are 7 Mechanisms total (BallPickup, Climber, Drivetrain, Indexer, PanelSpinner, Indicator Lights, and Shooter). 
+   There are 4 Helper Programs (Logger, MyTimer, Vision, and YourTimer). 
+   We are logging data from Climber(1 field), Drivetrain(4 fields x 4 motors), PanelSpinner(1 x 3), and Shooter(3 x 3)*/
+
 //Misc
 constexpr double velToRPM_SRX = (1000 * 60) / 4096; /* Conversion factor from counts/100ms to RPM = 14.6484375
                                                        X counts/100ms * 1000ms/1s * 60s/1min * 1rev/4096 counts */
@@ -70,7 +74,7 @@ constexpr int climbJoyChl = 2; //Left Trigger (Operator)
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 
 constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
-constexpr int indexPusherBtn = 1; //B (Driver)
+constexpr int indexFeederBtn = 1; //B (Driver)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX

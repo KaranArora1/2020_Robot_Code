@@ -20,20 +20,24 @@ public:
 		int backLeftPosition, frontLeftPosition, backRightPosition, frontRightPosition;
 		int backLeftVelocity, frontLeftVelocity, backRightVelocity, frontRightVelocity;
 		double backLeftRPM, frontLeftRPM, backRightRPM, frontRightRPM;
+		double backLeftCurrent, frontLeftCurrent, backRightCurrent, frontRightCurrent;
 
 		//Shooter
 		int shooterRPM, slaveShooterRPM;
+		int wristPosition;
 
 		//Ball Pickup
 
 		//Climber
+		int winchPosition;
 
 		//Indexer
 
 		//Panel Spinner
-		int spinneerPosition;
+		int spinnerPosition;
 		int spinnerVelocity;
 		double spinnerRPM;
+		double confidence;
 	};
 
 	virtual ~Logger();
@@ -41,7 +45,7 @@ public:
 	void logError(const char *msg, ... );
 	void logInfo(const char *msg, ... );
 	void logCSV(struct CSVVals *data);
-	void Run(int *, int *, double *, double *);
+	void Run(int *, int *, double *, double *, double*, int, int, int, double, double, int);
 	void Save();
 
     static Logger *instance() {

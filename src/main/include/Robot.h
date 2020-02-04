@@ -13,11 +13,11 @@
 #include "Drivetrain.h"
 #include "BallPickup.h"
 #include "Indexer.h"
-//#include "IndicatorLights.h"
+#include "IndicatorLights.h"
 #include "Logger.h"
 #include "PanelSpinner.h"
 #include "Shooter.h"
-//#include "Vision.h"
+#include "Vision.h"
 
 class Robot : public frc::TimedRobot {
     
@@ -46,7 +46,7 @@ class Robot : public frc::TimedRobot {
     BallPickup Pickup{};
     PanelSpinner Spinner{};
     Indexer Index{};
-    //IndicatorLights Lights {"ttyUSB0", frc::SerialPort::Port::kUSB};
+    //IndicatorLights Lights{"ttyUSB0", frc::SerialPort::Port::kUSB};
 
     bool climbStatus = false;
 
