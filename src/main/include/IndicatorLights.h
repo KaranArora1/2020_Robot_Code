@@ -9,8 +9,7 @@
 
 // Formerly STSLSHost
 class IndicatorLights {
-
-public:
+ public:
 	enum COLOR {NONE = 0, RED, GREEN, BLUE, YELLOW};
 
 	IndicatorLights(const wpi::Twine&, const wpi::Twine&, frc::SerialPort::Port);
@@ -18,7 +17,7 @@ public:
 	void setColor(COLOR);
 	void setColor(int, int, int);
 
-private:
+ private:
 	// Baud is the speed of data transfer in bits/second.
 	static constexpr int BAUD = 9600;
 	frc::SerialPort* serial;

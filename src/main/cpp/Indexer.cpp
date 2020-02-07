@@ -8,7 +8,8 @@
 #include "Indexer.h"
 
 Indexer::Indexer() {
-	//Encoder should be here I think
+	index.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    index.SetSelectedSensorPosition(0); 
 }
 
 void Indexer::Spin(double speed) {
@@ -20,16 +21,26 @@ void Indexer::Spin(double speed) {
 void Indexer::feedBall() {
     if (feeder.Get() == frc::DoubleSolenoid::Value::kForward) {
 		feeder.Set(frc::DoubleSolenoid::Value::kReverse);
+		feederState = "kReverse";
 	}
     else {
 		feeder.Set(frc::DoubleSolenoid::Value::kForward);
+		feederState = "kForward";
 	}
 }
 
-void Indexer::Printer() {
+int Indexer::getPosition() {
+	return index.GetSelectedSensorPosition(0);
+}
 
+void Indexer::Printer() {
+	std::cout << "Indexer Position " << getPosition() << " counts" << std::endl; //Not logged yet
+	
+	std::cout << "Ball Pusher State: " << feederState << std::endl; //Not logged yet
 }
 
 void Indexer::dashboardPrinter() {
+	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getPosition());
 
+	frc::SmartDashboard::PutString("Ball Pusher State", feederState);
 }

@@ -60,7 +60,7 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-double Robot::Deadzone(double input) {
+double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
   if (fabs(input) < .15) {
     input = 0.0;
     }
@@ -77,6 +77,9 @@ double Robot::Deadzone(double input) {
 
 void Robot::TeleopPeriodic() {
 
+  frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
+  frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
+
   logThisTime = false;
 	logTicker++;
 	
@@ -85,10 +88,10 @@ void Robot::TeleopPeriodic() {
 		logThisTime = true;
 	}
 
-  Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
+  Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
   Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
-  Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
-  Index.Spin(operatorJoy.GetRawAxis(indexJoyChl) * 0.1);
+  Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl)))); ///FIX
+  Index.Spin(operatorJoy.GetRawAxis(indexJoyChl) * 0.175);
 
   //Add scissor lift, deployArm? assign them to buttons
 
@@ -102,16 +105,11 @@ void Robot::TeleopPeriodic() {
 
   //Change Climb Status
   if (operatorJoy.GetRawButtonPressed(climbStatusBtn)) {
-    if (climbStatus) {
-      climbStatus = false;
-    }
-    else {
-      climbStatus = true;
-    }
+    Climb.changeClimbStatus();
   }
 
   //Climb
-  if (climbStatus) {
+  if (Climb.getClimbStatus()) {
     Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbJoyChl)));
   }
 

@@ -23,7 +23,6 @@ class Drivetrain {
     void dashboardPrinter();
 
   private:
-  
     WPI_TalonFX frontLeft{frontLeftMotorID};
     WPI_TalonFX frontRight{frontRightMotorID};
     WPI_TalonFX backLeft{backLeftMotorID};
@@ -37,4 +36,6 @@ class Drivetrain {
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
 
     double turn, forward, leftThrot, rightThrot;
+
+    std::string shifterState = "";
 };

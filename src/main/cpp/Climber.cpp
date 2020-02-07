@@ -8,26 +8,14 @@
 #include "Climber.h"
 
 Climber::Climber() {
-    /* winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
-    winch.SetSelectedSensorPosition(0); */
+    winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    winch.SetSelectedSensorPosition(0); 
 }
 
 void Climber::Climb(double speed) { //Eventually will be a follower with no parameters to the encoder pos target
     winch.Set(ControlMode::PercentOutput, speed);
     //Printer();
     dashboardPrinter();
-}
-
-int Climber::getWinchPosition() {
-    return winch.GetSelectedSensorPosition(0);
-}
-
-void Climber::Printer() {
-    std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
-}
-
-void Climber::dashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
 }
 
 void Climber::scissorLift() { //Fix
@@ -37,4 +25,31 @@ void Climber::scissorLift() { //Fix
     else {
 		scissor.Set(frc::DoubleSolenoid::Value::kForward);
 	}
+}
+
+void Climber::changeClimbStatus() {
+    if (climbStatus) {
+        climbStatus = false;
+    }
+    else {
+        climbStatus = true;
+    }
+}
+
+bool Climber::getClimbStatus() {
+    return climbStatus; //Not logged or displayed on dashboard
+}
+
+int Climber::getWinchPosition() {
+    return winch.GetSelectedSensorPosition(0);
+}
+
+void Climber::Printer() {
+    std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
+    std::cout << "Climb Status " << getClimbStatus() << std::endl;
+}
+
+void Climber::dashboardPrinter() {
+    frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
+    frc::SmartDashboard::PutNumber("Climb Status", getClimbStatus());
 }

@@ -44,11 +44,13 @@ void Drivetrain::Drive(double forward, double turn) {
 void Drivetrain::Shift() {
     if (shifter.Get() == frc::DoubleSolenoid::Value::kForward) {
 		shifter.Set(frc::DoubleSolenoid::Value::kReverse);
+        shifterState = "kReverse";
 		//currentGear = 2;
 		//gearHasChanged = true;
 	}
     else {
 		shifter.Set(frc::DoubleSolenoid::Value::kForward);
+        shifterState = "kForward";
 		//currentGear = 1;
 		//gearHasChanged = true;
 	}
@@ -124,6 +126,8 @@ void Drivetrain::Printer() {
     std::cout << rpms[3] << " RPM" << std::endl;
     std::cout << currents[3] << " Amps" << std::endl;
     std::cout << std::endl;
+
+    std::cout << "Shifter State " << shifterState << std::endl;
 }
 
 void Drivetrain::dashboardPrinter() { 
@@ -133,23 +137,25 @@ void Drivetrain::dashboardPrinter() {
     getRPMs();
     getCurrents();
 
-    frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
+    /*frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
-    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);*/
     frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
 
-    frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
+    /*frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
-    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);*/
     frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
 
-    frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
+    /*frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
-    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);*/
     frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
 
-    frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
+    /*frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
-    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);*/
     frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
+
+    frc::SmartDashboard::PutString("Shifter State", shifterState);
 }

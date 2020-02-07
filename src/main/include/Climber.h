@@ -15,6 +15,8 @@ class Climber {
   void Climb(double);
   int getWinchPosition();
   void scissorLift();
+  void changeClimbStatus();
+  bool getClimbStatus();
   void Printer();
   void dashboardPrinter();
  
@@ -24,4 +26,6 @@ class Climber {
   //Constant velocity to a fixed number of encoder countd TBD
 
   frc::DoubleSolenoid scissor{PCMID, 1, 6};
+  
+  bool climbStatus = false;
 };

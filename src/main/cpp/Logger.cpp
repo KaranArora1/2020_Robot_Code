@@ -30,7 +30,7 @@ Logger::Logger() {
 			<< "time" << ','
 			<< "voltage" << ','
 			<< "totalCurrent" << ','
-			<< "backLeftPosition" << ','
+			/*<< "backLeftPosition" << ','
 			<< "frontLeftPosition" << ','
 			<< "backRightPosition" << ','
 			<< "frontRightPosition" << ','
@@ -41,19 +41,19 @@ Logger::Logger() {
 			<< "backLeftRPM" << ','
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','
-			<< "frontRightRPM" << ','
+			<< "frontRightRPM" << ','*/
 			<< "backLeftCurrent" << ','
 			<< "frontLeftCurrent" << ','
 			<< "backRightCurrent" << ','
 			<< "frontRightCurrent" << ','
 			<< "shooterRPM" << ','
 			<< "slaveShooterRPM" << ','
-			<< "wristPosition" << ','
-			<< "wristPosition" << ','
+			/*<< "wristPosition" << ','
+			<< "winchPosition" << ','
 			<< "spinnerPosition" << ','
 			<< "spinnerVelocity" << ','
 			<< "spinnerRPM" << ','
-			<< "confidence"
+			<< "confidence"*/
 			<< std::endl;
 }
 
@@ -91,7 +91,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> voltage << ','
 			<< data-> totalCurrent << ','
 
-			<< data-> backLeftPosition << ','
+			/*<< data-> backLeftPosition << ','
 			<< data-> frontLeftPosition << ','
 			<< data-> backRightPosition << ','
 			<< data-> frontRightPosition << ','
@@ -104,7 +104,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> backLeftRPM << ','
 			<< data-> frontLeftRPM << ','
 			<< data-> backRightRPM << ','
-			<< data-> frontRightRPM << ','
+			<< data-> frontRightRPM << ','*/
 
 			<< data-> backLeftCurrent << ','
 			<< data-> frontLeftCurrent << ','
@@ -113,14 +113,14 @@ void Logger::logCSV(struct CSVVals *data) {
 			
 			<< data-> shooterRPM << ','
 			<< data-> slaveShooterRPM << ','
-			<< data-> wristPosition << ','
+			/*<< data-> wristPosition << ','
 
 			<< data-> winchPosition << ','
 
 			<< data-> spinnerPosition << ','
 			<< data-> spinnerVelocity << ','
 			<< data-> spinnerRPM << ','
-			<< data-> confidence <<
+			<< data-> confidence << */ <<
 			std::endl;
 	Save();
 }
@@ -140,7 +140,7 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	csvData.voltage = 0;
 
 	//Drive 
-	csvData.backLeftPosition = drivePositions[0];
+	/*csvData.backLeftPosition = drivePositions[0];
 	csvData.frontLeftPosition = drivePositions[1];
 	csvData.backRightPosition = drivePositions[2];
 	csvData.frontRightPosition = drivePositions[3];
@@ -153,7 +153,7 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	csvData.backLeftRPM = driveRPMs[0];
 	csvData.frontLeftRPM = driveRPMs[1];
 	csvData.backRightRPM = driveRPMs[2];
-	csvData.frontRightRPM = driveRPMs[3];
+	csvData.frontRightRPM = driveRPMs[3];*/
 
 	csvData.backLeftCurrent = driveCurrents[0];
 	csvData.frontLeftCurrent = driveCurrents[1];
@@ -161,19 +161,19 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	csvData.frontRightCurrent = driveCurrents[3];
 
 	//Climber
-	csvData.winchPosition = winchPos;
+	//csvData.winchPosition = winchPos; Not wired
 
 	//Shooter
 	csvData.shooterRPM = shooterRPMs[0];
 	csvData.slaveShooterRPM = shooterRPMs[1];
 
-	csvData.wristPosition = wristPosition;
+	//csvData.wristPosition = wristPosition; Not wired
 
 	//Panel Spinner
-	csvData.spinnerPosition = spinnerPosition;
+	/*csvData.spinnerPosition = spinnerPosition;
 	csvData.spinnerVelocity = spinnerVelocity;
 	csvData.spinnerRPM = spinnerRPM;
-	csvData.confidence = confidence;
+	csvData.confidence = confidence; Not wired */
 		
 	logCSV(&csvData);
 }

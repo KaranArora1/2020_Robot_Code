@@ -12,7 +12,24 @@ BallPickup::BallPickup() {
 }
 
 void BallPickup::Pickup(double speed) {
+    
     pickup.Set(ControlMode::PercentOutput, speed);
+
+    /*//New Code
+    if (speed > 0) {
+        extndBallIntake.Set(frc::DoubleSolenoid::Value::kForward);
+        pickup.Set(ControlMode::PercentOutput, speed);
+        Index.Spin(speed/2);
+    }
+    else if (speed == 0) {
+        extndBallIntake.Set(frc::DoubleSolenoid::Value::kReverse);
+        
+    }
+    else if (speed < 0) {
+        extndBallIntake.Set(frc::DoubleSolenoid::Value::kForward);
+        pickup.Set(ControlMode::PercentOutput, speed * -1);   
+    }*/
+    
     //Printer();
     dashboardPrinter();
 }

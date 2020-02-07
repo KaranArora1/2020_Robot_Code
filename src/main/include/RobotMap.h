@@ -54,7 +54,7 @@ constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from cou
                                                       X counts/100ms * 1000ms/1s * 60s/1min * 1rev/2048 counts */
 
 constexpr int pdpID = 0;
-constexpr int pressureID = 1000; //FIX
+constexpr int pressureID = 0; //FIX
 
 //Joystick
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station

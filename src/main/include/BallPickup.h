@@ -8,6 +8,7 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "Indexer.h"
 
 class BallPickup {
  public:
@@ -18,4 +19,7 @@ class BallPickup {
  
  private:
   WPI_TalonSRX pickup{pickupMotorID};
+
+  //New Code
+  frc::DoubleSolenoid extndBallIntake{PCMID, 1000000, 1000000}; //Fix
 };

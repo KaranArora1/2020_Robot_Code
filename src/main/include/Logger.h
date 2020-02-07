@@ -11,8 +11,10 @@
 #include "RobotMap.h"
 
 class Logger {
-public:
+ public:
 	struct CSVVals {
+
+		//General
 		double voltage;
 		double totalCurrent;
 		
@@ -54,8 +56,7 @@ public:
         return singlton;
     }
 
-private:
-
+ private:
     MyTimer timer;
 
     struct timeval startTime;

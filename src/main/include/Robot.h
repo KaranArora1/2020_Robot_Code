@@ -20,9 +20,7 @@
 #include "Vision.h"
 
 class Robot : public frc::TimedRobot {
-    
   public:
-
     void RobotInit() override;
     void RobotPeriodic() override;
     void AutonomousInit() override;
@@ -33,12 +31,11 @@ class Robot : public frc::TimedRobot {
     double Deadzone(double);
 
   private:
-
     frc::Joystick driverJoy{driverJoyUSBPort};
     frc::Joystick operatorJoy{operatorJoyUSBPort};
 
     frc::PowerDistributionPanel pdp{pdpID};
-    //frc::AnalogInput pressure{pressureID};
+    frc::AnalogInput pressure{pressureID};
 
     Drivetrain Drive{};
     Shooter Shoot{};
@@ -46,7 +43,7 @@ class Robot : public frc::TimedRobot {
     BallPickup Pickup{};
     PanelSpinner Spinner{};
     Indexer Index{};
-    //IndicatorLights Lights{"ttyUSB0", frc::SerialPort::Port::kUSB};
+    IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
 
     bool climbStatus = false;
 

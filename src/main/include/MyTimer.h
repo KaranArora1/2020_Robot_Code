@@ -10,13 +10,13 @@
 #include "RobotMap.h"
 
 class MyTimer {
-public:
+ public:
 	MyTimer();
 	double getTotalTime();
 	void Reset();
 	double getDt();
 	
-private:
+ private:
 	timeval startTime;
 	timeval lastTime;
 };
