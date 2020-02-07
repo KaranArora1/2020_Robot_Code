@@ -12,7 +12,7 @@
 class Indexer {
  public:
   Indexer();
-  void Spin(double);
+  void Spin(double, double);
   void feedBall();
   int getPosition();
   void Printer();
