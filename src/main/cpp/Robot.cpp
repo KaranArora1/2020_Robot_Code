@@ -88,7 +88,7 @@ void Robot::TeleopPeriodic() {
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)));
   Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
-  Index.Spin(operatorJoy.GetRawAxis(indexJoyChl) * 0.1);
+  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexJoyChl)) * 0.1, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.1);
 
   //Add scissor lift, deployArm? assign them to buttons
 
@@ -112,7 +112,7 @@ void Robot::TeleopPeriodic() {
 
   //Climb
   if (climbStatus) {
-    Climb.Climb(Deadzone(operatorJoy.GetRawAxis(climbJoyChl)));
+    Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
   }
 
   //Logging

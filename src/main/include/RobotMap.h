@@ -31,6 +31,7 @@
    Turn - Right Joystick X Axis
    Shift Gears - A Button
    Push Ball out of Indexer - B Button
+   CLimb - Right Trigger
 
    Operator: 
    Shoot - Left Joystick Y Axis
@@ -38,7 +39,7 @@
    Move Shooter Down One Position - Left Bumper (Temporary)
    Ball Pickup - Right Joystick Y Axis
    Index - Right Trigger
-   Climb - Left Trigger
+   Index Reverse - Left Trigger
    Toggle Climb Status - Menu Button
 */
 
@@ -69,11 +70,12 @@ constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
 constexpr int climbStatusBtn = 8; //Menu button (Operator)
-constexpr int climbJoyChl = 2; //Left Trigger (Operator)
+constexpr int climbJoyChl = 3; //Right Trigger (Driver)
 
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 
 constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
+constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
 constexpr int indexFeederBtn = 1; //B (Driver)
 
 //Drivetrain

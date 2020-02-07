@@ -11,8 +11,11 @@ Indexer::Indexer() {
 	//Encoder should be here I think
 }
 
-void Indexer::Spin(double speed) {
-    index.Set(ControlMode::PercentOutput, speed);
+void Indexer::Spin(double triggerForward, double triggerReverse) {
+	if (triggerForward > 0 && triggerReverse > 0)
+    	index.Set(ControlMode::PercentOutput, 0);
+	else
+		index.Set(ControlMode::PercentOutput, triggerForward - triggerReverse);
 	//Printer();
 	dashboardPrinter();
 }
