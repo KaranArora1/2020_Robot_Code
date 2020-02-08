@@ -27,11 +27,11 @@ void Indexer::Spin(double triggerForward, double triggerReverse) {
 void Indexer::pushBall() {
     if (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse);
-		pusherState = "kReverse";
+		pusherState = frc::DoubleSolenoid::Value::kReverse;
 	}
     else {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kForward);
-		pusherState = "kForward";
+		pusherState = frc::DoubleSolenoid::Value::kForward;
 	}
 }
 
@@ -58,5 +58,6 @@ void Indexer::dashboardPrinter() {
 	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getIndexerPosition());
 	frc::SmartDashboard::PutNumber("Feeder Velocity (rpm)", getFeederRPM());
 
-	frc::SmartDashboard::PutString("Ball Pusher State", pusherState);
+	frc::SmartDashboard::PutString("Ball Pusher State",
+		 (pusherState == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
 }

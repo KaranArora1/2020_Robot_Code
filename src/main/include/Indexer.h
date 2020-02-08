@@ -25,5 +25,5 @@ class Indexer {
   WPI_TalonSRX feeder{feederMotorID};
   frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKReverse, pusherKForward};
 
-  std::string pusherState = "";
+  frc::DoubleSolenoid::Value pusherState = frc::DoubleSolenoid::Value::kOff;
 };
