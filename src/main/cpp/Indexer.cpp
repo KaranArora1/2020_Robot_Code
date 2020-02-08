@@ -27,11 +27,9 @@ void Indexer::Spin(double triggerForward, double triggerReverse) {
 void Indexer::pushBall() {
     if (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse);
-		pusherState = frc::DoubleSolenoid::Value::kReverse;
 	}
     else {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kForward);
-		pusherState = frc::DoubleSolenoid::Value::kForward;
 	}
 }
 
@@ -51,7 +49,7 @@ void Indexer::Printer() {
 	std::cout << "Indexer Position " << getIndexerPosition() << " counts" << std::endl; //Not logged yet
 	std::cout << "Feeder Velocity " << getFeederRPM() << " rpm" << std::endl; //Not logged yet
 	
-	std::cout << "Ball Pusher State: " << pusherState << std::endl; //Not logged yet
+	std::cout << "Ball Pusher State: " << ((pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)") << std::endl; //Not logged yet
 }
 
 void Indexer::dashboardPrinter() {
@@ -59,5 +57,5 @@ void Indexer::dashboardPrinter() {
 	frc::SmartDashboard::PutNumber("Feeder Velocity (rpm)", getFeederRPM());
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
-		 (pusherState == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
+		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
 }
