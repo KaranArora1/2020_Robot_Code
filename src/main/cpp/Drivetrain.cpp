@@ -44,13 +44,11 @@ void Drivetrain::Drive(double forward, double turn) {
 void Drivetrain::Shift() {
     if (shifter.Get() == frc::DoubleSolenoid::Value::kForward) {
 		shifter.Set(frc::DoubleSolenoid::Value::kReverse);
-        shifterState = "kReverse";
 		//currentGear = 2;
 		//gearHasChanged = true;
 	}
     else {
 		shifter.Set(frc::DoubleSolenoid::Value::kForward);
-        shifterState = "kForward";
 		//currentGear = 1;
 		//gearHasChanged = true;
 	}
@@ -127,7 +125,7 @@ void Drivetrain::Printer() {
     std::cout << currents[3] << " Amps" << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Shifter State " << shifterState << std::endl;
+    std::cout << "Shifter State " << ((shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse") << std::endl;
 }
 
 void Drivetrain::dashboardPrinter() { 
@@ -157,5 +155,5 @@ void Drivetrain::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);*/
     frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 
-    frc::SmartDashboard::PutString("Shifter State", shifterState);
+    frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse");
 }
