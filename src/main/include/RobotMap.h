@@ -31,7 +31,7 @@
    Turn - Right Joystick X Axis
    Shift Gears - A Button
    Push Ball out of Indexer - B Button
-   CLimb - Right Trigger
+   Climb - Right Trigger
 
    Operator: 
    Shoot - Left Joystick Y Axis

@@ -45,8 +45,6 @@ class Robot : public frc::TimedRobot {
     Indexer Index{};
     IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
 
-    bool climbStatus = false;
-
     bool logThisTime = false;
     int logTicker = 0;
     int logInterval = 20;
