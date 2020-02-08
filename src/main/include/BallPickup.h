@@ -14,11 +14,13 @@ class BallPickup {
  public:
   BallPickup();
   void Pickup(double);
+  void moveArm(double);
   void Printer();
   void dashboardPrinter();
  
  private:
   WPI_TalonSRX pickup{pickupMotorID};
+  WPI_TalonSRX arm{armMotorID};
 
   //New Code
   frc::DoubleSolenoid extndBallIntake{PCMID, 1000000, 1000000}; //Fix

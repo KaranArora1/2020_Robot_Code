@@ -89,12 +89,19 @@ void Robot::TeleopPeriodic() {
 	}
 
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
-  if (Deadzone(operatorJoy.GetRawAxis(shootJoyChl)) > 0 && operatorJoy.GetRawButtonPressed(shootJoyBtn))
+
+  //Shooter
+  if (Deadzone(operatorJoy.GetRawAxis(shootJoyChl)) > 0 && operatorJoy.GetRawButtonPressed(shootJoyBtn)) {
     Shoot.Shoot(0);
-  else if (operatorJoy.GetRawButtonPressed(shootJoyBtn))
+  }
+  else if (operatorJoy.GetRawButtonPressed(shootJoyBtn)) {
     Shoot.ShootRPMs();
-  else
+  }
+  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
     Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+  }
+
+  Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3);
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
   Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexJoyChl)) * 0.175, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.175); //Maybe take out Deadzone? 
 
@@ -119,6 +126,10 @@ void Robot::TeleopPeriodic() {
 
   //Climb
   if (Climb.getClimbStatus()) {
+    if (driverJoy.GetRawButton(climbScissorJoyBtn)) {
+      true;
+    }
+
     Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
   }
 

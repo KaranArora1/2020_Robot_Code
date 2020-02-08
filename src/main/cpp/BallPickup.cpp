@@ -34,6 +34,10 @@ void BallPickup::Pickup(double speed) {
     dashboardPrinter();
 }
 
+void BallPickup::moveArm(double speed) {
+    arm.Set(ControlMode::PercentOutput, speed);
+}
+
 void BallPickup::Printer() {
     
 }

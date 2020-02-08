@@ -75,5 +75,5 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
-    frc::SmartDashboard::PutNumber("Target RPM: ", currentRPM);
+    frc::SmartDashboard::PutNumber("Target RPM", currentRPM);
 }

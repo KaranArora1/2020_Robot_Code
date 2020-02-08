@@ -32,6 +32,8 @@
    Shift Gears - A Button
    Push Ball out of Indexer - B Button
    Climb - Right Trigger
+   Scissor Climb - X Button
+   Ball Pickup Move Arm - Left Trigger
 
    Operator: 
    Shoot - Left Joystick Y Axis - Temporarily incorrect
@@ -74,8 +76,10 @@ constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
 constexpr int climbStatusBtn = 8; //Menu button (Operator)
 constexpr int climbJoyChl = 3; //Right Trigger (Driver)
+constexpr int climbScissorJoyBtn = 2; //X Button (Driver)
 
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
+constexpr int ballPickupMoveArmJoyChl = 2; //Left Trigger (Driver)
 
 constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
 constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
@@ -96,6 +100,7 @@ constexpr int winchMotorID = 4; //SRX
 
 //Ball Pickup
 constexpr int pickupMotorID = 0; //SRX
+constexpr int armMotorID = 3; //SRX
 
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
