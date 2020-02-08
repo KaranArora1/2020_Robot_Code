@@ -104,6 +104,7 @@ void Robot::TeleopPeriodic() {
   Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3);
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
   Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexJoyChl)) * 0.175, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.175); //Maybe take out Deadzone? 
+  Index.feedBall(operatorJoy.GetRawAxis(indexFeederChl));
 
   //Add scissor lift, deployArm? assign them to buttons
 
@@ -115,8 +116,8 @@ void Robot::TeleopPeriodic() {
     Drive.Shift();
   }
 
-  if (driverJoy.GetRawButtonPressed(indexFeederBtn)) {
-    Index.feedBall();
+  if (driverJoy.GetRawButtonPressed(indexPusherBtn)) {
+    Index.pushBall();
   }
 
   //Change Climb Status

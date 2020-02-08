@@ -13,14 +13,15 @@ class Indexer {
  public:
   Indexer();
   void Spin(double, double);
-  void feedBall();
-  int getPosition();
+  void pushBall();
+  void feedBall(double);
+  int getIndexerPosition();
+  double getFeederRPM();
   void Printer();
   void dashboardPrinter();
 
  private:
   WPI_TalonSRX index{indexerMotorID};
-  frc::DoubleSolenoid feeder{PCMID, pusherKReverse, pusherKForward};
-
-  std::string feederState = "";
+  WPI_TalonSRX feeder{feederMotorID};
+  frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKReverse, pusherKForward};
 };

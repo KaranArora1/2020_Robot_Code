@@ -36,6 +36,4 @@ class Drivetrain {
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
 
     double turn, forward, leftThrot, rightThrot;
-
-    std::string shifterState = "";
 };
