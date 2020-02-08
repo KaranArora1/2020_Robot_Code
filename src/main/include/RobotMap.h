@@ -79,7 +79,8 @@ constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 
 constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
 constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
-constexpr int indexFeederBtn = 1; //B (Driver)
+constexpr int indexPusherBtn = 1; //B (Driver)
+constexpr int indexFeederChl = 0; //TODO: Set channel for feeder wheel
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -114,6 +115,7 @@ constexpr int wristMotorID = 100; //SRX Fix
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
+constexpr int feederMotorID = 8; //SRX
 
 constexpr int pusherKReverse = 2;
 constexpr int pusherKForward = 5;

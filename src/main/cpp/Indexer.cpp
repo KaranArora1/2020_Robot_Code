@@ -9,7 +9,10 @@
 
 Indexer::Indexer() {
 	index.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
-    index.SetSelectedSensorPosition(0); 
+    index.SetSelectedSensorPosition(0);
+
+	feeder.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+	feeder.SetSelectedSensorPosition(0);
 }
 
 void Indexer::Spin(double triggerForward, double triggerReverse) {
@@ -21,29 +24,39 @@ void Indexer::Spin(double triggerForward, double triggerReverse) {
 	dashboardPrinter();
 }
 
-void Indexer::feedBall() {
-    if (feeder.Get() == frc::DoubleSolenoid::Value::kForward) {
-		feeder.Set(frc::DoubleSolenoid::Value::kReverse);
-		feederState = "kReverse";
+void Indexer::pushBall() {
+    if (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) {
+		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse);
+		pusherState = "kReverse";
 	}
     else {
-		feeder.Set(frc::DoubleSolenoid::Value::kForward);
-		feederState = "kForward";
+		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kForward);
+		pusherState = "kForward";
 	}
 }
 
-int Indexer::getPosition() {
+void Indexer::feedBall(double speed) {
+	feeder.Set(ControlMode::PercentOutput, speed);
+}
+
+int Indexer::getIndexerPosition() {
 	return index.GetSelectedSensorPosition(0);
 }
 
+double Indexer::getFeederRPM() {
+	return feeder.GetSelectedSensorVelocity(0) * velToRPM_SRX;
+}
+
 void Indexer::Printer() {
-	std::cout << "Indexer Position " << getPosition() << " counts" << std::endl; //Not logged yet
+	std::cout << "Indexer Position " << getIndexerPosition() << " counts" << std::endl; //Not logged yet
+	std::cout << "Feeder Velocity " << getFeederRPM() << " rpm" << std::endl; //Not logged yet
 	
-	std::cout << "Ball Pusher State: " << feederState << std::endl; //Not logged yet
+	std::cout << "Ball Pusher State: " << pusherState << std::endl; //Not logged yet
 }
 
 void Indexer::dashboardPrinter() {
-	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getPosition());
+	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getIndexerPosition());
+	frc::SmartDashboard::PutNumber("Feeder Velocity (rpm)", getFeederRPM());
 
-	frc::SmartDashboard::PutString("Ball Pusher State", feederState);
+	frc::SmartDashboard::PutString("Ball Pusher State", pusherState);
 }
