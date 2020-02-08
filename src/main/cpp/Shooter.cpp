@@ -20,6 +20,21 @@ void Shooter::Shoot(double speed) {
     dashboardPrinter();
 }
 
+//Temporary function
+void Shooter::ShootRPMs() {
+    double percent = 0; //TODO: Put expression in terms of currentRPM to convert to %
+    shooter.Set(percent);
+    slaveShooter.Set(percent);
+    dashboardPrinter();
+}
+
+//Temporary function
+void Shooter::incSpeed() {
+    currentRPM += incRPM;
+    if (currentRPM > 6000)
+        currentRPM = 0;
+}
+
 void Shooter::moveWrist(double input) {
 
    /*if(currentPos == Home){

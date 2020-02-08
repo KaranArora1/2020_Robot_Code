@@ -34,7 +34,8 @@
    Climb - Right Trigger
 
    Operator: 
-   Shoot - Left Joystick Y Axis
+   Shoot - Left Joystick Y Axis - Temporarily incorrect
+   Shoot - A Button
    Move Shooter Up One Position - Right Bumper (Temporary)
    Move Shooter Down One Position - Left Bumper (Temporary)
    Ball Pickup - Right Joystick Y Axis
@@ -65,8 +66,10 @@ constexpr int fwdJoyChl = 1; //Y Axis on Left Joystick (Driver)
 constexpr int trnJoyChl = 4; //X Axis on Right Joystick (Driver)
 constexpr int shifterBtn = 1; //A Button (Driver)
 
+constexpr int shootJoyBtn = 1; //A Button (Operator, Temporary)
+constexpr int shootSpeedIncBtn = 6; //Right Bumper (Operator, Temporary)
 constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
-constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
+//constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
 constexpr int climbStatusBtn = 8; //Menu button (Operator)

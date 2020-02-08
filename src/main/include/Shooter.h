@@ -19,6 +19,10 @@ class Shooter {
     void Printer();
     void dashboardPrinter();
 
+    //Temporary functions
+    void ShootRPMs();
+    void incSpeed();
+
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
 
@@ -32,4 +36,8 @@ class Shooter {
 
     int posList[5] = {1000, 1000, 1000, 1000, 1000};
     double rpms[2];
+
+    //Temporary
+    int incRPM = 1000;
+    int currentRPM = 0;
 };
