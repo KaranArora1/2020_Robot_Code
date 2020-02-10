@@ -27,17 +27,30 @@ void Climber::scissorLift() { //Fix
 	}
 }
 
-void Climber::changeClimbStatus() {
-    if (climbStatus) {
-        climbStatus = false;
+void Climber::changeScissorClimbStatus() {
+    if (scissorClimbStatus) {
+        scissorClimbStatus = false;
     }
     else {
-        climbStatus = true;
+        scissorClimbStatus = true;
     }
 }
 
-bool Climber::getClimbStatus() {
-    return climbStatus; //Not logged or displayed on dashboard
+void Climber::changeWinchClimbStatus() {
+    if (winchClimbStatus) {
+        winchClimbStatus = false;
+    }
+    else {
+        winchClimbStatus = true;
+    }
+}
+
+bool Climber::getScissorClimbStatus() {
+    return scissorClimbStatus; //Not logged 
+}
+
+bool Climber::getWinchClimbStatus() {
+    return winchClimbStatus; //Not logged
 }
 
 int Climber::getWinchPosition() {
@@ -46,10 +59,12 @@ int Climber::getWinchPosition() {
 
 void Climber::Printer() {
     std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
-    std::cout << "Climb Status " << getClimbStatus() << std::endl;
+    std::cout << "Scissor Climb Status " << getScissorClimbStatus() << std::endl;
+    std::cout << "Winch Climb Status " << getWinchClimbStatus() << std::endl;
 }
 
 void Climber::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
-    frc::SmartDashboard::PutNumber("Climb Status", getClimbStatus());
+    frc::SmartDashboard::PutBoolean("Scissor Climb Status", getScissorClimbStatus());
+    frc::SmartDashboard::PutBoolean("Winch Climb Status", getWinchClimbStatus());
 }

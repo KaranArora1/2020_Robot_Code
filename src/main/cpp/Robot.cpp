@@ -83,11 +83,12 @@ void Robot::TeleopPeriodic() {
   logThisTime = false;
 	logTicker++;
 	
-  if(logTicker == logInterval){
+  if(logTicker == logInterval) {
 		logTicker = 0;
 		logThisTime = true;
 	}
 
+  //Drive
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
 
   //Shooter
@@ -97,42 +98,67 @@ void Robot::TeleopPeriodic() {
   else if (operatorJoy.GetRawButtonPressed(shootJoyBtn)) {
     Shoot.ShootRPMs();
   }
-  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
+  /*else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
     Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+  }*/
+
+  //Pickup
+  if (driverJoy.GetRawButtonPressed(ballPickupMoveArmReverseJoyBtn)) {
+    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * -0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
+  }
+  else {
+    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3);
   }
 
-  Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3);
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
-  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexJoyChl)) * 0.175, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.175); //Maybe take out Deadzone? 
-  Index.feedBall(operatorJoy.GetRawAxis(indexFeederChl));
 
-  //Add scissor lift, deployArm? assign them to buttons
+  //Index
+  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexFwdJoyChl)) * 0.175, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.175); //Maybe take out Deadzone? 
+  Index.feedBall(-1 * operatorJoy.GetRawAxis(indexJoyFeederChl));
 
+  //Add deployArm? assign them to buttons
+
+  //Shooter (RPM Version)
   if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
     Shoot.incSpeed();
   }
 
+  /*if (operatorJoy.GetRawAxis(climbJoyChl)) { //FIX //FIX INDEXER SPEED
+    Shoot.moveWrist();
+  }*/
+
+  Shoot.moveWrist(operatorJoy.GetRawAxis(climbJoyChl));
+
+  //Drivetrain (Shifter)
   if (driverJoy.GetRawButtonPressed(shifterBtn)) {
     Drive.Shift();
   }
 
-  if (driverJoy.GetRawButtonPressed(indexPusherBtn)) {
+  //Pneumatic on Indexer
+  if (operatorJoy.GetRawButtonPressed(indexPusherBtn)) {
     Index.pushBall();
   }
 
   //Change Climb Status
-  if (operatorJoy.GetRawButtonPressed(climbStatusBtn)) {
-    Climb.changeClimbStatus();
+  if (driverJoy.GetRawButtonPressed(climbStatusBtn)) {
+    Climb.changeScissorClimbStatus();
+  }
+
+  if (driverJoy.GetRawButton(climbScissorJoyBtn)) {
+    Climb.scissorLift();
   }
 
   //Climb
-  if (Climb.getClimbStatus()) {
-    if (driverJoy.GetRawButton(climbScissorJoyBtn)) {
-      true;
+  /*if (Climb.getScissorClimbStatus()) { //The winch can only be activated once the scissor lift has been deployed
+    if (driverJoy.GetRawButton(climbScissorJoyBtn)) { //The scissor lift can only be deployed when an operator button is pressed
+      Climb.scissorLift();
+      Climb.changeWinchClimbStatus();
     }
+  }*/
 
+  /*if (Climb.getWinchClimbStatus()) {
     Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
-  }
+  }*/
 
   //Logging
   if (logThisTime) {

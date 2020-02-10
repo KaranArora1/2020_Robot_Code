@@ -13,10 +13,12 @@ class Climber {
  public:
   Climber();
   void Climb(double);
-  int getWinchPosition();
   void scissorLift();
-  void changeClimbStatus();
-  bool getClimbStatus();
+  void changeScissorClimbStatus();
+  void changeWinchClimbStatus();
+  bool getScissorClimbStatus();
+  bool getWinchClimbStatus();
+  int getWinchPosition();
   void Printer();
   void dashboardPrinter();
  
@@ -27,5 +29,6 @@ class Climber {
 
   frc::DoubleSolenoid scissor{PCMID, 1, 6};
   
-  bool climbStatus = false;
+  bool scissorClimbStatus = false;
+  bool winchClimbStatus = false;
 };

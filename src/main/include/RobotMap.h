@@ -30,20 +30,24 @@
    Drive Forward - Left Joystick Y Axis
    Turn - Right Joystick X Axis
    Shift Gears - A Button
-   Push Ball out of Indexer - B Button
-   Climb - Right Trigger
+   Winch Climb - Right Trigger
+   Toggle Scissor Climb Status - Menu Button
    Scissor Climb - X Button
-   Ball Pickup Move Arm - Left Trigger
+   Ball Pickup Move Arm - Left Trigger 
+   Ball Pickup Move Arm Reverse Button - Y Button
+   Wrist - Right Trigger //
 
    Operator: 
-   Shoot - Left Joystick Y Axis - Temporarily incorrect
+   Shoot - Left Joystick Y Axis - TEMPORARILY INCORRECT
    Shoot - A Button
+   Increment Shooter RPM's - Right Bumper
    Move Shooter Up One Position - Right Bumper (Temporary)
    Move Shooter Down One Position - Left Bumper (Temporary)
    Ball Pickup - Right Joystick Y Axis
-   Index - Right Trigger
+   Index Forward - Right Trigger
    Index Reverse - Left Trigger
-   Toggle Climb Status - Menu Button
+   Index Feeder Wheel - Left Joystick Y Axis
+   Indexer Push Ball (Pneumatic) - B Button
 */
 
 /* There are 7 Mechanisms total (BallPickup, Climber, Drivetrain, Indexer, PanelSpinner, Indicator Lights, and Shooter). 
@@ -76,15 +80,16 @@ constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 
 constexpr int climbStatusBtn = 8; //Menu button (Operator)
 constexpr int climbJoyChl = 3; //Right Trigger (Driver)
-constexpr int climbScissorJoyBtn = 2; //X Button (Driver)
+constexpr int climbScissorJoyBtn = 3; //X Button (Driver)
 
 constexpr int ballPickupJoyChl = 5; //Y Axis on Right Joystick (Operator)
 constexpr int ballPickupMoveArmJoyChl = 2; //Left Trigger (Driver)
+constexpr int ballPickupMoveArmReverseJoyBtn = 3; //Y Button (Driver)
 
-constexpr int indexJoyChl = 3; //Right Trigger (Operator) 
+constexpr int indexFwdJoyChl = 3; //Right Trigger (Operator) 
+constexpr int indexJoyFeederChl = 1; //Y Axis on Left Joystick (Operator)
 constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
-constexpr int indexPusherBtn = 1; //B (Driver)
-constexpr int indexFeederChl = 0; //TODO: Set channel for feeder wheel
+constexpr int indexPusherBtn = 2; //B (Operator)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -116,11 +121,11 @@ static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 //Shooter
 constexpr int shooterMotorID = 1; //Spark
 constexpr int slaveShoooterMotorID = 2; //Spark
-constexpr int wristMotorID = 100; //SRX Fix
+constexpr int wristMotorID = 8; //SRX Fix
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
-constexpr int feederMotorID = 8; //SRX
+constexpr int feederMotorID = 1; //SRX
 
 constexpr int pusherKReverse = 2;
 constexpr int pusherKForward = 5;

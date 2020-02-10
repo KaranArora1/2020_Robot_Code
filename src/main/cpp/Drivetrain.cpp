@@ -8,8 +8,7 @@
 #include "Drivetrain.h"
 
 Drivetrain::Drivetrain() {
-
-     //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
+    //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
     //back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
     //back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
     //front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
@@ -24,7 +23,6 @@ Drivetrain::Drivetrain() {
     backRight.SetSelectedSensorPosition(0);
     frontLeft.SetSelectedSensorPosition(0);
     backLeft.SetSelectedSensorPosition(0);
-
 }
 
 void Drivetrain::Drive(double forward, double turn) {

@@ -14,6 +14,7 @@ class Vision {
  public:
   Vision();
   void Run(double, double);
+  void switchPipeline();
  
  private:
   float tv, tx, ty;

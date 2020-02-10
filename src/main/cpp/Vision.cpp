@@ -11,6 +11,12 @@
 Vision::Vision() {
 
 }
+void Vision::switchPipeline(){
+
+ nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
+ nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
+
+}
 
 void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
     nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
@@ -50,8 +56,7 @@ void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
             }
         }
     }
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1); //Sets pipeline to pipe 1 (the human one)
-}
+  // h
 
 //Math goes here
 //re ajusting goes here
@@ -76,3 +81,4 @@ if (distance <= 5.3){
 //storage system eject method goes here
 
 }*/
+

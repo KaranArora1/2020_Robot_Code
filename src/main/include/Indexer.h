@@ -23,5 +23,5 @@ class Indexer {
  private:
   WPI_TalonSRX index{indexerMotorID};
   WPI_TalonSRX feeder{feederMotorID};
-  frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKReverse, pusherKForward};
+  frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKForward, pusherKReverse};
 };

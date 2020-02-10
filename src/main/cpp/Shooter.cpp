@@ -9,6 +9,8 @@
 
 Shooter::Shooter() {
     slaveShooter.SetInverted(true);
+
+    wrist.SetInverted(true);
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
 }
@@ -22,9 +24,8 @@ void Shooter::Shoot(double speed) {
 
 //Temporary function
 void Shooter::ShootRPMs() {
-    double percent = 0; //TODO: Put expression in terms of currentRPM to convert to %
-    shooter.Set(percent);
-    slaveShooter.Set(percent);
+    shooter.Set(-1 * currentRPM/6000);
+    slaveShooter.Set(-1 * currentRPM/6000);
     //Printer();
     dashboardPrinter();
 }
@@ -37,7 +38,7 @@ void Shooter::incSpeed() {
 }
 
 void Shooter::moveWrist(double input) {
-
+    wrist.Set(ControlMode::PercentOutput, input);
    /*if(currentPos == Home){
        master.Set(ControlMode::Position, downPos + sensorOffset);
        slave.Follow(master);
