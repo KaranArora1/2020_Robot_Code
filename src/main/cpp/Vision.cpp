@@ -12,8 +12,16 @@ Vision::Vision() {
 
 }
 void Vision::switchPipeline(){
-
- nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
+ 
+ /*
+ Need to update this area so that:
+ if there is a button press, 
+  then if value = 1, set to 0;
+  elseif value = 0, set to 1 
+ endif
+ */
+ 
+ nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0);
  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
 
 }
