@@ -14,11 +14,17 @@ Vision::Vision() {
 void Vision::switchPipeline(){
  
  /*
- Need to update this area so that:
- if there is a button press, 
-  then if value = 1, set to 0;
-  elseif value = 0, set to 1 
- endif
+  Need to update this area so that:
+  if there is a button press, 
+   then if value = 1, set to 0;
+   elseif value = 0, set to 1 
+  endif
+ 
+  Also look at the following option:
+  "stream" Sets limelight’s streaming mode
+  0 Standard - Side-by-side streams if a webcam is attached to Limelight
+  1 PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+  2 PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream
  */
  
  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0);
