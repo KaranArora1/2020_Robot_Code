@@ -11,11 +11,14 @@
 Vision::Vision() {
 
 }
-void Vision::switchPipeline(){
 
- nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
- nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
-
+void Vision::switchPipeline() {
+  /*  if(nt::NetworkTableInstance::GetDefault().GetTable("limelight") == 0) {
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
+        }
+    else {
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline",1);
+    }*/
 }
 
 void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
@@ -56,6 +59,7 @@ void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
             }
         }
     }
+}
   // h
 
 //Math goes here

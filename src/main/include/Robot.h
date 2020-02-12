@@ -44,6 +44,7 @@ class Robot : public frc::TimedRobot {
     PanelSpinner Spinner{};
     Indexer Index{};
     IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
+    Vision Limelight{};
 
     bool logThisTime = false;
     int logTicker = 0;

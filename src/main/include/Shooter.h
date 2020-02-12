@@ -29,7 +29,7 @@ class Shooter {
     //Rename this possibly if I don't make it into a slave
     rev::CANSparkMax slaveShooter{slaveShoooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave
 
-    WPI_TalonSRX wrist{wristMotorID};
+    WPI_TalonSRX wrist{wristMotorID}; //FIX
     
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();

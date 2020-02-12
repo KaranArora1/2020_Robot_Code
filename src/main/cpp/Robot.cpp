@@ -127,6 +127,11 @@ void Robot::TeleopPeriodic() {
     Shoot.moveWrist();
   }*/
 
+  /*if (driverJoy.GetRawButtonPressed(7)) {
+    //Limelight.switchPipeline();
+    //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber
+  }*/
+
   Shoot.moveWrist(operatorJoy.GetRawAxis(climbJoyChl));
 
   //Drivetrain (Shifter)

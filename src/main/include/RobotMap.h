@@ -36,6 +36,7 @@
    Ball Pickup Move Arm - Left Trigger 
    Ball Pickup Move Arm Reverse Button - Y Button
    Wrist - Right Trigger //
+   Switch Pipeline - View Button
 
    Operator: 
    Shoot - Left Joystick Y Axis - TEMPORARILY INCORRECT
@@ -106,7 +107,7 @@ constexpr int winchMotorID = 4; //SRX
 
 //Ball Pickup
 constexpr int pickupMotorID = 0; //SRX
-constexpr int armMotorID = 3; //SRX
+constexpr int armMotorID = 8; //SRX Changed from  3
 
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
@@ -121,7 +122,7 @@ static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 //Shooter
 constexpr int shooterMotorID = 1; //Spark
 constexpr int slaveShoooterMotorID = 2; //Spark
-constexpr int wristMotorID = 8; //SRX Fix
+constexpr int wristMotorID = 3; //SRX Changed from 8
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
