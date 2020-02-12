@@ -15,6 +15,7 @@ class Vision {
   Vision();
   void Run(double, double);
   void switchPipeline();
+  void dashboardPrinter();
  
  private:
   float tv, tx, ty;

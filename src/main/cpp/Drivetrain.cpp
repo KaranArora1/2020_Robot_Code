@@ -34,9 +34,6 @@ void Drivetrain::Drive(double forward, double turn) {
     frontLeft.Set(ControlMode::PercentOutput, leftThrot);
     backRight.Set(ControlMode::PercentOutput, rightThrot);
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
-
-    //Printer();
-    dashboardPrinter();
 }
 
 void Drivetrain::Shift() {

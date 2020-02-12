@@ -14,11 +14,9 @@ Climber::Climber() {
 
 void Climber::Climb(double speed) { //Eventually will be a follower with no parameters to the encoder pos target
     winch.Set(ControlMode::PercentOutput, speed);
-    //Printer();
-    dashboardPrinter();
 }
 
-void Climber::scissorLift() { //Fix
+void Climber::scissorLift() { 
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse);
 	}

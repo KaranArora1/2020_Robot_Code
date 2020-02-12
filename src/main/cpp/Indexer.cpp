@@ -20,8 +20,6 @@ void Indexer::Spin(double triggerForward, double triggerReverse) {
     	index.Set(ControlMode::PercentOutput, 0);
 	else
 		index.Set(ControlMode::PercentOutput, triggerForward - triggerReverse);
-	//Printer();
-	dashboardPrinter();
 }
 
 void Indexer::pushBall() {

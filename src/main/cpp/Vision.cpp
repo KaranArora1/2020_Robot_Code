@@ -27,15 +27,12 @@ Vision::Vision() {
  */
 
 void Vision::switchPipeline() {
-  /*  if(nt::NetworkTableInstance::GetDefault().GetTable("limelight") == 0) {
+  if (nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 100) == 0) { //Second argument should be 0 or not
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
         }
-    else {
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline",1);
-    }*/
-
-    /*  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0);
- nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1); */
+  else {
+       nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
+       }
 }
 
 void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
@@ -102,4 +99,10 @@ if (distance <= 5.3){
 //storage system eject method goes here
 
 }*/
+
+void Vision::dashboardPrinter() {
+   // frc::SmartDashboard::PutNumber("Current Limelight Pipeline", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
+
+   nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("<variablename>",0.0);
+}
 

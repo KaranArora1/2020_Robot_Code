@@ -18,23 +18,21 @@ Shooter::Shooter() {
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
-    //Printer();
-    dashboardPrinter();
 }
 
 //Temporary function
 void Shooter::ShootRPMs() {
     shooter.Set(-1 * currentRPM/6000);
     slaveShooter.Set(-1 * currentRPM/6000);
-    //Printer();
-    dashboardPrinter();
 }
 
 //Temporary function
 void Shooter::incSpeed() {
     currentRPM += incRPM;
-    if (currentRPM > 6000)
+
+    if (currentRPM > 6000) {
         currentRPM = 0;
+    }
 }
 
 void Shooter::moveWrist(double input) {

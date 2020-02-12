@@ -26,13 +26,9 @@ void PanelSpinner::deployArm() {
 void PanelSpinner::spinRevolutions(double speed) { //Eventually Parameter for speed won't be needed, it will be automatic
     spinner.Set(ControlMode::PercentOutput, speed);
     ///Add color sensor code that stops the motor here 
-    //Printer();
-    dashboardPrinter();
 }
 
 void PanelSpinner::spinToColor(double speed) {
-    //Printer();
-    dashboardPrinter();
 }
 
 double PanelSpinner::getConfidence() { //Is this fine? 

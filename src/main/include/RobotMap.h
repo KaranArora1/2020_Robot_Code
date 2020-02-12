@@ -35,7 +35,7 @@
    Scissor Climb - X Button
    Ball Pickup Move Arm - Left Trigger 
    Ball Pickup Move Arm Reverse Button - Y Button
-   Wrist - Right Trigger //
+   Wrist - Right Trigger 
    Switch Pipeline - View Button
 
    Operator: 
@@ -73,11 +73,12 @@ constexpr int fwdJoyChl = 1; //Y Axis on Left Joystick (Driver)
 constexpr int trnJoyChl = 4; //X Axis on Right Joystick (Driver)
 constexpr int shifterBtn = 1; //A Button (Driver)
 
-constexpr int shootJoyBtn = 1; //A Button (Operator, Temporary)
+constexpr int shootBtn = 1; //A Button (Operator, Temporary)
 constexpr int shootSpeedIncBtn = 6; //Right Bumper (Operator, Temporary)
 constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
 //constexpr int shootChangeLevelUpBtn = 6; //Right Bumper (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
+constexpr int moveWristChl = 3; //Right Trigger (Driver)
 
 constexpr int climbStatusBtn = 8; //Menu button (Operator)
 constexpr int climbJoyChl = 3; //Right Trigger (Driver)
@@ -91,6 +92,8 @@ constexpr int indexFwdJoyChl = 3; //Right Trigger (Operator)
 constexpr int indexJoyFeederChl = 1; //Y Axis on Left Joystick (Operator)
 constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
 constexpr int indexPusherBtn = 2; //B (Operator)
+
+constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX
@@ -131,23 +134,5 @@ constexpr int feederMotorID = 1; //SRX
 constexpr int pusherKReverse = 2;
 constexpr int pusherKForward = 5;
 
-//Andy's Drivetrain
-
-constexpr int pigeonID = 0; //Fix
-
-constexpr double Drivetrain_P = 0;
-constexpr double Drivetrain_I = 0;
-constexpr double Drivetrain_D = 0;
-
-constexpr int maxSpeedLo = 0;
-constexpr int maxSpeedHi = 0;
-constexpr double gearRatioLo = 0;
-constexpr double gearRatioHi = 0;
-constexpr int wheelR = 0;
-
-constexpr bool ACCEL_LIMIT_ENABLED = false;
-
-constexpr bool drivetrainVoltageControl = true;
-constexpr bool drivetrainAutoheading = false;
 
 

@@ -80,59 +80,51 @@ void Robot::TeleopPeriodic() {
   frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
   frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
-  logThisTime = false;
 	logTicker++;
 	
   if(logTicker == logInterval) {
-		logTicker = 0;
 		logThisTime = true;
 	}
+
+  // ---------------------------------------------------------------------- CHANNELS ---------------------------------------------------------------------------------
 
   //Drive
   Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
 
   //Shooter
-  if (Deadzone(operatorJoy.GetRawAxis(shootJoyChl)) > 0 && operatorJoy.GetRawButtonPressed(shootJoyBtn)) {
+  if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {
     Shoot.Shoot(0);
   }
-  else if (operatorJoy.GetRawButtonPressed(shootJoyBtn)) {
+  else if (operatorJoy.GetRawButtonPressed(shootBtn)) {
     Shoot.ShootRPMs();
   }
-  /*else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
+  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
     Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
-  }*/
+  }
 
   //Pickup
   if (driverJoy.GetRawButtonPressed(ballPickupMoveArmReverseJoyBtn)) {
-    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * -0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
+    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
   }
   else {
-    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3);
+    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * -0.3);
   }
 
   Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
 
   //Index
-  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexFwdJoyChl)) * 0.175, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.175); //Maybe take out Deadzone? 
+  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexFwdJoyChl)) * 0.13, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.13); //Maybe take out Deadzone? 
   Index.feedBall(-1 * operatorJoy.GetRawAxis(indexJoyFeederChl));
 
   //Add deployArm? assign them to buttons
 
-  //Shooter (RPM Version)
-  if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
-    Shoot.incSpeed();
+  // ---------------------------------------------------------------------- BUTTONS --------------------------------------------------------------------------------
+
+  if (driverJoy.GetRawButtonPressed(switchVisionPipelineBtn)) {
+    Limelight.switchPipeline();
   }
 
-  /*if (operatorJoy.GetRawAxis(climbJoyChl)) { //FIX //FIX INDEXER SPEED
-    Shoot.moveWrist();
-  }*/
-
-  /*if (driverJoy.GetRawButtonPressed(7)) {
-    //Limelight.switchPipeline();
-    //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber
-  }*/
-
-  Shoot.moveWrist(operatorJoy.GetRawAxis(climbJoyChl));
+  Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
 
   //Drivetrain (Shifter)
   if (driverJoy.GetRawButtonPressed(shifterBtn)) {
@@ -144,29 +136,54 @@ void Robot::TeleopPeriodic() {
     Index.pushBall();
   }
 
+  //Shooter (RPM Version)
+  if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
+    Shoot.incSpeed();
+  }
+
+
+
+
+  // -------------------------------------------------------------------- CLIMBING ------------------------------------------------------------------------------
+
   //Change Climb Status
   if (driverJoy.GetRawButtonPressed(climbStatusBtn)) {
     Climb.changeScissorClimbStatus();
   }
 
-  if (driverJoy.GetRawButton(climbScissorJoyBtn)) {
-    Climb.scissorLift();
+  //Climbing
+  if (Climb.getScissorClimbStatus()) {
+    if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
+      Climb.scissorLift();
+      Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
+    }
   }
 
-  //Climb
-  /*if (Climb.getScissorClimbStatus()) { //The winch can only be activated once the scissor lift has been deployed
-    if (driverJoy.GetRawButton(climbScissorJoyBtn)) { //The scissor lift can only be deployed when an operator button is pressed
-      Climb.scissorLift();
-      Climb.changeWinchClimbStatus();
-    }
-  }*/
-
-  /*if (Climb.getWinchClimbStatus()) {
+  if (Climb.getWinchClimbStatus()) {
     Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
-  }*/
+  }
+
+  //Dashboard and Printing
+  Pickup.dashboardPrinter();
+  Climb.dashboardPrinter();
+  Drive.dashboardPrinter();
+  Index.dashboardPrinter();
+  Spinner.dashboardPrinter();
+  Shoot.dashboardPrinter();
+  Limelight.dashboardPrinter();
+
+  /* Pickup.Printer();
+  Climb.Printer();
+  Drive.Printer();
+  Index.Printer();
+  Spinner.Printer();
+  Shoot.Printer(); */
 
   //Logging
   if (logThisTime) {
+    logThisTime = false;
+    logTicker = 0;
+
     Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
                             Spinner.getConfidence(), Climb.getWinchPosition());
