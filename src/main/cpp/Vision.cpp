@@ -11,6 +11,20 @@
 Vision::Vision() {
 
 }
+ 
+ /*
+  Need to update this area so that:
+  if there is a button press, 
+   then if value = 1, set to 0;
+   elseif value = 0, set to 1 
+  endif
+ 
+  Also look at the following option:
+  "stream" Sets limelight’s streaming mode
+  0 Standard - Side-by-side streams if a webcam is attached to Limelight
+  1 PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+  2 PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream
+ */
 
 void Vision::switchPipeline() {
   /*  if(nt::NetworkTableInstance::GetDefault().GetTable("limelight") == 0) {
@@ -19,6 +33,9 @@ void Vision::switchPipeline() {
     else {
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline",1);
     }*/
+
+    /*  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0);
+ nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1); */
 }
 
 void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
