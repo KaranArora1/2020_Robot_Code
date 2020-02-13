@@ -13,6 +13,21 @@ Shooter::Shooter() {
     wrist.SetInverted(true);
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
+
+    shooterPID.SetP(shooterP);
+    slaveShooterPID.SetP(shooterP);
+
+    shooterPID.SetI(shooterI);
+    slaveShooterPID.SetI(shooterI);
+
+    shooterPID.SetD(shooterD);
+    slaveShooterPID.SetD(shooterD);
+
+    shooterPID.SetFF(shooterF);
+    slaveShooterPID.SetFF(shooterF);
+
+    shooterPID.SetIZone(shooterIZone);
+    slaveShooterPID.SetIZone(shooterIZone);
 }
 
 void Shooter::Shoot(double speed) {
@@ -22,8 +37,8 @@ void Shooter::Shoot(double speed) {
 
 //Temporary function
 void Shooter::ShootRPMs() {
-    shooter.Set(-1 * currentRPM/6000);
-    slaveShooter.Set(-1 * currentRPM/6000);
+    shooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
+    slaveShooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
 }
 
 //Temporary function
@@ -33,6 +48,9 @@ void Shooter::incSpeed() {
     if (currentRPM > 6000) {
         currentRPM = 0;
     }
+    else if (currentRPM > 5000) {
+        currentRPM = 5800;
+    } 
 }
 
 void Shooter::moveWrist(double input) {
@@ -71,6 +89,7 @@ void Shooter::Printer() {
 void Shooter::dashboardPrinter() {
     getRPMs();
 
+    frc::SmartDashboard::PutNumber("Difference Between Target and Actual", fabs(currentRPM - shooterEncoder.GetVelocity()));
     frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());

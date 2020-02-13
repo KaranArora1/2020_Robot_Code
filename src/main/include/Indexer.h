@@ -15,8 +15,10 @@ class Indexer {
   void Spin(double, double);
   void pushBall();
   void feedBall(double);
+  void Unjam();
   int getIndexerPosition();
   double getFeederRPM();
+  double getCurrent();
   void Printer();
   void dashboardPrinter();
 

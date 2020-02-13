@@ -61,15 +61,15 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {}
 
 double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
-  if (fabs(input) < .15) {
+  if (fabs(input) < .1) {
     input = 0.0;
     }
   else {
     if (input > 0) {
-      input = (input - .15) / (1 - .15);
+      input = (input - .1) / (1 - .1);
       }
       else {
-        input = (input + .15) / (1 - .15);
+        input = (input + .1) / (1 - .1);
         }
       }
     return input;
@@ -95,10 +95,10 @@ void Robot::TeleopPeriodic() {
   if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {
     Shoot.Shoot(0);
   }
-  else if (operatorJoy.GetRawButtonPressed(shootBtn)) {
+  else if (operatorJoy.GetRawButton(shootBtn)) {
     Shoot.ShootRPMs();
   }
-  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement
+  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement but it will move if the Joystick is tilted
     Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
   }
 
@@ -140,9 +140,6 @@ void Robot::TeleopPeriodic() {
   if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
     Shoot.incSpeed();
   }
-
-
-
 
   // -------------------------------------------------------------------- CLIMBING ------------------------------------------------------------------------------
 

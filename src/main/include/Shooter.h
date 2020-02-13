@@ -29,6 +29,9 @@ class Shooter {
     //Rename this possibly if I don't make it into a slave
     rev::CANSparkMax slaveShooter{slaveShoooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave
 
+    rev::CANPIDController shooterPID = shooter.GetPIDController();
+    rev::CANPIDController slaveShooterPID = slaveShooter.GetPIDController();
+
     WPI_TalonSRX wrist{wristMotorID}; 
     
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();

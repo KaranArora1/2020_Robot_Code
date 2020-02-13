@@ -127,6 +127,12 @@ constexpr int shooterMotorID = 1; //Spark
 constexpr int slaveShoooterMotorID = 2; //Spark
 constexpr int wristMotorID = 3; //SRX Changed from 8
 
+constexpr double shooterP = 0.00006;
+constexpr double shooterI = 0.000001;
+constexpr double shooterD = 0;
+constexpr double shooterIZone = 0;
+constexpr double shooterF = 0.000015;
+
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
 constexpr int feederMotorID = 1; //SRX

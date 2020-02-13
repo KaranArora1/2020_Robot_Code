@@ -16,10 +16,12 @@ Indexer::Indexer() {
 }
 
 void Indexer::Spin(double triggerForward, double triggerReverse) {
-	if (triggerForward > 0 && triggerReverse > 0)
+	if (triggerForward > 0 && triggerReverse > 0) {
     	index.Set(ControlMode::PercentOutput, 0);
-	else
+	}
+	else {
 		index.Set(ControlMode::PercentOutput, triggerForward - triggerReverse);
+	}	
 }
 
 void Indexer::pushBall() {
@@ -35,6 +37,15 @@ void Indexer::feedBall(double speed) {
 	feeder.Set(ControlMode::PercentOutput, speed);
 }
 
+void Indexer::Unjam() {
+
+	if (getCurrent() > 50) {
+		//Get Velocity of indexer to determine direction
+		//Turn it in opposite direction for certain amount of time 
+		//Try turning it into normal direction again
+	}
+}
+
 int Indexer::getIndexerPosition() {
 	return index.GetSelectedSensorPosition(0);
 }
@@ -43,11 +54,17 @@ double Indexer::getFeederRPM() {
 	return feeder.GetSelectedSensorVelocity(0) * velToRPM_SRX;
 }
 
+double Indexer::getCurrent() {
+	return index.GetOutputCurrent();
+}
+
 void Indexer::Printer() {
 	std::cout << "Indexer Position " << getIndexerPosition() << " counts" << std::endl; //Not logged yet
 	std::cout << "Feeder Velocity " << getFeederRPM() << " rpm" << std::endl; //Not logged yet
 	
 	std::cout << "Ball Pusher State: " << ((pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)") << std::endl; //Not logged yet
+
+	std::cout << "Current: " << getCurrent() << " Amps" << std::endl;
 }
 
 void Indexer::dashboardPrinter() {
@@ -56,4 +73,6 @@ void Indexer::dashboardPrinter() {
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
 		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
+	
+	frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
 }
