@@ -33,6 +33,10 @@ Shooter::Shooter() {
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
+    if (shooter.GetOutputCurrent() > 45) { //FIX CURRENT VALUE
+        ballsShot++;
+    }
+
 }
 
 //Temporary function
@@ -94,4 +98,5 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", currentRPM);
+    frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
 }

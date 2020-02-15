@@ -100,6 +100,40 @@ if (distance <= 5.3){
 
 }*/
 
+void Vision::Shoot(Drivetrain Drive, Shooter Shoot, Indexer Index) {
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
+
+    std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
+    float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
+    float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
+    float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
+
+    while (tv == 0.0f) {
+        //Drive.Drive(fwdspeed, trnspeed); //Maybe delete Drivetrain::Drive and just make it Drive since that worked for Arshia
+        tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
+    }
+
+    calculateDistance();
+    Shoot.moveWrist(20000); //Something based on ty value
+    Drive.Drive(1000, 100); //Something based on tx value
+
+    Shoot.Shoot(100000); //Something based on distance away from target
+    Index.feedBall(10000);
+    Index.pushBall(); 
+    Index.Spin(.13, .13);
+
+    // Balls shoot out
+
+    //Turn everything off
+    Index.pushBall();
+    Index.feedBall(0);
+    Shoot.Shoot(0);
+}
+
+double Vision::calculateDistance() {
+    return 0;
+}
+
 void Vision::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Current Limelight Pipeline", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
 }

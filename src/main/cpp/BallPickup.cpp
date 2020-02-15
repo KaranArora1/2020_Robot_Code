@@ -36,6 +36,13 @@ void BallPickup::Pickup(double speed) {
 
 void BallPickup::moveArm(double speed) {
     arm.Set(ControlMode::PercentOutput, speed);
+
+    //Eventually include code for if arm is at out Position make it true and vice versa for if it is at in Pos
+    //Maybe don't have a state variable and just get the position of the motor to return the state
+}
+
+bool BallPickup::getState() {
+    return state;
 }
 
 void BallPickup::Printer() {

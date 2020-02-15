@@ -12,8 +12,8 @@
 #include "frc/DoubleSolenoid.h"
 #include "frc/SerialPort.h" //Lights
 #include "frc/PowerDistributionPanel.h"
-#include "frc/AnalogInput.h"
-#include "frc/TimedRobot.h"
+#include "frc/AnalogInput.h" //Pressure
+#include "frc/TimedRobot.h" 
 #include "frc/smartdashboard/SendableChooser.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "networktables/NetworkTable.h" //Vision
@@ -25,7 +25,7 @@
 #include "ctre/Phoenix.h"
 #include "rev/CANSparkMax.h" //Sparks
 
-/* CONTROLS
+/* CONTROLS (Non-Sequencing)
    Driver: 
    Drive Forward - Left Joystick Y Axis
    Turn - Right Joystick X Axis
@@ -51,6 +51,17 @@
    Indexer Push Ball (Pneumatic) - B Button
 */
 
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/* CONTROLS (Sequencing)
+   Driver:
+
+   Operator:
+
+*/
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 /* There are 7 Mechanisms total (BallPickup, Climber, Drivetrain, Indexer, PanelSpinner, Indicator Lights, and Shooter). 
    There are 4 Helper Programs (Logger, MyTimer, Vision, and YourTimer). 
    We are logging data from Climber(1 field), Drivetrain(4 fields x 4 motors), PanelSpinner(1 x 3), and Shooter(3 x 3)*/
@@ -65,7 +76,9 @@ constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from cou
 constexpr int pdpID = 0;
 constexpr int pressureID = 0; //FIX
 
-//Joystick
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Joystick - Non Sequencing
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
 constexpr int operatorJoyUSBPort = 1;
 
@@ -94,6 +107,15 @@ constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator)
 constexpr int indexPusherBtn = 2; //B (Operator)
 
 constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Joystick - Sequencing
+constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
+
+constexpr int activateVisionShootingBtnSequence = 3; //X Button (Operator)
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Drivetrain
 constexpr int frontLeftMotorID = 12; //FX

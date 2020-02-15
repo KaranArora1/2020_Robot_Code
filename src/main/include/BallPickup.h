@@ -15,6 +15,7 @@ class BallPickup {
   BallPickup();
   void Pickup(double);
   void moveArm(double);
+  bool getState();
   void Printer();
   void dashboardPrinter();
  
@@ -24,4 +25,6 @@ class BallPickup {
 
   //New Code
   frc::DoubleSolenoid extndBallIntake{PCMID, 1000000, 1000000}; //Fix
+
+  bool state = false;
 };

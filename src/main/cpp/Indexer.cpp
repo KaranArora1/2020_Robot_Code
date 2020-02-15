@@ -40,9 +40,9 @@ void Indexer::feedBall(double speed) {
 void Indexer::Unjam() {
 
 	if (getCurrent() > 50) {
-		//Get Velocity of indexer to determine direction
-		//Turn it in opposite direction for certain amount of time 
-		//Try turning it into normal direction again
+		frc::Wait(.3); //Is this Wait needed? Does it work? FIX
+		index.Set(ControlMode::PercentOutput, -.5); //Maybe get state variablke saying if Indexer is jammed and put it inside Robot.cpp? Maybe Just call Unjam over and voer again in Robot Code or call it from Spin. Not sure
+		frc::Wait(.4); //FIX
 	}
 }
 

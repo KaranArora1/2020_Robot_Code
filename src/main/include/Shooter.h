@@ -43,4 +43,5 @@ class Shooter {
     //Temporary
     int incRPM = 1000;
     int currentRPM = 0;
+    int ballsShot = 0;
 };

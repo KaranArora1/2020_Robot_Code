@@ -9,15 +9,20 @@
 
 #include "RobotMap.h"
 #include "Drivetrain.h"
+#include "Shooter.h"
+#include "Indexer.h"
+//#include "IndicatorLights.h"
 
 class Vision {
  public:
   Vision();
   void Run(double, double);
+  void Shoot(Drivetrain Drive, Shooter Shoot, Indexer Index);
+  double calculateDistance();
   void switchPipeline();
   void dashboardPrinter();
  
  private:
   float tv, tx, ty;
-  float shooterang, distance;
+  float shooterAngle, distance;
 };

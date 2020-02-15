@@ -84,81 +84,129 @@ void Robot::TeleopPeriodic() {
 	
   if(logTicker == logInterval) {
 		logThisTime = true;
-	}
+	}  
+  
+  // ------------------------------------------------------------------ SEQUENCING CHANNELS ---------------------------------------------------------------------------
 
-  // ---------------------------------------------------------------------- CHANNELS ---------------------------------------------------------------------------------
+  if (sequencingConfig) {
+    
+  // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
-  //Drive
-  Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
+    /* 3- after carousel full, stop carousel
+        3- turn on ball carousel CCW  (& set LED feedback)
+    Carousel - clear a jam
 
-  //Shooter
-  if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {
-    Shoot.Shoot(0);
-  }
-  else if (operatorJoy.GetRawButton(shootBtn)) {
-    Shoot.ShootRPMs();
-  }
-  else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement but it will move if the Joystick is tilted
-    Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+    */
+
+    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { //Changes state of arm boolean
+      Pickup.moveArm(100000000000); //Fix
+
+      if (Pickup.getState()) { //Acts if arm is extended
+        Pickup.Pickup(1);
+        Index.Spin(.13, .13); //FIGURE OUT WHEN TO GO REVERSE FIX
+      }
+      else {
+        Pickup.Pickup(0);
+        Index.Spin(0, 0);
+      }
+    }
+
+    if (operatorJoy.GetRawButtonPressed(activateVisionShootingBtnSequence)) {
+      //Limelight.Shoot(Drive, Shoot, Index, Lights);
+    }
+    
+
+
+    
+  // ----------------------------------------------------------------- SEQUENCING CLIMBING ----------------------------------------------------------------------------
+
   }
 
-  //Pickup
-  if (driverJoy.GetRawButtonPressed(ballPickupMoveArmReverseJoyBtn)) {
-    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
-  }
+  // ---------------------------------------------------------------------- END ---------------------------------------------------------------------------------------
+
+
+
+
+  
+  // ---------------------------------------------------------------- NON-SEQUENCING CHANNELS -------------------------------------------------------------------------
+  
   else {
-    Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * -0.3);
-  }
+    //Drive
+    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
 
-  Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
+    //Shooter
+    if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {
+      Shoot.Shoot(0);
+    }
+    else if (operatorJoy.GetRawButton(shootBtn)) {
+      Shoot.ShootRPMs();
+    }
+    else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement but it will move if the Joystick is tilted
+      Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+    }
 
-  //Index
-  Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexFwdJoyChl)) * 0.13, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.13); //Maybe take out Deadzone? 
-  Index.feedBall(-1 * operatorJoy.GetRawAxis(indexJoyFeederChl));
+    //Pickup
+    if (driverJoy.GetRawButtonPressed(ballPickupMoveArmReverseJoyBtn)) {
+      Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
+    }
+    else {
+      Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * -0.3);
+    }
 
-  //Add deployArm? assign them to buttons
+    Pickup.Pickup(Deadzone(-1*(operatorJoy.GetRawAxis(ballPickupJoyChl))));
 
-  // ---------------------------------------------------------------------- BUTTONS --------------------------------------------------------------------------------
+    //Index
+    Index.Spin(Deadzone(operatorJoy.GetRawAxis(indexFwdJoyChl)) * 0.13, Deadzone(operatorJoy.GetRawAxis(indexReverseJoyChl)) * 0.13); //Maybe take out Deadzone? 
+    Index.feedBall(-1 * operatorJoy.GetRawAxis(indexJoyFeederChl));
 
-  if (driverJoy.GetRawButtonPressed(switchVisionPipelineBtn)) {
-    Limelight.switchPipeline();
-  }
+    //Add deployArm from PanelSpinner? assign them to buttons
 
-  Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
+  // --------------------------------------------------------------- NON-SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
-  //Drivetrain (Shifter)
-  if (driverJoy.GetRawButtonPressed(shifterBtn)) {
-    Drive.Shift();
-  }
+    if (driverJoy.GetRawButtonPressed(switchVisionPipelineBtn)) {
+      Limelight.switchPipeline();
+    }
 
-  //Pneumatic on Indexer
-  if (operatorJoy.GetRawButtonPressed(indexPusherBtn)) {
-    Index.pushBall();
-  }
+    Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
 
-  //Shooter (RPM Version)
-  if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
-    Shoot.incSpeed();
-  }
+    //Drivetrain (Shifter)
+    if (driverJoy.GetRawButtonPressed(shifterBtn)) {
+      Drive.Shift();
+    }
 
-  // -------------------------------------------------------------------- CLIMBING ------------------------------------------------------------------------------
+    //Pneumatic on Indexer
+    if (operatorJoy.GetRawButtonPressed(indexPusherBtn)) {
+      Index.pushBall();
+    }
 
-  //Change Climb Status
-  if (driverJoy.GetRawButtonPressed(climbStatusBtn)) {
-    Climb.changeScissorClimbStatus();
-  }
+    //Shooter (RPM Version)
+    if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
+      Shoot.incSpeed();
+    }
 
-  //Climbing
-  if (Climb.getScissorClimbStatus()) {
-    if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
-      Climb.scissorLift();
-      Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
+  // -------------------------------------------------------------- NON-SEQUENCING CLIMBING -----------------------------------------------------------------------------
+
+    //Change Climb Status
+    if (driverJoy.GetRawButtonPressed(climbStatusBtn)) {
+      Climb.changeScissorClimbStatus();
+    }
+
+    //Climbing
+    if (Climb.getScissorClimbStatus()) {
+      if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
+        Climb.scissorLift();
+        Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
+      }
+    }
+
+    if (Climb.getWinchClimbStatus()) {
+      Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
     }
   }
 
-  if (Climb.getWinchClimbStatus()) {
-    Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
-  }
+  // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
+
+
 
   //Dashboard and Printing
   Pickup.dashboardPrinter();
