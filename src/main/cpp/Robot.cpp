@@ -82,7 +82,7 @@ void Robot::TeleopPeriodic() {
 
 	logTicker++;
 	
-  if(logTicker == logInterval) {
+  if (logTicker == logInterval) {
 		logThisTime = true;
 	}  
   
@@ -95,15 +95,16 @@ void Robot::TeleopPeriodic() {
     /* 3- after carousel full, stop carousel
         3- turn on ball carousel CCW  (& set LED feedback)
     Carousel - clear a jam
+    Shoot low (visual only)
 
     */
 
     if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { //Changes state of arm boolean
-      Pickup.moveArm(100000000000); //Fix
+      Pickup.moveArm(); 
 
       if (Pickup.getState()) { //Acts if arm is extended
-        Pickup.Pickup(1);
-        Index.Spin(.13, .13); //FIGURE OUT WHEN TO GO REVERSE FIX
+        Pickup.Pickup(.75);
+        Index.Spin(.13, 0); //FIGURE OUT WHEN TO GO REVERSE FIX
       }
       else {
         Pickup.Pickup(0);
@@ -113,13 +114,32 @@ void Robot::TeleopPeriodic() {
 
     if (operatorJoy.GetRawButtonPressed(activateVisionShootingBtnSequence)) {
       //Limelight.Shoot(Drive, Shoot, Index, Lights);
+      Index.Spin(0, .13);
+      Limelight.switchPipeline();
     }
+
+  
     
 
 
     
   // ----------------------------------------------------------------- SEQUENCING CLIMBING ----------------------------------------------------------------------------
+    //Change Climb Status
+      if (driverJoy.GetRawButtonPressed(climbStatusBtn)) {
+        Climb.changeScissorClimbStatus();
+      }
 
+      //Climbing
+      if (Climb.getScissorClimbStatus()) {
+        if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
+          Climb.scissorLift();
+          Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
+        }
+      }
+
+      if (Climb.getWinchClimbStatus()) {
+        Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
+      }
   }
 
   // ---------------------------------------------------------------------- END ---------------------------------------------------------------------------------------

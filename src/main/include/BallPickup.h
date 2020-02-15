@@ -14,8 +14,10 @@ class BallPickup {
  public:
   BallPickup();
   void Pickup(double);
+  void moveArm();
   void moveArm(double);
   bool getState();
+  int getPickupArmPosition();
   void Printer();
   void dashboardPrinter();
  

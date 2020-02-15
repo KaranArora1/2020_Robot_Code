@@ -46,7 +46,7 @@ class Robot : public frc::TimedRobot {
     IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
     Vision Limelight{};
 
-    bool sequencingConfig = false;
+    bool sequencingConfig = true;
     bool logThisTime = false;
     int logTicker = 0;
     int logInterval = 20;

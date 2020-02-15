@@ -8,41 +8,46 @@
 #include "BallPickup.h"
 
 BallPickup::BallPickup() {
-   //Encoder should be here I think
+    arm.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    arm.SetSelectedSensorPosition(0);
+
+    pickup.Config_kP(0, pickupP, 10);
+    pickup.Config_kI(0, pickupI, 10);
+    pickup.Config_kD(0, pickupD, 10);
+    pickup.Config_kF(0, pickupF, 10);
+
+    arm.ConfigPeakOutputForward(0.75);
 }
 
 void BallPickup::Pickup(double speed) {
     
     pickup.Set(ControlMode::PercentOutput, speed);
-
-    /*//New Code
-    if (speed > 0) {
-        extndBallIntake.Set(frc::DoubleSolenoid::Value::kForward);
-        pickup.Set(ControlMode::PercentOutput, speed);
-        Index.Spin(speed/2);
-    }
-    else if (speed == 0) {
-        extndBallIntake.Set(frc::DoubleSolenoid::Value::kReverse);
-        
-    }
-    else if (speed < 0) {
-        extndBallIntake.Set(frc::DoubleSolenoid::Value::kForward);
-        pickup.Set(ControlMode::PercentOutput, speed * -1);   
-    }*/
     
-    //Printer();
-    dashboardPrinter();
+}
+
+void BallPickup::moveArm() {
+    if (state) {
+        //arm.Set(ControlMode::Position, posRetract);
+        arm.Set(ControlMode::Position, 0);
+        state = false;
+    }
+    else { //shooter to
+        //arm.Set(ControlMode::Position, posPOut);
+        arm.Set(ControlMode::Position, 500);
+        state = true;
+    }
 }
 
 void BallPickup::moveArm(double speed) {
     arm.Set(ControlMode::PercentOutput, speed);
-
-    //Eventually include code for if arm is at out Position make it true and vice versa for if it is at in Pos
-    //Maybe don't have a state variable and just get the position of the motor to return the state
 }
 
 bool BallPickup::getState() {
     return state;
+}
+
+int BallPickup::getPickupArmPosition() {
+    return arm.GetSelectedSensorPosition(0);
 }
 
 void BallPickup::Printer() {
@@ -50,5 +55,5 @@ void BallPickup::Printer() {
 }
 
 void BallPickup::dashboardPrinter() {
-    
+    frc::SmartDashboard::PutNumber("Arm Position Counts", getPickupArmPosition());
 }

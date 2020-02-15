@@ -57,6 +57,8 @@
    Driver:
 
    Operator:
+   Y Button is Pickup
+   X Button is Vision Shoot
 
 */
 
@@ -114,6 +116,7 @@ constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
 
 constexpr int activateVisionShootingBtnSequence = 3; //X Button (Operator)
+constexpr int cancelVisionBtnSequence = 8; //Menu Button (Operator)
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -133,6 +136,12 @@ constexpr int winchMotorID = 4; //SRX
 //Ball Pickup
 constexpr int pickupMotorID = 0; //SRX
 constexpr int armMotorID = 8; //SRX Changed from  3
+constexpr double pickupP = 1; 
+constexpr double pickupI = 0;
+constexpr double pickupD = 0; 
+constexpr double pickupF = 0;
+constexpr double posRetract = 3650;
+constexpr double posPOut = 4150; 
 
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
