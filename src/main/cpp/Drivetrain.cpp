@@ -9,15 +9,15 @@
 
 Drivetrain::Drivetrain() {
     //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
-    //back_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    //back_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    //front_left.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    //front_right.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
+    backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
+    frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
+    frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
 
-    backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
-    frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
+    backLeft.ConfigClosedloopRamp(2, 10);
+    backRight.ConfigClosedloopRamp(2, 10);
+    frontLeft.ConfigClosedloopRamp(2, 10);
+    frontRight.ConfigClosedloopRamp(2, 10);
   
     frontRight.SetSelectedSensorPosition(0);
     backRight.SetSelectedSensorPosition(0);
@@ -36,42 +36,39 @@ void Drivetrain::Drive(double forward, double turn) {
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
 }
 
+//kForward = 2nd Gear, kReverse = 1st Gear
 void Drivetrain::Shift() {
     if (shifter.Get() == frc::DoubleSolenoid::Value::kForward) {
 		shifter.Set(frc::DoubleSolenoid::Value::kReverse);
-		//currentGear = 2;
-		//gearHasChanged = true;
 	}
     else {
 		shifter.Set(frc::DoubleSolenoid::Value::kForward);
-		//currentGear = 1;
-		//gearHasChanged = true;
 	}
 }
 
 int * Drivetrain::getPositions() {
-    positions[0] = backLeft.GetSelectedSensorPosition(0);
-    positions[1] = frontLeft.GetSelectedSensorPosition(0);
-    positions[2] = backRight.GetSelectedSensorPosition(0);
-    positions[3] = frontRight.GetSelectedSensorPosition(0);
+    positions[0] = backLeft.GetSelectedSensorPosition(1);
+    positions[1] = frontLeft.GetSelectedSensorPosition(1);
+    positions[2] = backRight.GetSelectedSensorPosition(1);
+    positions[3] = frontRight.GetSelectedSensorPosition(1);
 
     return positions;
 }
 
 int * Drivetrain::getVelocities() {
-    velocities[0] = backLeft.GetSelectedSensorVelocity(0);
-    velocities[1] = frontLeft.GetSelectedSensorVelocity(0);
-    velocities[2] = backRight.GetSelectedSensorVelocity(0);
-    velocities[3] = frontRight.GetSelectedSensorVelocity(0);
+    velocities[0] = backLeft.GetSelectedSensorVelocity(1);
+    velocities[1] = frontLeft.GetSelectedSensorVelocity(1);
+    velocities[2] = backRight.GetSelectedSensorVelocity(1);
+    velocities[3] = frontRight.GetSelectedSensorVelocity(1);
 
     return velocities;
 }
 
 double * Drivetrain::getRPMs() {
-    rpms[0] = backLeft.GetSelectedSensorVelocity(0) * velToRPM_FX;
-    rpms[1] = frontLeft.GetSelectedSensorVelocity(0) * velToRPM_FX;
-    rpms[2] = backRight.GetSelectedSensorVelocity(0) * velToRPM_FX;
-    rpms[3] = frontRight.GetSelectedSensorVelocity(0) * velToRPM_FX;
+    rpms[0] = backLeft.GetSelectedSensorVelocity(1) * velToRPM_FX;
+    rpms[1] = frontLeft.GetSelectedSensorVelocity(1) * velToRPM_FX;
+    rpms[2] = backRight.GetSelectedSensorVelocity(1) * velToRPM_FX;
+    rpms[3] = frontRight.GetSelectedSensorVelocity(1) * velToRPM_FX;
 
     return rpms;
 }
@@ -130,23 +127,23 @@ void Drivetrain::dashboardPrinter() {
     getRPMs();
     getCurrents();
 
-    /*frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
-    frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
+    /*frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);*/
     frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
 
-    /*frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
-    frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
+    /*frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);*/
     frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
 
-    /*frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
-    frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
+    /*frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);*/
     frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
 
-    /*frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
-    frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
+    /*frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);*/
     frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 

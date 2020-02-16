@@ -17,7 +17,7 @@ class Vision {
  public:
   Vision();
   void Run(double, double);
-  void Shoot(Drivetrain Drive, Shooter Shoot, Indexer Index);
+  void Shoot(Drivetrain, Shooter, Indexer);
   double calculateDistance();
   void switchPipeline();
   void dashboardPrinter();

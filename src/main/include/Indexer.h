@@ -15,7 +15,8 @@ class Indexer {
   void Spin(double, double);
   void pushBall();
   void feedBall(double);
-  void Unjam();
+  void Divet();
+  void setDivetTime(int);
   int getIndexerPosition();
   double getFeederRPM();
   double getCurrent();
@@ -26,4 +27,6 @@ class Indexer {
   WPI_TalonSRX index{indexerMotorID};
   WPI_TalonSRX feeder{feederMotorID};
   frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKForward, pusherKReverse};
+  double divetTime = 0;
+  double realTime = 0;
 };

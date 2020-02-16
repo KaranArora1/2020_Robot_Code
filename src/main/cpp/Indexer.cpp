@@ -35,15 +35,26 @@ void Indexer::pushBall() {
 
 void Indexer::feedBall(double speed) {
 	feeder.Set(ControlMode::PercentOutput, speed);
+} 
+
+void Indexer::Divet() {
+
+	divetTime += 1;
+
+	realTime = (divetTime * 20) / 1000;
+
+	if ((realTime > 3) && (realTime < 3.5)) {
+		Spin(0, .13);
+	}
+
+	else if (realTime > 3.5) {
+		Spin(.13, 0);
+		divetTime = 0;
+	}
 }
 
-void Indexer::Unjam() {
-
-	if (getCurrent() > 50) {
-		frc::Wait(.3); //Is this Wait needed? Does it work? FIX
-		index.Set(ControlMode::PercentOutput, -.5); //Maybe get state variablke saying if Indexer is jammed and put it inside Robot.cpp? Maybe Just call Unjam over and voer again in Robot Code or call it from Spin. Not sure
-		frc::Wait(.4); //FIX
-	}
+void Indexer::setDivetTime(int time) {
+	divetTime = time;
 }
 
 int Indexer::getIndexerPosition() {
@@ -70,9 +81,11 @@ void Indexer::Printer() {
 void Indexer::dashboardPrinter() {
 	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getIndexerPosition());
 	frc::SmartDashboard::PutNumber("Feeder Velocity (rpm)", getFeederRPM());
+	frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
 		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
-	
-	frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
+	frc::SmartDashboard::PutNumber("Divet Time", divetTime);
+	frc::SmartDashboard::PutNumber("Real Time", realTime);
+	frc::SmartDashboard::PutNumber("Index Get", index.GetOutputCurrent());
 }

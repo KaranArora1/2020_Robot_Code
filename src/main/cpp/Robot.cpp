@@ -60,16 +60,16 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
-  if (fabs(input) < .1) {
+double Robot::Deadzone(double input, double target) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
+  if (fabs(input) < target) {
     input = 0.0;
     }
   else {
     if (input > 0) {
-      input = (input - .1) / (1 - .1);
+      input = (input - target) / (1 - target);
       }
       else {
-        input = (input + .1) / (1 - .1);
+        input = (input + target) / (1 - target);
         }
       }
     return input;
@@ -89,6 +89,7 @@ void Robot::TeleopPeriodic() {
   // ------------------------------------------------------------------ SEQUENCING CHANNELS ---------------------------------------------------------------------------
 
   if (sequencingConfig) {
+    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl), .075), Deadzone(driverJoy.GetRawAxis(trnJoyChl), .075) * 0.35);
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
@@ -103,13 +104,18 @@ void Robot::TeleopPeriodic() {
       Pickup.moveArm(); 
 
       if (Pickup.getState()) { //Acts if arm is extended
-        Pickup.Pickup(.75);
-        Index.Spin(.13, 0); //FIGURE OUT WHEN TO GO REVERSE FIX
+        //Pickup.Pickup(.75);
+        Index.Spin(.13, 0); 
       }
       else {
         Pickup.Pickup(0);
         Index.Spin(0, 0);
+        Index.setDivetTime(0);
       }
+    }
+
+    if (Pickup.getState()) {
+      Index.Divet();
     }
 
     if (operatorJoy.GetRawButtonPressed(activateVisionShootingBtnSequence)) {
@@ -118,10 +124,10 @@ void Robot::TeleopPeriodic() {
       Limelight.switchPipeline();
     }
 
-  
-    
-
-
+    //Drivetrain (Shifter)
+    if (driverJoy.GetRawButtonPressed(shifterBtn)) {
+      Drive.Shift();
+    }
     
   // ----------------------------------------------------------------- SEQUENCING CLIMBING ----------------------------------------------------------------------------
     //Change Climb Status

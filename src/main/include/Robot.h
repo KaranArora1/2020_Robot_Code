@@ -28,7 +28,7 @@ class Robot : public frc::TimedRobot {
     void TeleopInit() override;
     void TeleopPeriodic() override;
     void TestPeriodic() override;
-    double Deadzone(double);
+    double Deadzone(double, double);
 
   private:
     frc::Joystick driverJoy{driverJoyUSBPort};
