@@ -122,8 +122,8 @@ constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 //Joystick - Sequencing
 constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
 
-constexpr int activateVisionShootingBtnSequence = 3; //X Button (Operator)
-constexpr int cancelVisionBtnSequence = 8; //Menu Button (Operator)
+constexpr int activateVisionShootHighBtnSequence = 3; //X Button (Operator)
+constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

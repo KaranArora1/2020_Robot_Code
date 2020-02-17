@@ -44,6 +44,9 @@ Drivetrain::Drivetrain() {
     //Update gears one and two on SmartDashboard using Micheal hack and also update Climber
     //Follower motors for Drivetrain? 
     //Make function for shooter so that it can use bumpers to change it's wrist position
+    //When scissor is deployed make max speed small and bot on first gear
+    //remove getWinchCanBeDeployedStatus from code, not needed
+    //Have Micheal Help me pass objects in Viision and Climber
 }
 
 void Drivetrain::Drive(double forward, double turn) {
@@ -57,7 +60,7 @@ void Drivetrain::Drive(double forward, double turn) {
     frontRight.Set(ControlMode::PercentOutput, rightThrot);
 }
 
-//kForward = 2nd Gear, kReverse = 1st Gear
+//kForward = 2nd Gear, kReverse = 1st Gear CONFIRM THIS IS RIGHT
 void Drivetrain::Shift() {
     if (shifter.Get() == frc::DoubleSolenoid::Value::kForward) {
 		shifter.Set(frc::DoubleSolenoid::Value::kReverse);
@@ -65,6 +68,15 @@ void Drivetrain::Shift() {
     else {
 		shifter.Set(frc::DoubleSolenoid::Value::kForward);
 	}
+}
+
+void Drivetrain::setGear(int gear) {
+    if (gear == 1) {
+        shifter.Set(frc::DoubleSolenoid::Value::kReverse);
+    }
+    else if (gear == 2) {
+        shifter.Set(frc::DoubleSolenoid::Value::kForward);
+    }
 }
 
 int * Drivetrain::getPositions() {

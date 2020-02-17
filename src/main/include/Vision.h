@@ -17,13 +17,19 @@ class Vision {
  public:
   Vision();
   void Run(double, double);
-  void Shoot(Drivetrain, Shooter, Indexer);
+  void setupShootHigh(Drivetrain, Shooter);
+  void shootHigh(Shooter, Indexer);
+  void shootLow(Drivetrain, Shooter, Indexer);
   double calculateDistance();
   void switchPipeline();
+  void toggleShootHighStatus();
+  enableStatus getShootHighStatus();
   void Printer();
   void dashboardPrinter();
  
  private:
   float tv, tx, ty;
   float shooterAngle, distance;
+
+  enableStatus shootHighStatus = DISABLED;
 };

@@ -8,16 +8,18 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "Drivetrain.h"
 
 class Climber {
  public:
   Climber();
   void Climb(double);
-  void scissorLift();
-  void changeScissorClimbStatus();
-  void changeWinchClimbStatus();
-  enableStatus getScissorClimbStatus();
-  enableStatus getWinchClimbStatus();
+  void scissorLift(Drivetrain);
+  void toggleScissorCanBeDeployedStatus();
+  void toggleWinchCanBeDeployedStatus();
+  enableStatus getScissorCanBeDeployedStatus();
+  enableStatus getWinchCanBeDeployedStatus();
+  positionStatus getScissorLiftStatus();
   int getWinchPosition();
   void Printer();
   void dashboardPrinter();
@@ -29,6 +31,8 @@ class Climber {
 
   frc::DoubleSolenoid scissor{PCMID, 1, 6};
   
-  enableStatus scissorClimbStatus = DISABLED;
-  enableStatus winchClimbStatus = DISABLED;
+  enableStatus scissorCanBeDeployedStatus = DISABLED;
+  enableStatus winchCanBeDeployedStatus = DISABLED;
+
+  positionStatus scissorLiftStatus = RETRACTED;
 };

@@ -38,7 +38,7 @@ void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
 
     while (tv == 0.0f) {
-        Drive.Drive(fwdspeed, trnspeed); //Maybe delete Drivetrain::Drive and just make it Drive since that worked for Arshia
+        Drive.Drive(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
     }
 
@@ -94,34 +94,60 @@ if (distance <= 5.3){
 
 }*/
 
-void Vision::Shoot(Drivetrain Drive, Shooter Shoot, Indexer Index) {
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
+void Vision::setupShootHigh(Drivetrain Drive, Shooter Shoot) {
+    //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
+
+    switchPipeline();
 
     std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
     float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
     float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
 
-    while (tv == 0.0f) {
-        //Drive.Drive(fwdspeed, trnspeed); //Maybe delete Drivetrain::Drive and just make it Drive since that worked for Arshia
-        tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
-    }
+    Shoot.moveWrist(20000); //Something based on ty value (position limelight)
 
     calculateDistance();
-    Shoot.moveWrist(20000); //Something based on ty value
-    Drive.Drive(1000, 100); //Something based on tx value
 
-    Shoot.Shoot(100000); //Something based on distance away from target
-    Index.feedBall(10000);
+    Drive.Drive(1000, 100); //Something based on tx value (orient robot)
+    switchPipeline();
+}
+
+void Vision::shootHigh(Shooter Shoot, Indexer Index) {
+    switchPipeline();
+
+    Shoot.moveWrist(20000); //Orient SHOOTER to actual position it would need to be to make target
+
+    Shoot.Shoot(100000); //Something based on distance away from target, calculateDistance()? 
+    Index.Spin(0, 0); //Move Indexer to first position to shoot
     Index.pushBall(); 
-    Index.Spin(.13, .13);
+    Index.feedBall(10000);
 
-    // Balls shoot out
+    // 5 Balls shoot out somehow
 
     //Turn everything off
+    Shoot.moveWrist(0);
     Index.pushBall();
     Index.feedBall(0);
     Shoot.Shoot(0);
+
+    switchPipeline();
+}
+
+void Vision::shootLow(Drivetrain Drive, Shooter Shoot, Indexer Index) {
+
+}
+
+void Vision::toggleShootHighStatus() {
+    if (shootHighStatus == ENABLED) {
+        shootHighStatus = DISABLED;
+    }
+    else {
+        shootHighStatus = ENABLED;
+    }
+}
+
+enableStatus Vision::getShootHighStatus() {
+    return shootHighStatus;
 }
 
 double Vision::calculateDistance() {

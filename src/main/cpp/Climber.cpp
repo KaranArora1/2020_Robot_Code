@@ -16,39 +16,47 @@ void Climber::Climb(double speed) { //Eventually will be a follower with no para
     winch.Set(ControlMode::PercentOutput, speed);
 }
 
-void Climber::scissorLift() { 
+void Climber::scissorLift(Drivetrain Drive) { 
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
-		scissor.Set(frc::DoubleSolenoid::Value::kReverse);
+		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward
+        scissorLiftStatus = RETRACTED;
 	}
     else {
 		scissor.Set(frc::DoubleSolenoid::Value::kForward);
+        scissorLiftStatus = EXTENDED;
+        Drive.setGear(1);
+        //Set peak output much lower
 	}
 }
 
-void Climber::changeScissorClimbStatus() {
-    if (scissorClimbStatus == ENABLED) {
-        scissorClimbStatus = DISABLED;
+void Climber::toggleScissorCanBeDeployedStatus() {
+    if (scissorCanBeDeployedStatus == ENABLED) {
+        scissorCanBeDeployedStatus = DISABLED;
     }
     else {
-        scissorClimbStatus = ENABLED;
+        scissorCanBeDeployedStatus = ENABLED;
     }
 }
 
-void Climber::changeWinchClimbStatus() {
-    if (winchClimbStatus == ENABLED) {
-        winchClimbStatus = DISABLED;
+void Climber::toggleWinchCanBeDeployedStatus() {
+    if (winchCanBeDeployedStatus == ENABLED) {
+        winchCanBeDeployedStatus = DISABLED;
     }
     else {
-        winchClimbStatus = ENABLED;
+        winchCanBeDeployedStatus = ENABLED;
     }
 }
 
-enableStatus Climber::getScissorClimbStatus() {
-    return scissorClimbStatus; //Not logged 
+enableStatus Climber::getScissorCanBeDeployedStatus() {
+    return scissorCanBeDeployedStatus; //Not logged 
 }
 
-enableStatus Climber::getWinchClimbStatus() {
-    return winchClimbStatus; //Not logged
+enableStatus Climber::getWinchCanBeDeployedStatus() {
+    return winchCanBeDeployedStatus; //Not logged
+}
+
+positionStatus Climber::getScissorLiftStatus() {
+    return scissorLiftStatus;
 }
 
 int Climber::getWinchPosition() {

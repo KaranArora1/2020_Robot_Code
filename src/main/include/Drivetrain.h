@@ -15,6 +15,7 @@ class Drivetrain {
     void Drive(double, double);
     void Vision(double, double);
     void Shift();
+    void setGear(int);
     int * getPositions();
     int * getVelocities();
     double * getRPMs();
