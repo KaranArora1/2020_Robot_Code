@@ -13,12 +13,6 @@ Vision::Vision() {
 }
  
  /*
-  Need to update this area so that:
-  if there is a button press, 
-   then if value = 1, set to 0;
-   elseif value = 0, set to 1 
-  endif
- 
   Also look at the following option:
   "stream" Sets limelight’s streaming mode
   0 Standard - Side-by-side streams if a webcam is attached to Limelight
@@ -134,7 +128,11 @@ double Vision::calculateDistance() {
     return 0;
 }
 
+void Vision::Printer() {
+    std::cout << "Current Limelight Pipeline Number " << nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0) << std::endl;
+}
+
 void Vision::dashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Current Limelight Pipeline", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
+    frc::SmartDashboard::PutNumber("Current Limelight Pipeline Number", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
 }
 

@@ -16,7 +16,7 @@ class BallPickup {
   void Pickup(double);
   void moveArm();
   void moveArm(double);
-  bool getState();
+  positionStatus getState();
   int getPickupArmPosition();
   void Printer();
   void dashboardPrinter();
@@ -25,8 +25,5 @@ class BallPickup {
   WPI_TalonSRX pickup{pickupMotorID};
   WPI_TalonSRX arm{armMotorID};
 
-  //New Code
-  frc::DoubleSolenoid extndBallIntake{PCMID, 1000000, 1000000}; //Fix
-
-  bool state = false;
+  positionStatus state = RETRACTED;
 };

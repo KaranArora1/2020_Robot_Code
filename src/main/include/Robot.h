@@ -28,14 +28,14 @@ class Robot : public frc::TimedRobot {
     void TeleopInit() override;
     void TeleopPeriodic() override;
     void TestPeriodic() override;
-    double Deadzone(double, double);
+    double Deadzone(double);
 
   private:
     frc::Joystick driverJoy{driverJoyUSBPort};
     frc::Joystick operatorJoy{operatorJoyUSBPort};
 
     frc::PowerDistributionPanel pdp{pdpID};
-    frc::AnalogInput pressure{pressureID};
+    frc::AnalogInput pressure{pressureTransducerID};
 
     Drivetrain Drive{};
     Shooter Shoot{};
@@ -46,7 +46,8 @@ class Robot : public frc::TimedRobot {
     IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
     Vision Limelight{};
 
-    bool sequencingConfig = true;
+    enableStatus sequencingConfig = ENABLED;
+    
     bool logThisTime = false;
     int logTicker = 0;
     int logInterval = 20;

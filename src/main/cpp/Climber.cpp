@@ -26,28 +26,28 @@ void Climber::scissorLift() {
 }
 
 void Climber::changeScissorClimbStatus() {
-    if (scissorClimbStatus) {
-        scissorClimbStatus = false;
+    if (scissorClimbStatus == ENABLED) {
+        scissorClimbStatus = DISABLED;
     }
     else {
-        scissorClimbStatus = true;
+        scissorClimbStatus = ENABLED;
     }
 }
 
 void Climber::changeWinchClimbStatus() {
-    if (winchClimbStatus) {
-        winchClimbStatus = false;
+    if (winchClimbStatus == ENABLED) {
+        winchClimbStatus = DISABLED;
     }
     else {
-        winchClimbStatus = true;
+        winchClimbStatus = ENABLED;
     }
 }
 
-bool Climber::getScissorClimbStatus() {
+enableStatus Climber::getScissorClimbStatus() {
     return scissorClimbStatus; //Not logged 
 }
 
-bool Climber::getWinchClimbStatus() {
+enableStatus Climber::getWinchClimbStatus() {
     return winchClimbStatus; //Not logged
 }
 
@@ -63,6 +63,6 @@ void Climber::Printer() {
 
 void Climber::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
-    frc::SmartDashboard::PutBoolean("Scissor Climb Status", getScissorClimbStatus());
+    frc::SmartDashboard::PutBoolean("Scissor Climb Status", getScissorClimbStatus()); //FIX WITH ENUMS ( USE MICHEAL STRAT)
     frc::SmartDashboard::PutBoolean("Winch Climb Status", getWinchClimbStatus());
 }

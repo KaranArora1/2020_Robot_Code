@@ -29,6 +29,7 @@ void PanelSpinner::spinRevolutions(double speed) { //Eventually Parameter for sp
 }
 
 void PanelSpinner::spinToColor(double speed) {
+
 }
 
 double PanelSpinner::getConfidence() { //Is this fine? 

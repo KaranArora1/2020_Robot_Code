@@ -15,7 +15,7 @@ Indexer::Indexer() {
 	feeder.SetSelectedSensorPosition(0);
 }
 
-void Indexer::Spin(double triggerForward, double triggerReverse) {
+void Indexer::Spin(double triggerForward, double triggerReverse) { //Maybe make overloaded method for this? Only one argument is needed when operator is not controlling Indexer
 	if (triggerForward > 0 && triggerReverse > 0) {
     	index.Set(ControlMode::PercentOutput, 0);
 	}
@@ -40,7 +40,6 @@ void Indexer::feedBall(double speed) {
 void Indexer::Divet() {
 
 	divetTime += 1;
-
 	realTime = (divetTime * 20) / 1000;
 
 	if ((realTime > 3) && (realTime < 3.5)) {
@@ -71,7 +70,7 @@ double Indexer::getCurrent() {
 
 void Indexer::Printer() {
 	std::cout << "Indexer Position " << getIndexerPosition() << " counts" << std::endl; //Not logged yet
-	std::cout << "Feeder Velocity " << getFeederRPM() << " rpm" << std::endl; //Not logged yet
+	std::cout << "Feeder RPM " << getFeederRPM() << std::endl; //Not logged yet
 	
 	std::cout << "Ball Pusher State: " << ((pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)") << std::endl; //Not logged yet
 
@@ -80,12 +79,9 @@ void Indexer::Printer() {
 
 void Indexer::dashboardPrinter() {
 	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getIndexerPosition());
-	frc::SmartDashboard::PutNumber("Feeder Velocity (rpm)", getFeederRPM());
+	frc::SmartDashboard::PutNumber("Feeder RPM", getFeederRPM());
 	frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
 		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
-	frc::SmartDashboard::PutNumber("Divet Time", divetTime);
-	frc::SmartDashboard::PutNumber("Real Time", realTime);
-	frc::SmartDashboard::PutNumber("Index Get", index.GetOutputCurrent());
 }

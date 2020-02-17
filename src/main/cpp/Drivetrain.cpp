@@ -8,7 +8,6 @@
 #include "Drivetrain.h"
 
 Drivetrain::Drivetrain() {
-    //Use Phoenix Tuner to test encoders, maybe use IntegratedSensor or Encoder Class, CTRE_MagEncoder_Relative
     backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
     backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
     frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
@@ -23,6 +22,28 @@ Drivetrain::Drivetrain() {
     backRight.SetSelectedSensorPosition(0);
     frontLeft.SetSelectedSensorPosition(0);
     backLeft.SetSelectedSensorPosition(0);
+
+    backLeft.Config_kP(1, drive_P, 10);
+    backLeft.Config_kI(1, drive_I, 10);
+    backLeft.Config_kD(1, drive_D, 10);
+
+    backRight.Config_kP(1, drive_P, 10);
+    backRight.Config_kI(1, drive_I, 10);
+    backRight.Config_kD(1, drive_D, 10);
+
+    frontLeft.Config_kP(1, drive_P, 10);
+    frontLeft.Config_kI(1, drive_I, 10);
+    frontLeft.Config_kD(1, drive_D, 10);
+
+    frontRight.Config_kP(1, drive_P, 10);
+    frontRight.Config_kI(1, drive_I, 10); //PID Slot Correct?
+    frontRight.Config_kD(1, drive_D, 10);
+
+    //Set gear at start
+    //Current limits
+    //Update gears one and two on SmartDashboard using Micheal hack and also update Climber
+    //Follower motors for Drivetrain? 
+    //Make function for shooter so that it can use bumpers to change it's wrist position
 }
 
 void Drivetrain::Drive(double forward, double turn) {
@@ -147,5 +168,5 @@ void Drivetrain::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);*/
     frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 
-    frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse");
+    frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse"); //Update this for gears one and two
 }

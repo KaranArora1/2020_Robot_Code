@@ -55,9 +55,12 @@
 
 /* CONTROLS (Sequencing)
    Driver:
+   Drive Forward - Left Joystick Y Axis
+   Turn - Right Joystick X Axis
+   Shift Gears - A Button
 
    Operator:
-   Y Button is Pickup
+   Extend Pickup Arm, Move Pickup Belts, Rotate Indexer - Y Button
    X Button is Vision Shoot
 
 */
@@ -76,7 +79,11 @@ constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from cou
                                                       X counts/100ms * 1000ms/1s * 60s/1min * 1rev/2048 counts */
 
 constexpr int pdpID = 0;
-constexpr int pressureID = 0; //FIX
+constexpr int pressureTransducerID = 0; //FIX
+constexpr int PCMID = 0; 
+
+enum enableStatus {ENABLED, DISABLED};
+enum positionStatus {RETRACTED, EXTENDED};
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -126,7 +133,10 @@ constexpr int frontRightMotorID = 9; //FX
 constexpr int backLeftMotorID = 11; //FX
 constexpr int backRightMotorID = 10; //FX
 
-constexpr int PCMID = 0; 
+constexpr double drive_P = 0;
+constexpr double drive_I = 0;
+constexpr double drive_D = 0;
+
 constexpr int shiferFirstGear = 3; 
 constexpr int shifterSecondGear = 4; 
 
@@ -136,10 +146,12 @@ constexpr int winchMotorID = 4; //SRX
 //Ball Pickup
 constexpr int pickupMotorID = 0; //SRX
 constexpr int armMotorID = 8; //SRX Changed from  3
-constexpr double pickupP = 1; 
-constexpr double pickupI = 0;
-constexpr double pickupD = 0; 
-constexpr double pickupF = 0;
+
+constexpr double pickup_P = 1; 
+constexpr double pickup_I = 0;
+constexpr double pickup_D = 0; 
+constexpr double pickup_F = 0;
+
 constexpr double posRetract = 3650;
 constexpr double posPOut = 4150; 
 
@@ -158,11 +170,15 @@ constexpr int shooterMotorID = 1; //Spark
 constexpr int slaveShoooterMotorID = 2; //Spark
 constexpr int wristMotorID = 3; //SRX Changed from 8
 
-constexpr double shooterP = 0.00006;
-constexpr double shooterI = 0.000001;
-constexpr double shooterD = 0;
-constexpr double shooterIZone = 0;
-constexpr double shooterF = 0.000015;
+constexpr double shooter_P = 0.00006;
+constexpr double shooter_I = 0.000001;
+constexpr double shooter_D = 0;
+constexpr double shooter_IZone = 0;
+constexpr double shooter_F = 0.000015;
+
+/*constexpr double wrist_P = 0;
+constexpr double wrist_I = 0;
+constexpr double wrist_D = 0;*/
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 

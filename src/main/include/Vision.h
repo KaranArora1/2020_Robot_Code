@@ -20,6 +20,7 @@ class Vision {
   void Shoot(Drivetrain, Shooter, Indexer);
   double calculateDistance();
   void switchPipeline();
+  void Printer();
   void dashboardPrinter();
  
  private:

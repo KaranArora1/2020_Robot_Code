@@ -14,29 +14,32 @@ Shooter::Shooter() {
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
 
-    shooterPID.SetP(shooterP);
-    slaveShooterPID.SetP(shooterP);
+    shooterPID.SetP(shooter_P);
+    slaveShooterPID.SetP(shooter_P);
 
-    shooterPID.SetI(shooterI);
-    slaveShooterPID.SetI(shooterI);
+    shooterPID.SetI(shooter_I);
+    slaveShooterPID.SetI(shooter_I);
 
-    shooterPID.SetD(shooterD);
-    slaveShooterPID.SetD(shooterD);
+    shooterPID.SetD(shooter_D);
+    slaveShooterPID.SetD(shooter_D);
 
-    shooterPID.SetFF(shooterF);
-    slaveShooterPID.SetFF(shooterF);
+    shooterPID.SetFF(shooter_F);
+    slaveShooterPID.SetFF(shooter_F);
 
-    shooterPID.SetIZone(shooterIZone);
-    slaveShooterPID.SetIZone(shooterIZone);
+    shooterPID.SetIZone(shooter_IZone);
+    slaveShooterPID.SetIZone(shooter_IZone);
+
+    /*wrist.Config_kP(0, wrist_P, 10);
+    wrist.Config_kI(0, wrist_I, 10);
+    wrist.Config_kI(0, wrist_D, 10);*/
 }
 
 void Shooter::Shoot(double speed) {
     shooter.Set(speed);
     slaveShooter.Set(speed);
-    if (shooter.GetOutputCurrent() > 45) { //FIX CURRENT VALUE
+    /*if (shooter.GetOutputCurrent() > 45) { //FIX CURRENT VALUE
         ballsShot++;
-    }
-
+    }*/
 }
 
 //Temporary function

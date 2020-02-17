@@ -8,33 +8,31 @@
 #include "BallPickup.h"
 
 BallPickup::BallPickup() {
-    arm.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    arm.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); 
     arm.SetSelectedSensorPosition(0);
 
-    pickup.Config_kP(0, pickupP, 10);
-    pickup.Config_kI(0, pickupI, 10);
-    pickup.Config_kD(0, pickupD, 10);
-    pickup.Config_kF(0, pickupF, 10);
+    pickup.Config_kP(0, pickup_P, 10);
+    pickup.Config_kI(0, pickup_I, 10);
+    pickup.Config_kD(0, pickup_D, 10);
+    pickup.Config_kF(0, pickup_F, 10);
 
     arm.ConfigPeakOutputForward(0.75);
 }
 
 void BallPickup::Pickup(double speed) {
-    
     pickup.Set(ControlMode::PercentOutput, speed);
-    
 }
 
 void BallPickup::moveArm() {
-    if (state) {
+    if (state == EXTENDED) {
         //arm.Set(ControlMode::Position, posRetract);
         arm.Set(ControlMode::Position, 0);
-        state = false;
+        state = RETRACTED;
     }
     else { //shooter to
         //arm.Set(ControlMode::Position, posPOut);
         arm.Set(ControlMode::Position, 500);
-        state = true;
+        state = EXTENDED;
     }
 }
 
@@ -42,7 +40,7 @@ void BallPickup::moveArm(double speed) {
     arm.Set(ControlMode::PercentOutput, speed);
 }
 
-bool BallPickup::getState() {
+positionStatus BallPickup::getState() {
     return state;
 }
 
@@ -51,7 +49,7 @@ int BallPickup::getPickupArmPosition() {
 }
 
 void BallPickup::Printer() {
-    
+    std::cout << "Arm Position " << getPickupArmPosition() << " Counts" << std::endl;
 }
 
 void BallPickup::dashboardPrinter() {

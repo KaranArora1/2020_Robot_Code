@@ -60,16 +60,16 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-double Robot::Deadzone(double input, double target) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
-  if (fabs(input) < target) {
+double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
+  if (fabs(input) < .05) {
     input = 0.0;
     }
   else {
     if (input > 0) {
-      input = (input - target) / (1 - target);
+      input = (input - .05) / (1 - .05);
       }
       else {
-        input = (input + target) / (1 - target);
+        input = (input + .05) / (1 - .05);
         }
       }
     return input;
@@ -88,8 +88,8 @@ void Robot::TeleopPeriodic() {
   
   // ------------------------------------------------------------------ SEQUENCING CHANNELS ---------------------------------------------------------------------------
 
-  if (sequencingConfig) {
-    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl), .075), Deadzone(driverJoy.GetRawAxis(trnJoyChl), .075) * 0.35);
+  if (sequencingConfig == ENABLED) {
+    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl) * 0.35));
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
@@ -100,11 +100,11 @@ void Robot::TeleopPeriodic() {
 
     */
 
-    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { //Changes state of arm boolean
+    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { 
       Pickup.moveArm(); 
 
-      if (Pickup.getState()) { //Acts if arm is extended
-        //Pickup.Pickup(.75);
+      if (Pickup.getState() == EXTENDED) { 
+        Pickup.Pickup(.75);
         Index.Spin(.13, 0); 
       }
       else {
@@ -114,7 +114,7 @@ void Robot::TeleopPeriodic() {
       }
     }
 
-    if (Pickup.getState()) {
+    if (Pickup.getState() == EXTENDED) {
       Index.Divet();
     }
 
@@ -136,14 +136,14 @@ void Robot::TeleopPeriodic() {
       }
 
       //Climbing
-      if (Climb.getScissorClimbStatus()) {
+      if (Climb.getScissorClimbStatus() == ENABLED) {
         if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
           Climb.scissorLift();
           Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
         }
       }
 
-      if (Climb.getWinchClimbStatus()) {
+      if (Climb.getWinchClimbStatus() == ENABLED) {
         Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
       }
   }
@@ -171,6 +171,8 @@ void Robot::TeleopPeriodic() {
       Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
     }
 
+    Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
+
     //Pickup
     if (driverJoy.GetRawButtonPressed(ballPickupMoveArmReverseJoyBtn)) {
       Pickup.moveArm(Deadzone(driverJoy.GetRawAxis(ballPickupMoveArmJoyChl)) * 0.3); //Make it go reverse if button is being pressed b/c of lack of channels available
@@ -192,8 +194,6 @@ void Robot::TeleopPeriodic() {
     if (driverJoy.GetRawButtonPressed(switchVisionPipelineBtn)) {
       Limelight.switchPipeline();
     }
-
-    Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
 
     //Drivetrain (Shifter)
     if (driverJoy.GetRawButtonPressed(shifterBtn)) {
@@ -218,14 +218,14 @@ void Robot::TeleopPeriodic() {
     }
 
     //Climbing
-    if (Climb.getScissorClimbStatus()) {
+    if (Climb.getScissorClimbStatus() == ENABLED) {
       if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
         Climb.scissorLift();
         Climb.changeWinchClimbStatus();  //The winch can only be activated once the scissor lift has been deployed
       }
     }
 
-    if (Climb.getWinchClimbStatus()) {
+    if (Climb.getWinchClimbStatus() == ENABLED) {
       Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
     }
   }
@@ -248,7 +248,8 @@ void Robot::TeleopPeriodic() {
   Drive.Printer();
   Index.Printer();
   Spinner.Printer();
-  Shoot.Printer(); */
+  Shoot.Printer(); 
+  Limelight.Printer();*/
 
   //Logging
   if (logThisTime) {

@@ -16,8 +16,8 @@ class Climber {
   void scissorLift();
   void changeScissorClimbStatus();
   void changeWinchClimbStatus();
-  bool getScissorClimbStatus();
-  bool getWinchClimbStatus();
+  enableStatus getScissorClimbStatus();
+  enableStatus getWinchClimbStatus();
   int getWinchPosition();
   void Printer();
   void dashboardPrinter();
@@ -29,6 +29,6 @@ class Climber {
 
   frc::DoubleSolenoid scissor{PCMID, 1, 6};
   
-  bool scissorClimbStatus = false;
-  bool winchClimbStatus = false;
+  enableStatus scissorClimbStatus = DISABLED;
+  enableStatus winchClimbStatus = DISABLED;
 };
