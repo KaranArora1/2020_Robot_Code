@@ -90,7 +90,10 @@ void Robot::TeleopPeriodic() {
 
   if (sequencingConfig == ENABLED) {
 
-    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl) * 0.35));
+    leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
+    rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
+
+    Drive.Drive(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
@@ -137,13 +140,13 @@ void Robot::TeleopPeriodic() {
     }
 
     //Drivetrain (Shifter)
-    if (driverJoy.GetRawButtonPressed(shifterBtn) && Climb.getScissorLiftStatus == RETRACTED) {
+    if (driverJoy.GetRawButtonPressed(shifterBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
       Drive.Shift();
     }
     
   // ----------------------------------------------------------------- SEQUENCING CLIMBING ----------------------------------------------------------------------------
     //Change Climb Status
-    if (driverJoy.GetRawButtonPressed(climbStatusBtn) && Climb.getScissorLiftStatus == RETRACTED) {
+    if (driverJoy.GetRawButtonPressed(climbStatusBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
       Climb.toggleScissorCanBeDeployedStatus();
     }
 
@@ -151,11 +154,10 @@ void Robot::TeleopPeriodic() {
     if (Climb.getScissorCanBeDeployedStatus() == ENABLED) {
       if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
         Climb.scissorLift(Drive);
-        Climb.toggleWinchCanBeDeployedStatus();  //The winch can only be activated once the scissor lift has been deployed
       }
     }
 
-    if (Climb.getWinchCanBeDeployedStatus() == ENABLED) {
+    if (Climb.getScissorLiftStatus() == EXTENDED) {
       Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
     }
   }
@@ -208,7 +210,7 @@ void Robot::TeleopPeriodic() {
     }
 
     //Drivetrain (Shifter)
-    if (driverJoy.GetRawButtonPressed(shifterBtn) && Climb.getScissorLiftStatus == RETRACTED) {
+    if (driverJoy.GetRawButtonPressed(shifterBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
       Drive.Shift();
     }
 
@@ -225,19 +227,18 @@ void Robot::TeleopPeriodic() {
   // -------------------------------------------------------------- NON-SEQUENCING CLIMBING -----------------------------------------------------------------------------
 
     //Change Climb Status
-    if (driverJoy.GetRawButtonPressed(climbStatusBtn) && Climb.getScissorLiftStatus == RETRACTED) {
-      Climb.toggleWinchCanBeDeployedStatus();
+    if (driverJoy.GetRawButtonPressed(climbStatusBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
+      Climb.toggleScissorCanBeDeployedStatus();
     }
 
     //Climbing
     if (Climb.getScissorCanBeDeployedStatus() == ENABLED) {
       if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
         Climb.scissorLift(Drive);
-        Climb.toggleWinchCanBeDeployedStatus();  //The winch can only be activated once the scissor lift has been deployed
       }
     }
 
-    if (Climb.getWinchCanBeDeployedStatus() == ENABLED) {
+    if (Climb.getScissorLiftStatus() == EXTENDED) {
       Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
     }
   }
@@ -270,8 +271,8 @@ void Robot::TeleopPeriodic() {
 
     Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
-                            Spinner.getConfidence(), Climb.getWinchPosition());
-  }
+                            Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX);
+    }
 }
 
 void Robot::TestPeriodic() {}

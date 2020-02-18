@@ -14,11 +14,10 @@ class Climber {
  public:
   Climber();
   void Climb(double);
-  void scissorLift(Drivetrain);
+  void scissorLift(Drivetrain&);
   void toggleScissorCanBeDeployedStatus();
   void toggleWinchCanBeDeployedStatus();
   enableStatus getScissorCanBeDeployedStatus();
-  enableStatus getWinchCanBeDeployedStatus();
   positionStatus getScissorLiftStatus();
   int getWinchPosition();
   void Printer();

@@ -37,6 +37,8 @@ class Shooter {
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();
 
+    //frc::DigitalInput wristSwitch{wristSwitchID};
+
     int posList[5] = {1000, 1000, 1000, 1000, 1000};
     double rpms[2];
 

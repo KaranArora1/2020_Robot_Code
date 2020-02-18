@@ -17,9 +17,9 @@ class Vision {
  public:
   Vision();
   void Run(double, double);
-  void setupShootHigh(Drivetrain, Shooter);
-  void shootHigh(Shooter, Indexer);
-  void shootLow(Drivetrain, Shooter, Indexer);
+  void setupShootHigh(Drivetrain&, Shooter&);
+  void shootHigh(Shooter&, Indexer&);
+  void shootLow(Drivetrain&, Shooter&, Indexer&);
   double calculateDistance();
   void switchPipeline();
   void toggleShootHighStatus();

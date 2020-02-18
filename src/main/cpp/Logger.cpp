@@ -30,7 +30,9 @@ Logger::Logger() {
 			<< "time" << ','
 			<< "voltage" << ','
 			<< "totalCurrent" << ','
-			/*<< "backLeftPosition" << ','
+			<< "leftJoyY" << ',' 
+			<< "rightJoyX" << ','
+			<< "backLeftPosition" << ','
 			<< "frontLeftPosition" << ','
 			<< "backRightPosition" << ','
 			<< "frontRightPosition" << ','
@@ -41,13 +43,13 @@ Logger::Logger() {
 			<< "backLeftRPM" << ','
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','
-			<< "frontRightRPM" << ','*/
+			<< "frontRightRPM" << ','
 			<< "backLeftCurrent" << ','
 			<< "frontLeftCurrent" << ','
 			<< "backRightCurrent" << ','
 			<< "frontRightCurrent" << ','
 			<< "shooterRPM" << ','
-			<< "slaveShooterRPM" << ','
+			<< "slaveShooterRPM" 
 			/*<< "wristPosition" << ','
 			<< "winchPosition" << ','
 			<< "spinnerPosition" << ','
@@ -91,7 +93,10 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> voltage << ','
 			<< data-> totalCurrent << ','
 
-			/*<< data-> backLeftPosition << ','
+			<< data-> leftJoyY << ','
+			<< data-> rightJoyX << ','
+
+			<< data-> backLeftPosition << ','
 			<< data-> frontLeftPosition << ','
 			<< data-> backRightPosition << ','
 			<< data-> frontRightPosition << ','
@@ -104,7 +109,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> backLeftRPM << ','
 			<< data-> frontLeftRPM << ','
 			<< data-> backRightRPM << ','
-			<< data-> frontRightRPM << ','*/
+			<< data-> frontRightRPM << ','
 
 			<< data-> backLeftCurrent << ','
 			<< data-> frontLeftCurrent << ','
@@ -112,7 +117,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> frontRightCurrent << ','
 			
 			<< data-> shooterRPM << ','
-			<< data-> slaveShooterRPM << ','
+			<< data-> slaveShooterRPM 
 			/*<< data-> wristPosition << ','
 
 			<< data-> winchPosition << ','
@@ -131,16 +136,20 @@ void Logger::Save() {
 }
 
 void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs, double * driveCurrents, double * shooterRPMs, 
-				 int wristPosition, int spinnerPosition, int spinnerVelocity, double spinnerRPM, double confidence, int winchPos) {
+				 int wristPosition, int spinnerPosition, int spinnerVelocity, double spinnerRPM, double confidence, int winchPos, double leftJoyY, double rightJoyX) {
 	
 	struct Logger::CSVVals csvData;
 
 	//General
-	csvData.totalCurrent = 0;
+	csvData.totalCurrent = 0; //UPDATE VOLTAGE
 	csvData.voltage = 0;
 
+	//Joystick
+	csvData.leftJoyY = leftJoyY;
+	csvData.rightJoyX = rightJoyX;
+
 	//Drive 
-	/*csvData.backLeftPosition = drivePositions[0];
+	csvData.backLeftPosition = drivePositions[0];
 	csvData.frontLeftPosition = drivePositions[1];
 	csvData.backRightPosition = drivePositions[2];
 	csvData.frontRightPosition = drivePositions[3];
@@ -153,7 +162,7 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	csvData.backLeftRPM = driveRPMs[0];
 	csvData.frontLeftRPM = driveRPMs[1];
 	csvData.backRightRPM = driveRPMs[2];
-	csvData.frontRightRPM = driveRPMs[3];*/
+	csvData.frontRightRPM = driveRPMs[3];
 
 	csvData.backLeftCurrent = driveCurrents[0];
 	csvData.frontLeftCurrent = driveCurrents[1];

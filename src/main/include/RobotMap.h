@@ -155,6 +155,8 @@ constexpr double pickup_F = 0;
 constexpr double posRetract = 3650;
 constexpr double posPOut = 4150; 
 
+constexpr int armSwitchID = 1000;
+
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
 
@@ -176,6 +178,8 @@ constexpr double shooter_D = 0;
 constexpr double shooter_IZone = 0;
 constexpr double shooter_F = 0.000015;
 
+constexpr int wristSwitchID = 1000;
+
 /*constexpr double wrist_P = 0;
 constexpr double wrist_I = 0;
 constexpr double wrist_D = 0;*/
@@ -186,6 +190,8 @@ constexpr int feederMotorID = 1; //SRX
 
 constexpr int pusherKReverse = 2;
 constexpr int pusherKForward = 5;
+
+constexpr int indexSwitchID = 1000;
 
 
 

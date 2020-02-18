@@ -94,7 +94,7 @@ if (distance <= 5.3){
 
 }*/
 
-void Vision::setupShootHigh(Drivetrain Drive, Shooter Shoot) {
+void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
 
     switchPipeline();
@@ -112,7 +112,7 @@ void Vision::setupShootHigh(Drivetrain Drive, Shooter Shoot) {
     switchPipeline();
 }
 
-void Vision::shootHigh(Shooter Shoot, Indexer Index) {
+void Vision::shootHigh(Shooter& Shoot, Indexer& Index) {
     switchPipeline();
 
     Shoot.moveWrist(20000); //Orient SHOOTER to actual position it would need to be to make target
@@ -133,7 +133,7 @@ void Vision::shootHigh(Shooter Shoot, Indexer Index) {
     switchPipeline();
 }
 
-void Vision::shootLow(Drivetrain Drive, Shooter Shoot, Indexer Index) {
+void Vision::shootLow(Drivetrain& Drive, Shooter& Shoot, Indexer& Index) {
 
 }
 

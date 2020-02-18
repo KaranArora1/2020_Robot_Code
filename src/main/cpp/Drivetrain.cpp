@@ -41,12 +41,13 @@ Drivetrain::Drivetrain() {
 
     //Set gear at start
     //Current limits
+    //Velocity control on drivetain
     //Update gears one and two on SmartDashboard using Micheal hack and also update Climber
     //Follower motors for Drivetrain? 
-    //Make function for shooter so that it can use bumpers to change it's wrist position
+    //Make function for shooter so that it can use bumpers to change it's wrist position DO THIS
     //When scissor is deployed make max speed small and bot on first gear
-    //remove getWinchCanBeDeployedStatus from code, not needed
-    //Have Micheal Help me pass objects in Viision and Climber
+    //Switch gears automatically maybe? 
+    //UPDATE CVOLTAGE aND CURRENT ON LOGGER
 }
 
 void Drivetrain::Drive(double forward, double turn) {
@@ -151,6 +152,7 @@ void Drivetrain::Printer() {
     std::cout << std::endl;
 
     std::cout << "Shifter State " << ((shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse") << std::endl;
+    std::cout << "Drivetrain Gear " <<  ((shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "2nd Gear" : "1st Gear") << std::endl;
 }
 
 void Drivetrain::dashboardPrinter() { 
@@ -161,24 +163,25 @@ void Drivetrain::dashboardPrinter() {
     getCurrents();
 
     frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
-    /*frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
-    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);*/
+    frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
+    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
 
     frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
-    /*frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
-    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);*/
+    frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
+    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
 
     frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
-    /*frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
-    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);*/
+    frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
+    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
 
     frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
-    /*frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
-    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);*/
+    frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
+    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 
-    frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse"); //Update this for gears one and two
+    frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse"); 
+    frc::SmartDashboard::PutString("Drivetrain Gear", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "2nd Gear" : "1st Gear");
 }

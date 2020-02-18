@@ -52,6 +52,9 @@ class Robot : public frc::TimedRobot {
     int logTicker = 0;
     int logInterval = 20;
 
+    double leftJoyY = 0;
+    double rightJoyX = 0;
+
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";
     const std::string kAutoNameCustom = "My Auto";

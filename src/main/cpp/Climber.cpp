@@ -16,7 +16,7 @@ void Climber::Climb(double speed) { //Eventually will be a follower with no para
     winch.Set(ControlMode::PercentOutput, speed);
 }
 
-void Climber::scissorLift(Drivetrain Drive) { 
+void Climber::scissorLift(Drivetrain& Drive) { 
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward
         scissorLiftStatus = RETRACTED;
@@ -38,21 +38,8 @@ void Climber::toggleScissorCanBeDeployedStatus() {
     }
 }
 
-void Climber::toggleWinchCanBeDeployedStatus() {
-    if (winchCanBeDeployedStatus == ENABLED) {
-        winchCanBeDeployedStatus = DISABLED;
-    }
-    else {
-        winchCanBeDeployedStatus = ENABLED;
-    }
-}
-
 enableStatus Climber::getScissorCanBeDeployedStatus() {
     return scissorCanBeDeployedStatus; //Not logged 
-}
-
-enableStatus Climber::getWinchCanBeDeployedStatus() {
-    return winchCanBeDeployedStatus; //Not logged
 }
 
 positionStatus Climber::getScissorLiftStatus() {
@@ -65,12 +52,12 @@ int Climber::getWinchPosition() {
 
 void Climber::Printer() {
     std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
-    std::cout << "Scissor Climb Status " << getScissorClimbStatus() << std::endl;
-    std::cout << "Winch Climb Status " << getWinchClimbStatus() << std::endl;
+    std::cout << "Scissor Climb Can Be Deployed Status " << ((getScissorCanBeDeployedStatus() == ENABLED) ? "ENABLED" : "DISABLED") << std::endl;
+    std::cout << "Scissor Climb Deployed " << ((getScissorLiftStatus() == EXTENDED) ? "EXTENDED" : "RETRACTED") << std::endl;
 }
 
 void Climber::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
-    frc::SmartDashboard::PutBoolean("Scissor Climb Status", getScissorClimbStatus()); //FIX WITH ENUMS ( USE MICHEAL STRAT)
-    frc::SmartDashboard::PutBoolean("Winch Climb Status", getWinchClimbStatus());
+    frc::SmartDashboard::PutString("Scissor Climb Can Be Deployed Status", (getScissorCanBeDeployedStatus() == ENABLED) ? "ENABLED" : "DISABLED"); 
+    frc::SmartDashboard::PutString("Scissor Climb Deployed", (getScissorLiftStatus() == EXTENDED) ? "EXTENDED" : "RETRACTED");
 }
