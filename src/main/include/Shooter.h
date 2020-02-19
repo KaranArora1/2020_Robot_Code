@@ -13,6 +13,7 @@ class Shooter {
  public:
     Shooter();
     void Shoot(double);
+    void moveWristFixedPositions(bool);
     void moveWrist(double);
     double * getRPMs();
     int getWristPosition();
@@ -37,9 +38,11 @@ class Shooter {
     rev::CANEncoder shooterEncoder = shooter.GetEncoder();
     rev::CANEncoder slaveShooterEncoder = slaveShooter.GetEncoder();
 
-    //frc::DigitalInput wristSwitch{wristSwitchID};
+    frc::DigitalInput wristSwitch{wristSwitchID};
 
-    int posList[5] = {1000, 1000, 1000, 1000, 1000};
+    int wristPosList[5] = {0, 228, 456, 684, 855}; //20, 40, 60, and 75 degrees
+    int currentWristPos = 0;
+
     double rpms[2];
 
     //Temporary

@@ -25,7 +25,7 @@ class BallPickup {
   WPI_TalonSRX pickup{pickupMotorID};
   WPI_TalonSRX arm{armMotorID};
 
-  //frc::DigitalInput armSwitch{armSwitchID};
+  frc::DigitalInput armSwitch{armSwitchID};
 
   positionStatus state = RETRACTED;
 };

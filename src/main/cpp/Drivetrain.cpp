@@ -13,10 +13,10 @@ Drivetrain::Drivetrain() {
     frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
     frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
 
-    backLeft.ConfigClosedloopRamp(2, 10);
-    backRight.ConfigClosedloopRamp(2, 10);
-    frontLeft.ConfigClosedloopRamp(2, 10);
-    frontRight.ConfigClosedloopRamp(2, 10);
+    backLeft.ConfigClosedloopRamp(2.5, 10);
+    backRight.ConfigClosedloopRamp(2.5, 10);
+    frontLeft.ConfigClosedloopRamp(2.5, 10);
+    frontRight.ConfigClosedloopRamp(2.5, 10);
   
     frontRight.SetSelectedSensorPosition(0);
     backRight.SetSelectedSensorPosition(0);
@@ -39,15 +39,17 @@ Drivetrain::Drivetrain() {
     frontRight.Config_kI(1, drive_I, 10); //PID Slot Correct?
     frontRight.Config_kD(1, drive_D, 10);
 
-    //Set gear at start
+    setGear(1);
+
     //Current limits
     //Velocity control on drivetain
-    //Update gears one and two on SmartDashboard using Micheal hack and also update Climber
     //Follower motors for Drivetrain? 
-    //Make function for shooter so that it can use bumpers to change it's wrist position DO THIS
     //When scissor is deployed make max speed small and bot on first gear
     //Switch gears automatically maybe? 
-    //UPDATE CVOLTAGE aND CURRENT ON LOGGER
+    //Digital Input 
+    //Safety stuff for BallPickup and Shooter
+    //Winch
+    //Figure out sequence with Shooting (feedBall(), pushBall())
 }
 
 void Drivetrain::Drive(double forward, double turn) {

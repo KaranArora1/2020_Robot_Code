@@ -50,7 +50,7 @@ class Robot : public frc::TimedRobot {
     
     bool logThisTime = false;
     int logTicker = 0;
-    int logInterval = 20;
+    int logInterval = 15; //300 milliseconds
 
     double leftJoyY = 0;
     double rightJoyX = 0;

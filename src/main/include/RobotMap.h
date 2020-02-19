@@ -13,6 +13,7 @@
 #include "frc/SerialPort.h" //Lights
 #include "frc/PowerDistributionPanel.h"
 #include "frc/AnalogInput.h" //Pressure
+#include "frc/DigitalInput.h" //Limit Switches
 #include "frc/TimedRobot.h" 
 #include "frc/smartdashboard/SendableChooser.h"
 #include "frc/smartdashboard/SmartDashboard.h"
@@ -58,10 +59,19 @@
    Drive Forward - Left Joystick Y Axis
    Turn - Right Joystick X Axis
    Shift Gears - A Button
+   Move Wrist Down - Left Bumper
+   Move Wrist Up - Right Bumper
 
    Operator:
-   Extend Pickup Arm, Move Pickup Belts, Rotate Indexer - Y Button
-   X Button is Vision Shoot
+   Extend Pickup Arm, Move Pickup Belts, Rotate Indexer Sequence - Y Button
+   Shoot Ball - A Button
+   Vision High Shoot - X Button 
+   Activate Scissor Lift - B Button
+   Cancel Vision High Shoot - Menu Button
+   Change Climb Status - View Button
+   Increment Shooter RPMs - Right Bumper
+   Winch - Left Bumper
+
 
 */
 
@@ -70,6 +80,8 @@
 /* There are 7 Mechanisms total (BallPickup, Climber, Drivetrain, Indexer, PanelSpinner, Indicator Lights, and Shooter). 
    There are 4 Helper Programs (Logger, MyTimer, Vision, and YourTimer). 
    We are logging data from Climber(1 field), Drivetrain(4 fields x 4 motors), PanelSpinner(1 x 3), and Shooter(3 x 3)*/
+
+//Next year just assign all the buttons on the controller to variables - "AButton = 4"
 
 //Misc
 constexpr double velToRPM_SRX = (1000 * 60) / 4096; /* Conversion factor from counts/100ms to RPM = 14.6484375
@@ -87,12 +99,16 @@ enum positionStatus {RETRACTED, EXTENDED};
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Joystick - Non Sequencing
+//Joystick General
 constexpr int driverJoyUSBPort = 0; //Can be changed in Driver Station
 constexpr int operatorJoyUSBPort = 1;
 
 constexpr int fwdJoyChl = 1; //Y Axis on Left Joystick (Driver)
 constexpr int trnJoyChl = 4; //X Axis on Right Joystick (Driver)
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Joystick - Non Sequencing
 constexpr int shifterBtn = 1; //A Button (Driver)
 
 constexpr int shootBtn = 1; //A Button (Operator, Temporary)
@@ -102,7 +118,7 @@ constexpr int shootJoyChl = 1;  //Y Axis on Left Joystick (Operator)
 constexpr int shootChangeLevelDownBtn = 5; //Left Bumper (Operator)
 constexpr int moveWristChl = 3; //Right Trigger (Driver)
 
-constexpr int climbStatusBtn = 8; //Menu button (Operator)
+constexpr int climbStatusBtn = 8; //Menu Button (Operator)
 constexpr int climbJoyChl = 3; //Right Trigger (Driver)
 constexpr int climbScissorJoyBtn = 3; //X Button (Driver)
 
@@ -113,7 +129,7 @@ constexpr int ballPickupMoveArmReverseJoyBtn = 3; //Y Button (Driver)
 constexpr int indexFwdJoyChl = 3; //Right Trigger (Operator) 
 constexpr int indexJoyFeederChl = 1; //Y Axis on Left Joystick (Operator)
 constexpr int indexReverseJoyChl = 2; //Left Trigger (Operator) 
-constexpr int indexPusherBtn = 2; //B (Operator)
+constexpr int indexPusherBtn = 2; //B Button (Operator)
 
 constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 
@@ -122,8 +138,19 @@ constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 //Joystick - Sequencing
 constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
 
+constexpr int shifterBtnSequence = 1; ///A Button (Driver)
+
+constexpr int climbStatusBtnSequence = 7; //View Button (Operator)
+constexpr int climbScissorJoyBtnSequence = 2; //B Button (Operator)
+constexpr int winchBtnSequence = 5; //Left Bumper (Operator)
+
 constexpr int activateVisionShootHighBtnSequence = 3; //X Button (Operator)
 constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
+
+constexpr int moveWristDownBtnSequence = 5; //Left Bumper (Driver)
+constexpr int moveWristUpBtnSequence = 6; //Right Bumper (Driver)
+constexpr int shootSpeedIncBtnSequence = 6; //Right Bumper (Operator)
+constexpr int shootSpeedBtnSequence = 1; //A Button (Operator)
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

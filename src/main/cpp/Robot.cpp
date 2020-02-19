@@ -115,7 +115,7 @@ void Robot::TeleopPeriodic() {
       else {
         Pickup.Pickup(0);
         Index.Spin(0, 0);
-        Index.setDivetTime(0); //Is this needed really?
+        Index.setDivetTime(0); //Is this line needed really?
       }
     }
 
@@ -123,10 +123,27 @@ void Robot::TeleopPeriodic() {
       Index.Divet();
     }
 
+    //Shooting without Vision
+    if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
+      Shoot.moveWristFixedPositions(true);
+    }
+
+    if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
+      Shoot.moveWristFixedPositions(false);
+    }
+
+    if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
+      Shoot.incSpeed();
+    }
+
+    if (operatorJoy.GetRawButton(shootSpeedBtnSequence)) { //Button has to STAY pressed to shoot
+      Shoot.ShootRPMs();
+    }
+
     //Vision Shoot High
     if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
       Limelight.toggleShootHighStatus();
-      //Limelight.setupShootHigh(Drive, Shoot);
+      Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights
     }
 
     if (Limelight.getShootHighStatus() == ENABLED) {
@@ -134,31 +151,33 @@ void Robot::TeleopPeriodic() {
         Limelight.toggleShootHighStatus();
       }
       else if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
-        //Limelight.ShootHigh(Drive, Shoot, Index, Lights);
-        Index.Spin(0, .13);
+        Limelight.shootHigh(Shoot, Index); //Add indicator lights
+        Index.Spin(0, .13); //Is this needed
       }
     }
 
     //Drivetrain (Shifter)
-    if (driverJoy.GetRawButtonPressed(shifterBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
+    if (driverJoy.GetRawButtonPressed(shifterBtnSequence) && Climb.getScissorLiftStatus() == RETRACTED) {
       Drive.Shift();
     }
     
   // ----------------------------------------------------------------- SEQUENCING CLIMBING ----------------------------------------------------------------------------
     //Change Climb Status
-    if (driverJoy.GetRawButtonPressed(climbStatusBtn) && Climb.getScissorLiftStatus() == RETRACTED) {
+    if (driverJoy.GetRawButtonPressed(climbStatusBtnSequence) && Climb.getScissorLiftStatus() == RETRACTED) {
       Climb.toggleScissorCanBeDeployedStatus();
     }
 
     //Climbing
     if (Climb.getScissorCanBeDeployedStatus() == ENABLED) {
-      if (driverJoy.GetRawButton(climbScissorJoyBtn)) { 
+      if (driverJoy.GetRawButton(climbScissorJoyBtnSequence)) { 
         Climb.scissorLift(Drive);
       }
     }
 
     if (Climb.getScissorLiftStatus() == EXTENDED) {
-      Climb.Climb(Deadzone(driverJoy.GetRawAxis(climbJoyChl)));
+      if (operatorJoy.GetRawButtonPressed(winchBtnSequence)) {
+        Climb.Climb(10000); //Change to position
+      }
     }
   }
 
@@ -271,7 +290,7 @@ void Robot::TeleopPeriodic() {
 
     Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
-                            Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX);
+                            Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, pdp.GetTotalCurrent(), pdp.GetVoltage());
     }
 }
 

@@ -136,13 +136,14 @@ void Logger::Save() {
 }
 
 void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs, double * driveCurrents, double * shooterRPMs, 
-				 int wristPosition, int spinnerPosition, int spinnerVelocity, double spinnerRPM, double confidence, int winchPos, double leftJoyY, double rightJoyX) {
+				 int wristPosition, int spinnerPosition, int spinnerVelocity, double spinnerRPM, double confidence, int winchPos, 
+				 double leftJoyY, double rightJoyX, double current, double voltage) {
 	
 	struct Logger::CSVVals csvData;
 
 	//General
-	csvData.totalCurrent = 0; //UPDATE VOLTAGE
-	csvData.voltage = 0;
+	csvData.totalCurrent = current;
+	csvData.voltage = voltage;
 
 	//Joystick
 	csvData.leftJoyY = leftJoyY;

@@ -14,6 +14,10 @@ Shooter::Shooter() {
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
 
+    /*wrist.Config_kP(0, wrist_P, 10);
+    wrist.Config_kI(0, wrist_I, 10);
+    wrist.Config_kI(0, wrist_D, 10);*/
+
     shooterPID.SetP(shooter_P);
     slaveShooterPID.SetP(shooter_P);
 
@@ -28,10 +32,6 @@ Shooter::Shooter() {
 
     shooterPID.SetIZone(shooter_IZone);
     slaveShooterPID.SetIZone(shooter_IZone);
-
-    /*wrist.Config_kP(0, wrist_P, 10);
-    wrist.Config_kI(0, wrist_I, 10);
-    wrist.Config_kI(0, wrist_D, 10);*/
 }
 
 void Shooter::Shoot(double speed) {
@@ -60,17 +60,25 @@ void Shooter::incSpeed() {
     } 
 }
 
+void Shooter::moveWristFixedPositions(bool moveUp) {
+    if (moveUp) {
+        currentWristPos++;
+        if (currentWristPos == 5) {
+            currentWristPos = 0;
+        }
+    }
+    else {
+        currentWristPos--;
+        if (currentWristPos == -1) {
+            currentWristPos = 4;
+        }
+    }
+
+    wrist.Set(ControlMode::Position, wristPosList[currentWristPos]);
+}
+
 void Shooter::moveWrist(double input) {
     wrist.Set(ControlMode::PercentOutput, input);
-   /*if(currentPos == Home){
-       master.Set(ControlMode::Position, downPos + sensorOffset);
-       slave.Follow(master);
-       currentPos = Down;
-   }else if(currentPos == Down){
-        master.Set(ControlMode::Position, homePos + sensorOffset);
-        slave.Follow(master);
-        currentPos = Home;
-       }*/
 }
 
 double * Shooter::getRPMs() {

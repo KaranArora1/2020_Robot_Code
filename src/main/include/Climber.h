@@ -16,7 +16,6 @@ class Climber {
   void Climb(double);
   void scissorLift(Drivetrain&);
   void toggleScissorCanBeDeployedStatus();
-  void toggleWinchCanBeDeployedStatus();
   enableStatus getScissorCanBeDeployedStatus();
   positionStatus getScissorLiftStatus();
   int getWinchPosition();
@@ -31,7 +30,6 @@ class Climber {
   frc::DoubleSolenoid scissor{PCMID, 1, 6};
   
   enableStatus scissorCanBeDeployedStatus = DISABLED;
-  enableStatus winchCanBeDeployedStatus = DISABLED;
 
   positionStatus scissorLiftStatus = RETRACTED;
 };

@@ -51,7 +51,7 @@ class Logger {
 	void logError(const char *msg, ... );
 	void logInfo(const char *msg, ... );
 	void logCSV(struct CSVVals *data);
-	void Run(int *, int *, double *, double *, double*, int, int, int, double, double, int, double, double);
+	void Run(int *, int *, double *, double *, double*, int, int, int, double, double, int, double, double, double, double);
 	void Save();
 
     static Logger *instance() {
