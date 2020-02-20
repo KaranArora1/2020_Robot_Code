@@ -275,7 +275,8 @@ void Robot::TeleopPeriodic() {
   Spinner.dashboardPrinter();
   Shoot.dashboardPrinter();
   Limelight.dashboardPrinter();
-
+ 
+  
   /* Pickup.Printer();
   Climb.Printer();
   Drive.Printer();

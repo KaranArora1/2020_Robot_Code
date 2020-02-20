@@ -37,11 +37,13 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
     float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
     
-    if (tv == 0) {
+    while (tv == 0) {
         Drive.Drive(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
     }//end of finding
 
+
+/*
     while (tv != 0.0) {
         Drive.Drive(fwdspeed, 0);
         tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
@@ -107,7 +109,7 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
 
 
     }
-}
+//}
 
 
 
@@ -197,9 +199,12 @@ double Vision::calculateDistance() {
 
 void Vision::Printer() {
     std::cout << "Current Limelight Pipeline Number " << nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0) << std::endl;
+     std::cout << "Current Limelight targets " << nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0) << std::endl;
 }
 
 void Vision::dashboardPrinter() {
+   
     frc::SmartDashboard::PutNumber("Current Limelight Pipeline Number", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
+    frc::SmartDashboard::PutNumber("Current Limelight targets",  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0));
 }
 

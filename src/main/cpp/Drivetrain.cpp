@@ -57,6 +57,7 @@ Drivetrain::Drivetrain() {
     //Safety stuff for BallPickup and Shooter
     //Winch
     //Figure out sequence with Shooting (feedBall(), pushBall())
+    //Flashing
 }
 
 void Drivetrain::Drive(double forward, double turn) {
