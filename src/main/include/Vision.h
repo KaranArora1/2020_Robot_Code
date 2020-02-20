@@ -16,7 +16,7 @@
 class Vision {
  public:
   Vision();
-  void Run(double, double);
+  void Run(double, double, Drivetrain&);
   void setupShootHigh(Drivetrain&, Shooter&);
   void shootHigh(Shooter&, Indexer&);
   void shootLow(Drivetrain&, Shooter&, Indexer&);

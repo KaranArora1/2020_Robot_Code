@@ -23,6 +23,11 @@ Drivetrain::Drivetrain() {
     frontLeft.SetSelectedSensorPosition(0);
     backLeft.SetSelectedSensorPosition(0);
 
+    //frontRight.SetInverted(true);
+    //backRight.SetInverted(true);
+    //frontRight.SetSensorPhase(true);
+    //backRight.SetSensorPhase(true);
+
     backLeft.Config_kP(1, drive_P, 10);
     backLeft.Config_kI(1, drive_I, 10);
     backLeft.Config_kD(1, drive_D, 10);
@@ -42,9 +47,11 @@ Drivetrain::Drivetrain() {
     setGear(1);
 
     //Current limits
+    //Current too high for too long return to home position
+    //figure out encoder phase and inverting
+    //Dither ovveride for ballPickup
     //Velocity control on drivetain
     //Follower motors for Drivetrain? 
-    //When scissor is deployed make max speed small and bot on first gear
     //Switch gears automatically maybe? 
     //Digital Input 
     //Safety stuff for BallPickup and Shooter
@@ -79,6 +86,51 @@ void Drivetrain::setGear(int gear) {
     }
     else if (gear == 2) {
         shifter.Set(frc::DoubleSolenoid::Value::kForward);
+    }
+}
+
+void Drivetrain::setScissorPeakOutput(positionStatus scissor) {
+    if (scissor == EXTENDED) {
+        backLeft.ConfigPeakOutputForward(.2, 10);
+        backLeft.ConfigPeakOutputReverse(-.2, 10);
+
+        backRight.ConfigPeakOutputForward(-.2, 10);
+        backRight.ConfigPeakOutputReverse(-.2, 10);
+
+        frontLeft.ConfigPeakOutputForward(-.2, 10);
+        frontLeft.ConfigPeakOutputReverse(-.2, 10);
+
+        frontRight.ConfigPeakOutputForward(-.2, 10);
+        frontRight.ConfigPeakOutputReverse(-.2, 10);
+    }
+
+    else {
+        backLeft.ConfigPeakOutputForward(1, 10);
+        backLeft.ConfigPeakOutputReverse(-1, 10);
+
+        backRight.ConfigPeakOutputForward(1, 10);
+        backRight.ConfigPeakOutputReverse(-1, 10);
+
+        frontLeft.ConfigPeakOutputForward(1, 10);
+        frontLeft.ConfigPeakOutputReverse(-1, 10);
+
+        frontRight.ConfigPeakOutputForward(1, 10);
+        frontRight.ConfigPeakOutputReverse(-1, 10);
+    }
+}
+
+void Drivetrain::setBrakeMode(bool brake) {
+    if (brake) {
+        backLeft.SetNeutralMode(NeutralMode::Brake);
+        frontLeft.SetNeutralMode(NeutralMode::Brake);
+        backRight.SetNeutralMode(NeutralMode::Brake);
+        frontRight.SetNeutralMode(NeutralMode::Brake);
+    }
+    else {
+        backLeft.SetNeutralMode(NeutralMode::Coast);
+        frontLeft.SetNeutralMode(NeutralMode::Coast);
+        backRight.SetNeutralMode(NeutralMode::Coast);
+        frontRight.SetNeutralMode(NeutralMode::Coast);
     }
 }
 

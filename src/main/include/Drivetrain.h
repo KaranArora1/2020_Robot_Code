@@ -16,6 +16,8 @@ class Drivetrain {
     void Vision(double, double);
     void Shift();
     void setGear(int);
+    void setScissorPeakOutput(positionStatus);
+    void setBrakeMode(bool);
     int * getPositions();
     int * getVelocities();
     double * getRPMs();

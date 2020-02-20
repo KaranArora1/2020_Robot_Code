@@ -142,8 +142,9 @@ void Robot::TeleopPeriodic() {
 
     //Vision Shoot High
     if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
-      Limelight.toggleShootHighStatus();
-      Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights
+      Limelight.Run(0, .15, Drive);
+      //Limelight.toggleShootHighStatus();
+      //Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights
     }
 
     if (Limelight.getShootHighStatus() == ENABLED) {

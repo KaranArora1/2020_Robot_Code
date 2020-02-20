@@ -29,18 +29,18 @@ void Vision::switchPipeline() {
         }
 }
 
-void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
+void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 2); //Sets pipeline to pipe 0 (the vision one)
 
     std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
     float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
     float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
-
-    while (tv == 0.0f) {
+    
+    if (tv == 0) {
         Drive.Drive(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
-    }
+    }//end of finding
 
     while (tv != 0.0) {
         Drive.Drive(fwdspeed, 0);
@@ -48,27 +48,68 @@ void Run(double fwdspeed, double trnspeed, Drivetrain Drive) {
         
         if (tx > 0) {
             Drive.Drive(fwdspeed, trnspeed); //Robot turns left till there is no X error 
-        }
-        
-        else if (tx < 0) {
+        }else if (tx < 0) {
             Drive.Drive(fwdspeed * -1, trnspeed * -1); //Robot turns right untill there is no horizontal error
-        }
+        }//end of x axis seeking
         
         else if (tx == 0) {
             if (ty > 0) {
                 //turn up code
-                
             }
             else if ( ty < 0) {
                 //turn down code
             }
             else {
                 //yay we are perfectly allighned
-            }
-        }
+            }//end of y axis seeking
+        }//end of seeking
+
+
+        //distance equasion goes here
+
+
+
+        //start of long if statement for distance / velocity
+
+        /*if (distance =< 16.5){
+
+        }else if(distance =< 16.00){
+
+        }else if(distance =< 15.5){
+
+        }else if(distance =< 15.00){
+
+        }else if(distance =< 14.5){
+
+        }else if(distance =< 14.00){
+
+        }else if(distance =< 13.5){
+
+        }else if(distance =< 13.00){
+
+        }else if(distance =< 12.5){
+
+        }else if(distance =< 12.00){
+
+        }else if(distance =< 11.5){
+
+        }else if(distance =< 11.00){
+
+        }else if(distance =< 10.5){
+
+        }else if(distance =< 10.0){
+
+        }else if(distance =< 16.5){
+
+        }*/
+
+
+
+
     }
 }
-  // h
+
+
 
 //Math goes here
 //re ajusting goes here
