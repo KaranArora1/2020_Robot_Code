@@ -147,9 +147,9 @@ void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
 
-    Shoot.moveWrist(20000); //Something based on ty value (position limelight)
+    //Shoot.moveWrist(20000); //Something based on ty value (position limelight)
 
-    calculateDistance();
+    //calculateDistance();
 
     Drive.Drive(1000, 100); //Something based on tx value (orient robot)
     switchPipeline();

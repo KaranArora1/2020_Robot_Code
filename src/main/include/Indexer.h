@@ -17,6 +17,7 @@ class Indexer {
   void feedBall(double);
   void Divet();
   void setDivetTime(int);
+  void checkLimitSwitch();
   int getIndexerPosition();
   double getFeederRPM();
   double getCurrent();

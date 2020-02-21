@@ -14,6 +14,11 @@ Shooter::Shooter() {
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
 
+    wrist.ConfigForwardSoftLimitThreshold(80 * 11.4); //Is this right direction? //80 degrees * 11.4 encoder counts per degree
+    wrist.ConfigReverseSoftLimitThreshold(0);
+    wrist.ConfigForwardSoftLimitEnable(true);
+    wrist.ConfigReverseSoftLimitEnable(true);
+
     /*wrist.Config_kP(0, wrist_P, 10);
     wrist.Config_kI(0, wrist_I, 10);
     wrist.Config_kI(0, wrist_D, 10);*/
@@ -77,8 +82,18 @@ void Shooter::moveWristFixedPositions(bool moveUp) {
     wrist.Set(ControlMode::Position, wristPosList[currentWristPos]);
 }
 
-void Shooter::moveWrist(double input) {
+void Shooter::moveWrist(double input) { //Use Joystick
     wrist.Set(ControlMode::PercentOutput, input);
+}
+
+void Shooter::moveWristToPosition(int pos) {
+
+}
+
+void Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts?
+    if (wristSwitch.Get()) {
+        wrist.SetSelectedSensorPosition(0);
+    }
 }
 
 double * Shooter::getRPMs() {

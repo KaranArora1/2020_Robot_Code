@@ -15,6 +15,8 @@ class Shooter {
     void Shoot(double);
     void moveWristFixedPositions(bool);
     void moveWrist(double);
+    void moveWristToPosition(int);
+    void checkLimitSwitch();
     double * getRPMs();
     int getWristPosition();
     void Printer();

@@ -56,6 +56,12 @@ void Indexer::setDivetTime(int time) {
 	divetTime = time;
 }
 
+void Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?
+    if (indexSwitch.Get()) {
+        index.SetSelectedSensorPosition(0);
+    }
+}
+
 int Indexer::getIndexerPosition() {
 	return index.GetSelectedSensorPosition(0);
 }

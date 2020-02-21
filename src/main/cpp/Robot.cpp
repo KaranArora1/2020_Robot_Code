@@ -80,6 +80,10 @@ void Robot::TeleopPeriodic() {
   frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
   frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
+  Index.checkLimitSwitch();
+  Shoot.checkLimitSwitch();
+  Pickup.checkLimitSwitch();
+
 	logTicker++;
 	
   if (logTicker == logInterval) {
@@ -108,8 +112,8 @@ void Robot::TeleopPeriodic() {
     if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { 
       Pickup.moveArm(); 
 
-      if (Pickup.getState() == EXTENDED) { 
-        Pickup.Pickup(.75);
+      if (Pickup.getState() == EXTENDED) { //Stuff that initially happens when the button is pressed
+        Pickup.Pickup(1);
         Index.Spin(.13, 0); 
       }
       else {
@@ -119,8 +123,14 @@ void Robot::TeleopPeriodic() {
       }
     }
 
-    if (Pickup.getState() == EXTENDED) {
+    if (Pickup.getState() == EXTENDED) { //Stuff that should be constantly checked for when the arm is out and sequence is happening
       Index.Divet();
+      if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > 0)) { //Might cause some issues with change of direction, test and fix
+        Pickup.Pickup(-.5);
+      }
+      else {
+        Pickup.Pickup(1);
+      }
     }
 
     //Shooting without Vision

@@ -137,6 +137,7 @@ constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 
 //Joystick - Sequencing
 constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
+constexpr int reverseBallPickupOverrideChl = 1; //Y Axis on Left Joystick (Operator)
 
 constexpr int shifterBtnSequence = 1; ///A Button (Driver)
 
@@ -179,8 +180,11 @@ constexpr double pickup_I = 0;
 constexpr double pickup_D = 0; 
 constexpr double pickup_F = 0;
 
-constexpr double posRetract = 3650;
-constexpr double posPOut = 4150; 
+//constexpr double posRetract = 3650;
+//constexpr double posPOut = 4150; 
+
+constexpr int posRetract = 0;
+constexpr int posOut = 500;
 
 constexpr int armSwitchID = 1000;
 

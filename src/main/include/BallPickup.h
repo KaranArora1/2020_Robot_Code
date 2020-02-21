@@ -16,6 +16,7 @@ class BallPickup {
   void Pickup(double);
   void moveArm();
   void moveArm(double);
+  void checkLimitSwitch();
   positionStatus getState();
   int getPickupArmPosition();
   void Printer();

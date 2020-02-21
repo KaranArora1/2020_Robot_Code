@@ -8,6 +8,8 @@
 #include "Drivetrain.h"
 
 Drivetrain::Drivetrain() {
+
+    //Next year use a for loop and iterate over an array of the motors and configure them through that to save lines of code
     backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
     backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
     frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 1, 10);
@@ -17,6 +19,26 @@ Drivetrain::Drivetrain() {
     backRight.ConfigClosedloopRamp(2.5, 10);
     frontLeft.ConfigClosedloopRamp(2.5, 10);
     frontRight.ConfigClosedloopRamp(2.5, 10);
+
+    /*backLeft.ConfigContinuousCurrentLimit(40, 10);
+	backLeft.ConfigPeakCurrentLimit(60, 10);
+	backLeft.ConfigPeakCurrentDuration(400, 10); Not working because these are FX's
+	backLeft.EnableCurrentLimit(true);
+
+    backRight.ConfigContinuousCurrentLimit(40, 10);
+	backRight.ConfigPeakCurrentLimit(60, 10);
+	backRight.ConfigPeakCurrentDuration(400, 10);
+	backRight.EnableCurrentLimit(true);
+
+    frontLeft.ConfigContinuousCurrentLimit(40, 10);
+	frontLeft.ConfigPeakCurrentLimit(60, 10);
+	frontLeft.ConfigPeakCurrentDuration(400, 10);
+	frontLeft.EnableCurrentLimit(true);
+
+    frontRight.ConfigContinuousCurrentLimit(40, 10);
+	frontRight.ConfigPeakCurrentLimit(60, 10);
+	frontRight.ConfigPeakCurrentDuration(400, 10);
+	frontRight.EnableCurrentLimit(true);*/
   
     frontRight.SetSelectedSensorPosition(0);
     backRight.SetSelectedSensorPosition(0);
@@ -46,10 +68,9 @@ Drivetrain::Drivetrain() {
 
     setGear(1);
 
-    //Current limits
+    //Current limits on devices and on Talon FX's
     //Current too high for too long return to home position
     //figure out encoder phase and inverting
-    //Dither ovveride for ballPickup
     //Velocity control on drivetain
     //Follower motors for Drivetrain? 
     //Switch gears automatically maybe? 
@@ -58,6 +79,8 @@ Drivetrain::Drivetrain() {
     //Winch
     //Figure out sequence with Shooting (feedBall(), pushBall())
     //Flashing
+    //Find out what stuff was configured to have changes in Phoenix tuner and change it in code 
+    //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
 }
 
 void Drivetrain::Drive(double forward, double turn) {
