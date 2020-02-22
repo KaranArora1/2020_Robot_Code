@@ -26,7 +26,7 @@ IndicatorLights::IndicatorLights(const wpi::Twine& device, const wpi::Twine& dev
 	// We set the buffer size to 3, for each of the 3 color channel bytes.
 	// We set the buffer to auto flush when it is full.
 	serial->SetWriteBufferSize(3);
-	serial->SetWriteBufferMode(frc::SerialPort::WriteBufferMode::kFlushWhenFull);
+	serial->SetWriteBufferMode(frc::SerialPort::WriteBufferMode::kFlushOnAccess);
 }
 
 // Destructor, likely never called.
@@ -36,23 +36,32 @@ IndicatorLights::~IndicatorLights() {
 	delete serial;
 }
 
-// Sets the LEDs to a predefined color from the COLOR enum.
-void IndicatorLights::setColor(COLOR color) {
-	switch (color) {
-	case RED:
-		setColor(255, 0, 0);
+// Sets the arduino to execute a predefined command.
+void IndicatorLights::setCommand(CMD command) {
+	switch (command) {
+	case CMD::NONE:
+		sendCommand(CMD_INTERNAL::NOOP, 0, 0, 0);
 		break;
-	case GREEN:
-		setColor(0, 255, 0);
+	case CMD::GREEN_SOLID:
+		sendCommand(CMD_INTERNAL::GREEN_SOLID, 0, 0, 0);
 		break;
-	case BLUE:
-		setColor(0, 0, 255);
+	case CMD::GREEN_UP:
+		sendCommand(CMD_INTERNAL::GREEN_UP, 0, 0, 0);
 		break;
-	case YELLOW:
-		setColor(255, 255, 0);
+	case CMD::GREEN_DOWN:
+		sendCommand(CMD_INTERNAL::GREEN_DOWN, 0, 0, 0);
+		break;
+	case CMD::RED_SOLID:
+		sendCommand(CMD_INTERNAL::RED_SOLID, 0, 0, 0);
+		break;
+	case CMD::RED_UP:
+		sendCommand(CMD_INTERNAL::RED_UP, 0, 0, 0);
+		break;
+	case CMD::RED_DOWN:
+		sendCommand(CMD_INTERNAL::RED_DOWN, 0, 0, 0);
 		break;
 	default:
-		setColor(0, 0, 0);
+		// Invalid command?
 		break;
 	}
 }
@@ -61,12 +70,16 @@ void IndicatorLights::setColor(COLOR color) {
 // Only the lower 8 bits are used.
 // Basically only use numbers 0-255.
 void IndicatorLights::setColor(int r, int g, int b) {
-	// Create array to house each of our color channels.
+	sendCommand(CMD_INTERNAL::CUSTOM, r, g, b);
+}
+
+// Send command to the arduino for processing.
+void IndicatorLights::sendCommand(CMD_INTERNAL command, int r, int b, int g) {
+	// Create array to house the opcode and each operand.
 	// We cast to char as SerialPort::Write() takes a char pointer.
-	const char buffer [3] = { (char) r, (char) g, (char) b };
+	const char buffer[4] = { (char) ((int) command), (char) r, (char) g, (char) b };
 	// Send the bytes to the function.
-	// Send only the first element's address as that is how array pointers work
-	serial->Write(&buffer[0], 3);
+	serial->Write(buffer, 4);
 	// Flush to ensure nothing lingered. This should do nothing but I like to be sure.
 	serial->Flush();
 }
