@@ -38,7 +38,7 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
     
     while (tv == 0) {
-        Drive.Drive(fwdspeed, trnspeed); 
+        Drive.drivePercent(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
     }//end of finding
 
@@ -151,7 +151,7 @@ void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
 
     //calculateDistance();
 
-    Drive.Drive(1000, 100); //Something based on tx value (orient robot)
+    Drive.drivePercent(1000, 100); //Something based on tx value (orient robot)
     switchPipeline();
 }
 

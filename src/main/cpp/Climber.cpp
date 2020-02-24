@@ -10,6 +10,7 @@
 Climber::Climber() {
     winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
     winch.SetSelectedSensorPosition(0); 
+    
 }
 
 void Climber::Climb(double speed) { //Eventually will be a follower with no parameters to the encoder pos target

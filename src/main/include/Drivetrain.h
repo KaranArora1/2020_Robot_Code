@@ -12,12 +12,15 @@
 class Drivetrain {
   public:
     Drivetrain();
-    void Drive(double, double);
+    void drivePercent(double, double);
+    void driveVelocity(double, double);
     void Vision(double, double);
     void Shift();
     void setGear(int);
     void setScissorPeakOutput(positionStatus);
-    void setBrakeMode(bool);
+    void setBrakeMode(enableStatus);
+    void autonBaseLine(double, double, double);
+    void resetEncoderCounts();
     int * getPositions();
     int * getVelocities();
     double * getRPMs();
@@ -39,4 +42,6 @@ class Drivetrain {
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
 
     double turn, forward, leftThrot, rightThrot;
+    double backLeftInitialPosition = backLeft.GetSelectedSensorPosition();
+    double backLeftAutonGoalPosition;
 };

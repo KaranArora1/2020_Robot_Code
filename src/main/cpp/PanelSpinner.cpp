@@ -29,6 +29,34 @@ void PanelSpinner::spinRevolutions(double speed) { //Eventually Parameter for sp
 }
 
 void PanelSpinner::spinToColor(double speed) {
+   //Field data
+      if(gameData.length() > 0){
+          switch (gameData[0]){
+          case 'R':
+            targetColor = "Red";
+          break;
+          case 'G':
+            targetColor = "Green";
+          break;
+          case 'B':
+            targetColor = "Blue";
+          case 'Y':
+            targetColor = "Yellow";
+            break;
+          }
+            if(targetColor != colorString){
+                spinner.Set(0.40);
+                spinStatus = true;
+            }
+            else {
+                spinner.Set(0);
+                spinStatus = false;
+            }
+            
+
+
+      }
+
 
 }
 
@@ -43,7 +71,7 @@ std::string PanelSpinner::detectColor() {
 	detectedColor = m_colorSensor.GetColor();
 	matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
 	
-    if (matchedColor == kBlueTarget) {
+    if (matchedColor == kBlueTarget && confidence > 0.953) {
             colorString = "Blue";
             std::cout << "Detected Blue" << std::endl;
         }
@@ -51,11 +79,11 @@ std::string PanelSpinner::detectColor() {
         colorString = "Red";
         std::cout << "Detected Red" << std::endl;
         }
-    else if (matchedColor == kGreenTarget) {
+    else if (matchedColor == kGreenTarget && confidence > 0.953) {
         colorString = "Green";
         std::cout << "Detected Green" << std::endl; 
         }
-    else if (matchedColor == kYellowTarget) {
+    else if (matchedColor == kYellowTarget && confidence > 0.953) {
         colorString = "Yellow";
         std::cout << "Detected Yellow" << std::endl; 
         }

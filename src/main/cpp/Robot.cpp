@@ -40,10 +40,12 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() {
   m_autoSelected = m_chooser.GetSelected();
   // m_autoSelected = SmartDashboard::GetString("Auto Selector",
+  Drive.resetEncoderCounts();
   //     kAutoNameDefault);
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
+  
     // Custom Auto goes here
   } else {
     // Default Auto goes here
@@ -51,12 +53,16 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+      Drive.autonBaseLine(31504, -0.10, 0);
+      Drive.dashboardPrinter();
+
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
   } else {
     // Default Auto goes here
   }
-}
+}  
+
 
 void Robot::TeleopInit() {}
 
@@ -97,7 +103,8 @@ void Robot::TeleopPeriodic() {
     leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
     rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
 
-    Drive.Drive(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
+    Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
+    frc::SmartDashboard::PutNumber("Turn Value", rightJoyX);
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
@@ -113,7 +120,7 @@ void Robot::TeleopPeriodic() {
       Pickup.moveArm(); 
 
       if (Pickup.getState() == EXTENDED) { //Stuff that initially happens when the button is pressed
-        Pickup.Pickup(1);
+        Pickup.Pickup(.5);
         Index.Spin(.13, 0); 
       }
       else {
@@ -180,7 +187,7 @@ void Robot::TeleopPeriodic() {
 
     //Climbing
     if (Climb.getScissorCanBeDeployedStatus() == ENABLED) {
-      if (driverJoy.GetRawButton(climbScissorJoyBtnSequence)) { 
+      if (driverJoy.GetRawButtonPressed(climbScissorJoyBtnSequence)) { 
         Climb.scissorLift(Drive);
       }
     }
@@ -202,7 +209,7 @@ void Robot::TeleopPeriodic() {
   
   else {
     //Drive
-    Drive.Drive(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
+    Drive.drivePercent(Deadzone(driverJoy.GetRawAxis(fwdJoyChl)), Deadzone(driverJoy.GetRawAxis(trnJoyChl)) * 0.35);
 
     //Shooter
     if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {

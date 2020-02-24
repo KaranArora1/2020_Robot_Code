@@ -8,6 +8,7 @@
 #pragma once
 
 #include "RobotMap.h"
+#include <frc/DriverStation.h>
 
 class PanelSpinner {
  public:
@@ -31,8 +32,11 @@ class PanelSpinner {
   frc::Color matchedColor;
   
   std::string colorString;
+  std::string gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+
+  std::string targetColor;
 
   double confidence;
-
+  bool spinStatus = false;
   WPI_TalonSRX spinner{spinnerMotorID};
 };

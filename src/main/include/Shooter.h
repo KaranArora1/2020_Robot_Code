@@ -27,10 +27,10 @@ class Shooter {
     void incSpeed();
 
   private:
-    rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
+    rev::CANSparkMax shooter{2, rev::CANSparkMax::MotorType::kBrushless};
 
     //Rename this possibly if I don't make it into a slave
-    rev::CANSparkMax slaveShooter{slaveShoooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave FIX
+    rev::CANSparkMax slaveShooter{20, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave FIX
 
     rev::CANPIDController shooterPID = shooter.GetPIDController();
     rev::CANPIDController slaveShooterPID = slaveShooter.GetPIDController();

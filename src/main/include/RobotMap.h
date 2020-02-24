@@ -90,6 +90,9 @@ constexpr double velToRPM_SRX = (1000 * 60) / 4096; /* Conversion factor from co
 constexpr double velToRPM_FX = (1000 * 60) / 2048; /* Conversion factor from counts/100ms to RPM = 29.296875
                                                       X counts/100ms * 1000ms/1s * 60s/1min * 1rev/2048 counts */
 
+constexpr double maxFalconVelocity = ((5000 * 2048) / 60) / 10; /* Maximum speed of Falcons under no load (counts/100ms) = 21777.0667
+                                                                   6380rev/min * 2048counts/rev * 1min/60sec * 1000ms/1s * 100 */
+
 constexpr int pdpID = 0;
 constexpr int pressureTransducerID = 0; //FIX
 constexpr int PCMID = 0; 
@@ -161,9 +164,10 @@ constexpr int frontRightMotorID = 9; //FX
 constexpr int backLeftMotorID = 11; //FX
 constexpr int backRightMotorID = 10; //FX
 
-constexpr double drive_P = 0;
-constexpr double drive_I = 0;
-constexpr double drive_D = 0;
+constexpr double drive_P = 0.025;
+constexpr double drive_I = 0.005;
+constexpr double drive_D = 0; //Maybe halve
+constexpr double drive_F = 0.05;
 
 constexpr int shiferFirstGear = 3; 
 constexpr int shifterSecondGear = 4; 
