@@ -120,8 +120,8 @@ void Robot::TeleopPeriodic() {
       Pickup.moveArm(); 
 
       if (Pickup.getState() == EXTENDED) { //Stuff that initially happens when the button is pressed
-        Pickup.Pickup(.65);
-        Index.Spin(-.10); 
+        Pickup.Pickup(BALLPICKUP_ARM_SPEED);
+        Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
       }
       else {
         Pickup.Pickup(0);
@@ -132,11 +132,12 @@ void Robot::TeleopPeriodic() {
 
     if (Pickup.getState() == EXTENDED) { //Stuff that should be constantly checked for when the arm is out and sequence is happening
       Index.Divet();
+      frc::SmartDashboard::PutString("Am here", "");
       if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > 0)) { //Might cause some issues with change of direction, test and fix
-        Pickup.Pickup(-.5);
+        Pickup.Pickup(-BALLPICKUP_ARM_SPEED);
       }
       else {
-        Pickup.Pickup(.65);
+        Pickup.Pickup(BALLPICKUP_ARM_SPEED);
       }
     }
 
@@ -157,10 +158,10 @@ void Robot::TeleopPeriodic() {
       Shoot.ShootRPMs();
     }
 
-    if (Shoot.getRPMs()[0] > 500) {
-      Index.feedBall(.5);
+    if (Shoot.getRPMs()[0] > 500) { //Maybe Fix to get target RPM
+      Index.feedBall(FEEDER_WHEEL_SPEED);
       Index.setPushBall(EXTENDED);
-      Index.Spin(.10);
+      Index.Spin(INDEXER_SPEED_FINAL_BOT);
     }
 
     else {
@@ -182,7 +183,7 @@ void Robot::TeleopPeriodic() {
       }
       else if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
         Limelight.shootHigh(Shoot, Index); //Add indicator lights
-        Index.Spin(0, .13); //Is this needed
+        Index.Spin(-INDEXER_SPEED_FINAL_BOT); //Is this needed
       }
     }
 

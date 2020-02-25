@@ -62,7 +62,7 @@ void Shooter::incSpeed() {
         currentRPM = 0;
     }
     else if (currentRPM > 5000) {
-        currentRPM = 5600;
+        currentRPM = SHOOTER_MAX_RPM;
     } 
 }
 

@@ -56,11 +56,11 @@ void Indexer::Divet() {
 	realTime = (divetTime * 20) / 1000;
 
 	if ((realTime > 3) && (realTime < 3.5)) {
-		Spin(-.10);
+		Spin(-INDEXER_SPEED_FINAL_BOT);
 	}
 
 	else if (realTime > 3.5) {
-		Spin(.10);
+		Spin(INDEXER_SPEED_FINAL_BOT);
 		divetTime = 0;
 	}
 }

@@ -93,7 +93,6 @@ Drivetrain::Drivetrain() {
     //figure out different PID slots for balaji
     //Make getter and setter functions use public variable 
     //Anita's picture
-    //Make constants for speeds
 }
 
 void Drivetrain::drivePercent(double forward, double turn) {

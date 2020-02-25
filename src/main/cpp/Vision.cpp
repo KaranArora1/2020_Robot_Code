@@ -163,7 +163,7 @@ void Vision::shootHigh(Shooter& Shoot, Indexer& Index) {
     Shoot.Shoot(100000); //Something based on distance away from target, calculateDistance()? 
     Index.Spin(0, 0); //Move Indexer to first position to shoot
     Index.switchPushBall(); 
-    Index.feedBall(10000);
+    Index.feedBall(FEEDER_WHEEL_SPEED);
 
     // 5 Balls shoot out somehow
 

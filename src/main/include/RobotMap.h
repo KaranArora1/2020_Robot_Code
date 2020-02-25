@@ -192,6 +192,8 @@ constexpr int posOut = 500;
 
 constexpr int armSwitchID = 1000;
 
+constexpr double BALLPICKUP_ARM_SPEED = .65;
+
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
 
@@ -215,6 +217,8 @@ constexpr double shooter_F = 0.000015;
 
 constexpr int wristSwitchID = 0;
 
+constexpr int SHOOTER_MAX_RPM = 5600;
+
 /*constexpr double wrist_P = 0;
 constexpr double wrist_I = 0;
 constexpr double wrist_D = 0;*/
@@ -228,7 +232,9 @@ constexpr int pusherKForward = 7;
 
 constexpr int indexSwitchID = 1000;
 
-constexpr int INDEXER_SPEED = 0;
+constexpr double INDEXER_SPEED_DEMO_BOT = 0.175;
+constexpr double INDEXER_SPEED_FINAL_BOT = 0.1;
 
+constexpr double FEEDER_WHEEL_SPEED = .5;
 
 
