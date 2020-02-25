@@ -85,16 +85,15 @@ Drivetrain::Drivetrain() {
     //Current too high for too long return to home position
     //figure out encoder phase and inverting
     //Velocity control on drivetain
-    //Follower motors for Drivetrain? 
     //Switch gears automatically maybe? 
-    //Digital Input 
     //Safety stuff for BallPickup and Shooter
     //Winch
-    //Figure out sequence with Shooting (feedBall(), pushBall())
-    //Flashing
     //Find out what stuff was configured to have changes in Phoenix tuner and change it in code 
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
     //figure out different PID slots for balaji
+    //Make getter and setter functions use public variable 
+    //Anita's picture
+    //Make constants for speeds
 }
 
 void Drivetrain::drivePercent(double forward, double turn) {

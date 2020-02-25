@@ -8,16 +8,17 @@
 #include "Shooter.h"
 
 Shooter::Shooter() {
-    slaveShooter.SetInverted(true);
+    slaveShooter.SetInverted(false);
+    shooter.SetInverted(true);
 
     wrist.SetInverted(true);
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     wrist.SetSelectedSensorPosition(0);
 
-    wrist.ConfigForwardSoftLimitThreshold(80 * 11.4); //Is this right direction? //80 degrees * 11.4 encoder counts per degree
-    wrist.ConfigReverseSoftLimitThreshold(0);
-    wrist.ConfigForwardSoftLimitEnable(true);
-    wrist.ConfigReverseSoftLimitEnable(true);
+    //wrist.ConfigForwardSoftLimitThreshold(80 * 11.4); //Is this right direction? //80 degrees * 11.4 encoder counts per degree
+    //wrist.ConfigReverseSoftLimitThreshold(0);
+    wrist.ConfigForwardSoftLimitEnable(false);
+    wrist.ConfigReverseSoftLimitEnable(false);
 
     /*wrist.Config_kP(0, wrist_P, 10);
     wrist.Config_kI(0, wrist_I, 10);
@@ -61,7 +62,7 @@ void Shooter::incSpeed() {
         currentRPM = 0;
     }
     else if (currentRPM > 5000) {
-        currentRPM = 5800;
+        currentRPM = 5600;
     } 
 }
 
@@ -91,7 +92,7 @@ void Shooter::moveWristToPosition(int pos) {
 }
 
 void Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts?
-    if (wristSwitch.Get()) {
+    if (!(wristSwitch.Get())) {
         wrist.SetSelectedSensorPosition(0);
     }
 }
@@ -105,6 +106,10 @@ double * Shooter::getRPMs() {
 
 int Shooter::getWristPosition() {
     return wrist.GetSelectedSensorPosition(0);
+}
+
+int Shooter::getTargetRPM() {
+    return currentRPM;
 }
 
 void Shooter::Printer() {
@@ -125,4 +130,5 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", currentRPM);
     frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
+    frc::SmartDashboard::PutBoolean("Shooter Switch Open", wristSwitch.Get());
 }

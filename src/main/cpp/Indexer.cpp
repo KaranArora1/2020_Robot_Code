@@ -24,12 +24,25 @@ void Indexer::Spin(double triggerForward, double triggerReverse) { //Maybe make 
 	}	
 }
 
-void Indexer::pushBall() {
+void Indexer::Spin(double speed) {
+	index.Set(ControlMode::PercentOutput, speed);
+}
+
+void Indexer::switchPushBall() {
     if (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse);
 	}
     else {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kForward);
+	}
+}
+
+void Indexer::setPushBall(positionStatus position) { //FIX LATER
+	if (position == EXTENDED) {
+		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse); //UP
+	}
+	else {
+		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kForward); //DOWN
 	}
 }
 
@@ -43,11 +56,11 @@ void Indexer::Divet() {
 	realTime = (divetTime * 20) / 1000;
 
 	if ((realTime > 3) && (realTime < 3.5)) {
-		Spin(0, .13);
+		Spin(-.10);
 	}
 
 	else if (realTime > 3.5) {
-		Spin(.13, 0);
+		Spin(.10);
 		divetTime = 0;
 	}
 }
@@ -90,4 +103,6 @@ void Indexer::dashboardPrinter() {
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
 		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
+
+	frc::SmartDashboard::PutNumber("Real Time", realTime);
 }

@@ -203,8 +203,8 @@ static constexpr frc::Color kRedTarget = frc::Color(0.520, 0.356, 0.125);
 static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 
 //Shooter
-constexpr int shooterMotorID = 1; //Spark
-constexpr int slaveShoooterMotorID = 2; //Spark
+constexpr int shooterMotorID = 21; //Spark
+constexpr int slaveShoooterMotorID = 20; //Spark
 constexpr int wristMotorID = 3; //SRX Changed from 8
 
 constexpr double shooter_P = 0.00006;
@@ -213,7 +213,7 @@ constexpr double shooter_D = 0;
 constexpr double shooter_IZone = 0;
 constexpr double shooter_F = 0.000015;
 
-constexpr int wristSwitchID = 1000;
+constexpr int wristSwitchID = 0;
 
 /*constexpr double wrist_P = 0;
 constexpr double wrist_I = 0;
@@ -223,10 +223,12 @@ constexpr double wrist_D = 0;*/
 constexpr int indexerMotorID = 7; //SRX 
 constexpr int feederMotorID = 1; //SRX
 
-constexpr int pusherKReverse = 2;
-constexpr int pusherKForward = 5;
+constexpr int pusherKReverse = 0;
+constexpr int pusherKForward = 7;
 
 constexpr int indexSwitchID = 1000;
+
+constexpr int INDEXER_SPEED = 0;
 
 
 

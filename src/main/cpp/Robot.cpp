@@ -120,12 +120,12 @@ void Robot::TeleopPeriodic() {
       Pickup.moveArm(); 
 
       if (Pickup.getState() == EXTENDED) { //Stuff that initially happens when the button is pressed
-        Pickup.Pickup(.5);
-        Index.Spin(.13, 0); 
+        Pickup.Pickup(.65);
+        Index.Spin(-.10); 
       }
       else {
         Pickup.Pickup(0);
-        Index.Spin(0, 0);
+        Index.Spin(0);
         Index.setDivetTime(0); //Is this line needed really?
       }
     }
@@ -136,7 +136,7 @@ void Robot::TeleopPeriodic() {
         Pickup.Pickup(-.5);
       }
       else {
-        Pickup.Pickup(1);
+        Pickup.Pickup(.65);
       }
     }
 
@@ -153,13 +153,25 @@ void Robot::TeleopPeriodic() {
       Shoot.incSpeed();
     }
 
-    if (operatorJoy.GetRawButton(shootSpeedBtnSequence)) { //Button has to STAY pressed to shoot
+    if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { //Button has to STAY pressed to shoot //IS THIS RIGHT
       Shoot.ShootRPMs();
+    }
+
+    if (Shoot.getRPMs()[0] > 500) {
+      Index.feedBall(.5);
+      Index.setPushBall(EXTENDED);
+      Index.Spin(.10);
+    }
+
+    else {
+      Index.feedBall(0);
+      Index.setPushBall(RETRACTED);
+      Index.Spin(0);
     }
 
     //Vision Shoot High
     if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
-      Limelight.Run(0, .15, Drive);
+      //Limelight.Run(0, .15, Drive);
       //Limelight.toggleShootHighStatus();
       //Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights
     }
@@ -253,7 +265,7 @@ void Robot::TeleopPeriodic() {
 
     //Pneumatic on Indexer
     if (operatorJoy.GetRawButtonPressed(indexPusherBtn)) {
-      Index.pushBall();
+      Index.switchPushBall();
     }
 
     //Shooter (RPM Version)

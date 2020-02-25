@@ -13,7 +13,9 @@ class Indexer {
  public:
   Indexer();
   void Spin(double, double);
-  void pushBall();
+  void Spin(double);
+  void switchPushBall();
+  void setPushBall(positionStatus);
   void feedBall(double);
   void Divet();
   void setDivetTime(int);
