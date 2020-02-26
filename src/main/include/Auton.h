@@ -10,23 +10,13 @@
 #include "RobotMap.h"
 #include "Drivetrain.h"
 
-class Climber {
+class Auton {
  public:
-  Climber();
-  void Climb(double);
-  void scissorLift(Drivetrain&);
-  void toggleScissorCanBeDeployedStatus();
-  int getWinchPosition();
-  void Printer();
-  void dashboardPrinter();
+  Auton();
+  void resetEncoderCounts(Drivetrain&);
+  void crossBaseLine(double, double, double, Drivetrain&);
 
-  enableStatus scissorCanBeDeployedStatus = DISABLED;
-  positionStatus scissorLiftStatus = RETRACTED;
- 
- private:
-  WPI_TalonSRX winch{winchMotorID};
-  double encoderPosTarget = 1000000; //Unknown
-  //Constant velocity to a fixed number of encoder countd TBD
-
-  frc::DoubleSolenoid scissor{PCMID, 1, 6};
+  private:
+    double backLeftAutonInitialPosition;
 };
+

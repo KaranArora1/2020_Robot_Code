@@ -40,6 +40,7 @@ void PanelSpinner::spinToColor(double speed) {
           break;
           case 'B':
             targetColor = "Blue";
+            break;
           case 'Y':
             targetColor = "Yellow";
             break;

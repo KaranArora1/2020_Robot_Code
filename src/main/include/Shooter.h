@@ -19,7 +19,6 @@ class Shooter {
     void checkLimitSwitch();
     double * getRPMs();
     int getWristPosition();
-    int getTargetRPM();
     void Printer();
     void dashboardPrinter();
 
@@ -43,13 +42,13 @@ class Shooter {
 
     frc::DigitalInput wristSwitch{wristSwitchID};
 
-    int wristPosList[5] = {0, 228, 456, 684, 855}; //20, 40, 60, and 75 degrees
+    int wristPosList[5] = {0, 250, 500, 750, 1000}; //About 20, 40, 60, and 75 degrees
     int currentWristPos = 0;
 
     double rpms[2];
 
     //Temporary
     int incRPM = 1000;
-    int currentRPM = 0;
     int ballsShot = 0;
+    int currentRPM = 0;
 };

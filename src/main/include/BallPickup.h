@@ -17,16 +17,15 @@ class BallPickup {
   void moveArm();
   void moveArm(double);
   void checkLimitSwitch();
-  positionStatus getState();
   int getPickupArmPosition();
   void Printer();
   void dashboardPrinter();
+
+  positionStatus armState = RETRACTED;
  
  private:
   WPI_TalonSRX pickup{pickupMotorID};
   WPI_TalonSRX arm{armMotorID};
 
   frc::DigitalInput armSwitch{armSwitchID}; //9
-
-  positionStatus state = RETRACTED;
 };

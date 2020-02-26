@@ -40,26 +40,18 @@ void Climber::toggleScissorCanBeDeployedStatus() {
     }
 }
 
-enableStatus Climber::getScissorCanBeDeployedStatus() {
-    return scissorCanBeDeployedStatus; //Not logged 
-}
-
-positionStatus Climber::getScissorLiftStatus() {
-    return scissorLiftStatus;
-}
-
 int Climber::getWinchPosition() {
     return winch.GetSelectedSensorPosition(0);
 }
 
 void Climber::Printer() {
     std::cout << "Winch Position " << getWinchPosition() << " counts" << std::endl;
-    std::cout << "Scissor Climb Can Be Deployed Status " << ((getScissorCanBeDeployedStatus() == ENABLED) ? "ENABLED" : "DISABLED") << std::endl;
-    std::cout << "Scissor Climb Deployed " << ((getScissorLiftStatus() == EXTENDED) ? "EXTENDED" : "RETRACTED") << std::endl;
+    std::cout << "Scissor Climb Can Be Deployed Status " << ((scissorCanBeDeployedStatus == ENABLED) ? "ENABLED" : "DISABLED") << std::endl;
+    std::cout << "Scissor Climb Deployed " << ((scissorLiftStatus == EXTENDED) ? "EXTENDED" : "RETRACTED") << std::endl;
 }
 
 void Climber::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
-    frc::SmartDashboard::PutString("Scissor Climb Can Be Deployed Status", (getScissorCanBeDeployedStatus() == ENABLED) ? "ENABLED" : "DISABLED"); 
-    frc::SmartDashboard::PutString("Scissor Climb Deployed", (getScissorLiftStatus() == EXTENDED) ? "EXTENDED" : "RETRACTED");
+    frc::SmartDashboard::PutString("Scissor Climb Can Be Deployed Status", (scissorCanBeDeployedStatus == ENABLED) ? "ENABLED" : "DISABLED"); 
+    frc::SmartDashboard::PutString("Scissor Climb Deployed", (scissorLiftStatus == EXTENDED) ? "EXTENDED" : "RETRACTED");
 }

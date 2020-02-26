@@ -23,13 +23,12 @@ class Vision {
   double calculateDistance();
   void switchPipeline();
   void toggleShootHighStatus();
-  enableStatus getShootHighStatus();
   void Printer();
   void dashboardPrinter();
+
+  enableStatus shootHighStatus = DISABLED;
  
  private:
   float tv, tx, ty;
   float shooterAngle, distance;
-
-  enableStatus shootHighStatus = DISABLED;
 };

@@ -189,10 +189,6 @@ void Vision::toggleShootHighStatus() {
     }
 }
 
-enableStatus Vision::getShootHighStatus() {
-    return shootHighStatus;
-}
-
 double Vision::calculateDistance() {
     return 0;
 }

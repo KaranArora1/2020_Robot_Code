@@ -34,6 +34,8 @@ class Drivetrain {
     WPI_TalonFX backLeft{backLeftMotorID};
     WPI_TalonFX backRight{backRightMotorID};
 
+    //WPI_TalonFX motorList[4] = {frontLeft, frontRight, backLeft, backRight};
+
     int positions[4];
     int velocities[4];
     double rpms[4];

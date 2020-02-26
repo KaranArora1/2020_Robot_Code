@@ -18,7 +18,6 @@ class Indexer {
   void setPushBall(positionStatus);
   void feedBall(double);
   void Divet();
-  void setDivetTime(int);
   void checkLimitSwitch();
   int getIndexerPosition();
   double getFeederRPM();
@@ -26,13 +25,14 @@ class Indexer {
   void Printer();
   void dashboardPrinter();
 
+  double divetTime = 0;
+
  private:
   WPI_TalonSRX index{indexerMotorID};
   WPI_TalonSRX feeder{feederMotorID};
 
   frc::DoubleSolenoid pneumaticPusher{PCMID, pusherKForward, pusherKReverse};
 
-  double divetTime = 0;
   double realTime = 0;
 
   int posList[3] = {1000, 1000, 1000}; //will eventually be populated with the encoder values needed to rotate indexer to proper positions

@@ -17,6 +17,7 @@ BallPickup::BallPickup() {
     pickup.Config_kF(0, pickup_F, 10);
 
     arm.ConfigPeakOutputForward(0.75);
+    arm.ConfigPeakOutputReverse(-0.75);
 
     arm.ConfigForwardSoftLimitThreshold(500); //Right direction for forward and reverse? 
     arm.ConfigReverseSoftLimitThreshold(0); //Is this fine?
@@ -30,15 +31,15 @@ void BallPickup::Pickup(double speed) {
 }
 
 void BallPickup::moveArm() {
-    if (state == EXTENDED) {
+    if (armState == EXTENDED) {
         arm.Set(ControlMode::Position, posRetract);
         //arm.Set(ControlMode::Position, 0); //Need to fix?
-        state = RETRACTED;
+        armState = RETRACTED;
     }
     else { //shooter to
         arm.Set(ControlMode::Position, posOut);
         //arm.Set(ControlMode::Position, 500);
-        state = EXTENDED; 
+        armState = EXTENDED; 
     }
 }
 
@@ -50,10 +51,6 @@ void BallPickup::checkLimitSwitch() { //Is there a better way to update encoder 
     if (armSwitch.Get()) {
         arm.SetSelectedSensorPosition(0);
     }
-}
-
-positionStatus BallPickup::getState() {
-    return state;
 }
 
 int BallPickup::getPickupArmPosition() {

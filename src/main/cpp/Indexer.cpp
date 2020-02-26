@@ -56,17 +56,15 @@ void Indexer::Divet() {
 	realTime = (divetTime * 20) / 1000;
 
 	if ((realTime > 3) && (realTime < 3.5)) {
-		Spin(-INDEXER_SPEED_FINAL_BOT);
+		frc::SmartDashboard::PutString("Dither Moment Reached??", "yes");
+		Spin(INDEXER_SPEED_FINAL_BOT);
 	}
 
 	else if (realTime > 3.5) {
-		Spin(INDEXER_SPEED_FINAL_BOT);
+		Spin(-INDEXER_SPEED_FINAL_BOT);
+		frc::SmartDashboard::PutString("Dither Moment Reached?", "yes2");
 		divetTime = 0;
 	}
-}
-
-void Indexer::setDivetTime(int time) {
-	divetTime = time;
 }
 
 void Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?

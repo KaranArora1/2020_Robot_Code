@@ -219,9 +219,10 @@ constexpr int wristSwitchID = 0;
 
 constexpr int SHOOTER_MAX_RPM = 5600;
 
-/*constexpr double wrist_P = 0;
-constexpr double wrist_I = 0;
-constexpr double wrist_D = 0;*/
+constexpr double wrist_P = 1;
+constexpr double wrist_I = 0.2;
+constexpr double wrist_D = 0;
+constexpr double wrist_MAX_ACCUM = 10;
 
 //Indexer 
 constexpr int indexerMotorID = 7; //SRX 
@@ -233,8 +234,8 @@ constexpr int pusherKForward = 7;
 constexpr int indexSwitchID = 1000;
 
 constexpr double INDEXER_SPEED_DEMO_BOT = 0.175;
-constexpr double INDEXER_SPEED_FINAL_BOT = 0.1;
+constexpr double INDEXER_SPEED_FINAL_BOT = 0.125;
 
-constexpr double FEEDER_WHEEL_SPEED = .5;
+constexpr double FEEDER_WHEEL_SPEED = 1;
 
 

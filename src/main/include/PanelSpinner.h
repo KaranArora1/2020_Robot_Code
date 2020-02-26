@@ -17,14 +17,16 @@ class PanelSpinner {
   std::string detectColor();
   void spinRevolutions(double);
   void spinToColor(double);
-  double getConfidence();
   int getPosition();
   int getVelocity();
+  double getConfidence();
   double getRPM();
   void Printer();
   void dashboardPrinter();
 
  private:
+  double confidence;
+
   rev::ColorSensorV3 m_colorSensor{i2cPort}; // The color sensor is on the 12cPort
   rev::ColorMatch colorSensor; 
 
@@ -36,7 +38,6 @@ class PanelSpinner {
 
   std::string targetColor;
 
-  double confidence;
   bool spinStatus = false;
   WPI_TalonSRX spinner{spinnerMotorID};
 };

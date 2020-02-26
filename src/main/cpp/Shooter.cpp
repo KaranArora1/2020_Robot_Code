@@ -11,18 +11,26 @@ Shooter::Shooter() {
     slaveShooter.SetInverted(false);
     shooter.SetInverted(true);
 
-    wrist.SetInverted(true);
+    //wrist.SetInverted(true); - Demo Bot
+    wrist.SetInverted(false);
     wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
+    wrist.SetSensorPhase(true);
     wrist.SetSelectedSensorPosition(0);
+
+    wrist.ConfigPeakOutputForward(.85);
+    wrist.ConfigPeakOutputReverse(-.85);
+
+    wrist.ConfigAllowableClosedloopError(0, 20, 10);
 
     //wrist.ConfigForwardSoftLimitThreshold(80 * 11.4); //Is this right direction? //80 degrees * 11.4 encoder counts per degree
     //wrist.ConfigReverseSoftLimitThreshold(0);
     wrist.ConfigForwardSoftLimitEnable(false);
     wrist.ConfigReverseSoftLimitEnable(false);
 
-    /*wrist.Config_kP(0, wrist_P, 10);
+    wrist.Config_kP(0, wrist_P, 10);
     wrist.Config_kI(0, wrist_I, 10);
-    wrist.Config_kI(0, wrist_D, 10);*/
+    wrist.Config_kI(0, wrist_D, 10);
+    wrist.ConfigMaxIntegralAccumulator(0, wrist_MAX_ACCUM, 10);
 
     shooterPID.SetP(shooter_P);
     slaveShooterPID.SetP(shooter_P);
@@ -106,10 +114,6 @@ double * Shooter::getRPMs() {
 
 int Shooter::getWristPosition() {
     return wrist.GetSelectedSensorPosition(0);
-}
-
-int Shooter::getTargetRPM() {
-    return currentRPM;
 }
 
 void Shooter::Printer() {
