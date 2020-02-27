@@ -22,8 +22,8 @@ class IndicatorLights {
 
 	IndicatorLights(const wpi::Twine&, const wpi::Twine&, frc::SerialPort::Port);
 	~IndicatorLights();
-	void setCommand(CMD);
-	void setColor(int, int, int);
+	void setCommand(CMD, bool = false);
+	void setColor(int, int, int, bool = false);
 
  private:
 	enum struct CMD_INTERNAL {
@@ -40,6 +40,8 @@ class IndicatorLights {
 	// Baud is the speed of data transfer in bits/second.
 	static constexpr int BAUD = 9600;
 	frc::SerialPort* serial;
+	CMD_INTERNAL current = CMD_INTERNAL::NOOP;
+	int operands[3] = { 0, 0, 0 };
 	
-	void sendCommand(CMD_INTERNAL, int, int, int);
+	void sendCommand(CMD_INTERNAL, int, int, int, bool = false);
 };

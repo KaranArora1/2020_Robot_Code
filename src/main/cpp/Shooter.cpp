@@ -116,6 +116,10 @@ int Shooter::getWristPosition() {
     return wrist.GetSelectedSensorPosition(0);
 }
 
+double Shooter::getSpeed() {
+    return shooter.Get();
+}
+
 void Shooter::Printer() {
     getRPMs();
 

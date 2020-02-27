@@ -21,6 +21,7 @@ class Shooter {
     void incSpeed();    
     double * getRPMs();
     int getWristPosition();
+    double getSpeed();
     void Printer();
     void dashboardPrinter();
 
