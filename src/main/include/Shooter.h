@@ -19,6 +19,7 @@ class Shooter {
     void checkLimitSwitch();
     double * getRPMs();
     int getWristPosition();
+    double getSpeed();
     void Printer();
     void dashboardPrinter();
 

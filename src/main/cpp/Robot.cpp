@@ -295,7 +295,18 @@ void Robot::TeleopPeriodic() {
 
   // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
 
+  // ------------------------------------------------------------- INDICATOR LIGHTS FEEDBACK ----------------------------------------------------------------------------
 
+  // TODO: Get Limelight feedback to get range of high target.
+  if (Pickup.armState == EXTENDED) {
+    Lights.setCommand(IndicatorLights::CMD::GREEN_DOWN);
+  } else if (Shoot.getSpeed() > 0) {
+    Lights.setCommand(IndicatorLights::CMD::GREEN_UP);
+  } else {
+    Lights.setCommand(IndicatorLights::CMD::GREEN_SOLID);
+  }
+
+  // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
 
   //Dashboard and Printing
   Pickup.dashboardPrinter();
