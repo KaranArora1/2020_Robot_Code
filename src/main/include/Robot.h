@@ -18,6 +18,7 @@
 #include "PanelSpinner.h"
 #include "Shooter.h"
 #include "Vision.h"
+#include "Auton.h"
 
 class Robot : public frc::TimedRobot {
   public:
@@ -45,6 +46,7 @@ class Robot : public frc::TimedRobot {
     Indexer Index{};
     IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
     Vision Limelight{};
+    Auton Autonomous{};
 
     enableStatus sequencingConfig = ENABLED;
     

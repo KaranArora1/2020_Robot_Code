@@ -30,7 +30,7 @@ Shooter::Shooter() {
     wrist.Config_kP(0, wrist_P, 10);
     wrist.Config_kI(0, wrist_I, 10);
     wrist.Config_kI(0, wrist_D, 10);
-    wrist.ConfigMaxIntegralAccumulator(0, wrist_MAX_ACCUM, 10);
+    wrist.ConfigMaxIntegralAccumulator(0, wrist_maxIntegralAccum, 10);
 
     shooterPID.SetP(shooter_P);
     slaveShooterPID.SetP(shooter_P);
@@ -56,21 +56,21 @@ void Shooter::Shoot(double speed) {
     }*/
 }
 
-//Temporary function
 void Shooter::ShootRPMs() {
+    currentRPM = plannedRPM;
+
     shooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
     slaveShooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
 }
 
-//Temporary function
 void Shooter::incSpeed() {
-    currentRPM += incRPM;
+    plannedRPM += incRPM;
 
-    if (currentRPM > 6000) {
-        currentRPM = 0;
+    if (plannedRPM > 6000) {
+        plannedRPM = 0;
     }
-    else if (currentRPM > 5000) {
-        currentRPM = SHOOTER_MAX_RPM;
+    else if (plannedRPM > 5000) {
+        plannedRPM = SHOOTER_MAX_RPM;
     } 
 }
 
@@ -95,7 +95,7 @@ void Shooter::moveWrist(double input) { //Use Joystick
     wrist.Set(ControlMode::PercentOutput, input);
 }
 
-void Shooter::moveWristToPosition(int pos) {
+void Shooter::moveWristToPosition(int pos) { //Limelight
 
 }
 
@@ -122,7 +122,7 @@ void Shooter::Printer() {
     std::cout << "Shooter (CAN ID 1) " << rpms[0] << " RPM" << std::endl;
     std::cout << "Slave Shooter (CAN ID 2) " << rpms[1] << " RPM" << std::endl;
     std::cout << "Wrist Position " << getWristPosition() << " counts" << std::endl;
-    std::cout << "Target RPM: " << currentRPM << std::endl;
+    std::cout << "Target RPM: " << plannedRPM << std::endl;
 }
 
 void Shooter::dashboardPrinter() {
@@ -132,7 +132,7 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
-    frc::SmartDashboard::PutNumber("Target RPM", currentRPM);
+    frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
     frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
     frc::SmartDashboard::PutBoolean("Shooter Switch Open", wristSwitch.Get());
 }

@@ -17,14 +17,14 @@ class Shooter {
     void moveWrist(double);
     void moveWristToPosition(int);
     void checkLimitSwitch();
+    void ShootRPMs();
+    void incSpeed();    
     double * getRPMs();
     int getWristPosition();
     void Printer();
     void dashboardPrinter();
 
-    //Temporary functions
-    void ShootRPMs();
-    void incSpeed();
+    int currentRPM = 0;
 
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
@@ -47,8 +47,7 @@ class Shooter {
 
     double rpms[2];
 
-    //Temporary
     int incRPM = 1000;
     int ballsShot = 0;
-    int currentRPM = 0;
+    int plannedRPM = 0;
 };

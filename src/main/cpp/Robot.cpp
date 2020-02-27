@@ -40,7 +40,7 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() {
   m_autoSelected = m_chooser.GetSelected();
   // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-  Drive.resetEncoderCounts();
+  
   //     kAutoNameDefault);
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
@@ -50,6 +50,9 @@ void Robot::AutonomousInit() {
   } else {
     // Default Auto goes here
   }
+// -----------------------------------------------------------------------
+  Drive.resetEncoderCounts();
+  Drive.setBrakeMode(ENABLED);
 }
 
 void Robot::AutonomousPeriodic() {
@@ -64,7 +67,9 @@ void Robot::AutonomousPeriodic() {
 }  
 
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  Drive.setBrakeMode(DISABLED);
+}
 
 double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
   if (fabs(input) < .05) {
@@ -103,8 +108,13 @@ void Robot::TeleopPeriodic() {
     leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
     rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
 
-    Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
-    frc::SmartDashboard::PutNumber("Turn Value", rightJoyX);
+    if (fabs(leftJoyY) <= 0.2) {
+      Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX));
+    }
+
+    else {
+      Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
+    }
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
@@ -154,20 +164,22 @@ void Robot::TeleopPeriodic() {
       Shoot.incSpeed();
     }
 
-    if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { //Button has to STAY pressed to shoot //IS THIS RIGHT
+    if (Pickup.armState == RETRACTED) {
+      if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
       Shoot.ShootRPMs();
-    }
+      }
 
-    if (Shoot.getRPMs()[0] > 500) { //Maybe Fix to get target RPM
-      Index.feedBall(FEEDER_WHEEL_SPEED);
-      Index.setPushBall(EXTENDED);
-      Index.Spin(INDEXER_SPEED_FINAL_BOT);
-    }
+      if (Shoot.currentRPM > 500) { //Maybe Fix to get target RPM
+        Index.feedBall(FEEDER_WHEEL_SPEED);
+        Index.setPushBall(EXTENDED);
+        Index.Spin(INDEXER_SPEED_FINAL_BOT);
+      }
 
-    else {
-      Index.feedBall(0);
-      Index.setPushBall(RETRACTED);
-      //Index.Spin(0);
+      else {
+        Index.feedBall(0);
+        Index.setPushBall(RETRACTED);
+        Index.Spin(0);
+      }
     }
 
     //Vision Shoot High

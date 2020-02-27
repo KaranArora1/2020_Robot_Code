@@ -17,10 +17,12 @@ class Drivetrain {
     void Vision(double, double);
     void Shift();
     void setGear(int);
+    void setSlot(int);
     void setScissorPeakOutput(positionStatus);
     void setBrakeMode(enableStatus);
     void autonBaseLine(double, double, double);
     void resetEncoderCounts();
+    void configMotor(WPI_TalonFX&);
     int * getPositions();
     int * getVelocities();
     double * getRPMs();
@@ -33,8 +35,6 @@ class Drivetrain {
     WPI_TalonFX frontRight{frontRightMotorID};
     WPI_TalonFX backLeft{backLeftMotorID};
     WPI_TalonFX backRight{backRightMotorID};
-
-    //WPI_TalonFX motorList[4] = {frontLeft, frontRight, backLeft, backRight};
 
     int positions[4];
     int velocities[4];

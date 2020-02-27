@@ -21,14 +21,14 @@ void Climber::scissorLift(Drivetrain& Drive) {
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward
         scissorLiftStatus = RETRACTED;
-        Drive.setScissorPeakOutput(scissorLiftStatus);
 	}
     else {
 		scissor.Set(frc::DoubleSolenoid::Value::kForward);
         scissorLiftStatus = EXTENDED;
         Drive.setGear(1);
-        Drive.setScissorPeakOutput(scissorLiftStatus);
 	}
+
+    Drive.setScissorPeakOutput(scissorLiftStatus);
 }
 
 void Climber::toggleScissorCanBeDeployedStatus() {

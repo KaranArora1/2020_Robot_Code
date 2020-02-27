@@ -9,83 +9,20 @@
 
 Drivetrain::Drivetrain() {
 
-    //Next year use a for loop and iterate over an array of the motors and configure them through that to save lines of code
-    /*for (int motor = 0 ; motor < 4 ; motor++) {
-        motorList[motor].ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-        motorList[motor].ConfigClosedloopRamp(0, 10);
-        motorList[motor].ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
-        motorList[motor].SetSelectedSensorPosition(0);
-        motorList[motor].Config_kP(0, drive_P, 10);
-        motorList[motor].Config_kI(0, drive_I, 10);
-        motorList[motor].Config_kD(0, drive_D, 10);
-        motorList[motor].Config_kF(0, drive_F, 10);
-        motorList[motor].SelectProfileSlot(0, 0);
-    }*/
-    
-    /*backLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    backRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    frontLeft.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    frontRight.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);*/
+    frontRight.SetInverted(true);
+    backRight.SetInverted(true); //Do I have to switch between these when doing percent and velocity control? 
+    frontRight.SetSensorPhase(true);
+    backRight.SetSensorPhase(true);
 
-    /*backLeft.ConfigClosedloopRamp(0, 10);
-    backRight.ConfigClosedloopRamp(0, 10);
-    frontLeft.ConfigClosedloopRamp(0, 10);
-    frontRight.ConfigClosedloopRamp(0, 10);*/
+    frontLeft.SetInverted(false);
+    backLeft.SetInverted(false);
+    frontLeft.SetSensorPhase(false);
+    backLeft.SetSensorPhase(false);
 
-    /*
-    * Configure the current limits that will be used
-    * Stator Current is the current that passes through the motor stators.
-    * Use stator current limits to limit rotor acceleration/heat production
-    * Supply Current is the current that passes into the controller from the supply
-    * Use supply current limits to prevent breakers from tripping
-    * */
-
-   /*backLeft.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
-    backRight.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
-    frontLeft.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
-    frontRight.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);*/
-
-    /*backLeft.ConfigContinuousCurrentLimit(40, 10);
-	backLeft.ConfigPeakCurrentLimit(60, 10);
-	backLeft.ConfigPeakCurrentDuration(400, 10); 
-	backLeft.EnableCurrentLimit(true);*/
-  
-    /*frontRight.SetSelectedSensorPosition(0);
-    backRight.SetSelectedSensorPosition(0);
-    frontLeft.SetSelectedSensorPosition(0);
-    backLeft.SetSelectedSensorPosition(0);
-
-    //frontRight.SetInverted(true);
-    //backRight.SetInverted(true);
-    //frontRight.SetSensorPhase(true);
-    //backRight.SetSensorPhase(true);
-
-
-    backLeft.Config_kP(0, drive_P, 10);
-    backLeft.Config_kI(0, drive_I, 10);
-    backLeft.Config_kD(0, drive_D, 10);
-    backLeft.Config_kF(0, drive_F, 10);
-
-    backRight.Config_kP(0, drive_P, 10);
-    backRight.Config_kI(0, drive_I, 10);
-    backRight.Config_kD(0, drive_D, 10);
-    backRight.Config_kF(0, drive_F, 10);
-
-    frontLeft.Config_kP(0, drive_P, 10);
-    frontLeft.Config_kI(0, drive_I, 10);
-    frontLeft.Config_kD(0, drive_D, 10);
-    frontLeft.Config_kF(0, drive_F, 10);
-
-    frontRight.Config_kP(0, drive_P, 10);
-    frontRight.Config_kI(0, drive_I, 10); 
-    frontRight.Config_kD(0, drive_D, 10);
-    frontRight.Config_kF(0, drive_F, 10);
-
-    backLeft.SelectProfileSlot(0, 0);
-    backRight.SelectProfileSlot(0, 0);
-    frontRight.SelectProfileSlot(0, 0);
-    frontLeft.SelectProfileSlot(0, 0);*/
-
+    configMotor(backLeft);
+    configMotor(frontLeft);
+    configMotor(frontRight);
+    configMotor(backRight);
     setGear(1);
     setBrakeMode(DISABLED);
 
@@ -96,13 +33,13 @@ Drivetrain::Drivetrain() {
     //Switch gears automatically maybe? 
     //Safety stuff for BallPickup and Shooter
     //Winch
-    //Find out what stuff was configured to have changes in Phoenix tuner and change it in code 
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
     //figure out different PID slots for balaji
-    //Anita's picture
     //Integrate Auton
-    //For Loop in Drivetrain
     //Remove Peak Outputs in Drivetrain
+    //Clean up Balaji code and other code 
+    //Figure out brake mode stuff
+    //Update smartdashboard and printer functions
 }
 
 void Drivetrain::drivePercent(double forward, double turn) {
@@ -121,8 +58,11 @@ void Drivetrain::driveVelocity(double forward, double turn) {
     leftThrot = turn - forward;
     rightThrot = turn + forward;
 
-    leftThrot = leftThrot* maxFalconVelocity;
-    rightThrot = rightThrot* maxFalconVelocity;
+    //leftThrot = leftThrot* maxFalconVelocity; //Not 18750 like in email
+    //rightThrot = rightThrot* maxFalconVelocity;
+
+    leftThrot = (leftThrot * 18750) - 1750;
+    rightThrot = (rightThrot * 18750) - 1750;
 
     getVelocities();
 
@@ -201,18 +141,49 @@ void Drivetrain::setBrakeMode(enableStatus status) {
     }
 }
 
+void Drivetrain::setSlot(int slot) {
+    backLeft.SelectProfileSlot(slot, 0);
+    backRight.SelectProfileSlot(slot, 0);
+    frontLeft.SelectProfileSlot(slot, 0);
+    frontRight.SelectProfileSlot(slot, 0);
+}
+
+void Drivetrain::configMotor(WPI_TalonFX& falcon) {
+    falcon.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
+    falcon.ConfigClosedloopRamp(0, 10);
+    falcon.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
+    falcon.SetSelectedSensorPosition(0);
+    falcon.Config_kP(0, drive_P, 10);
+    falcon.Config_kI(0, drive_I, 10);
+    falcon.Config_kD(0, drive_D, 10);
+    falcon.Config_kF(0, drive_F, 10);
+    falcon.Config_IntegralZone(0, 0, 10);
+    falcon.ConfigClosedLoopPeriod(0, 1, 10);
+    falcon.ConfigMaxIntegralAccumulator(0, drive_maxIntegralAccum, 10);
+    falcon.ConfigAllowableClosedloopError(0, drive_allowableClosedLoopError, 10);
+    falcon.SelectProfileSlot(0, 0);
+
+     /*
+    * Configure the current limits that will be used
+    * Stator Current is the current that passes through the motor stators.
+    * Use stator current limits to limit rotor acceleration/heat production
+    * Supply Current is the current that passes into the controller from the supply
+    * Use supply current limits to prevent breakers from tripping
+    * */
+}
+
 void Drivetrain::resetEncoderCounts(){
-    backLeft.SetSelectedSensorPosition(0, 0, 10);
-    backRight.SetSelectedSensorPosition(0, 0, 10);
-    frontLeft.SetSelectedSensorPosition(0, 0, 10);
-    frontRight.SetSelectedSensorPosition(0, 0, 10);
+    backLeft.SetSelectedSensorPosition(0, 0, 50);
+    backRight.SetSelectedSensorPosition(0, 0, 50);
+    frontLeft.SetSelectedSensorPosition(0, 0, 50);
+    frontRight.SetSelectedSensorPosition(0, 0, 50);
 }
 
 int * Drivetrain::getPositions() {
-    positions[0] = backLeft.GetSelectedSensorPosition(1);
-    positions[1] = frontLeft.GetSelectedSensorPosition(1);
-    positions[2] = backRight.GetSelectedSensorPosition(1);
-    positions[3] = frontRight.GetSelectedSensorPosition(1);
+    positions[0] = backLeft.GetSelectedSensorPosition();
+    positions[1] = frontLeft.GetSelectedSensorPosition();
+    positions[2] = backRight.GetSelectedSensorPosition();
+    positions[3] = frontRight.GetSelectedSensorPosition();
 
     return positions;
 }
@@ -227,10 +198,10 @@ int * Drivetrain::getVelocities() {
 }
 
 double * Drivetrain::getRPMs() {
-    rpms[0] = backLeft.GetSelectedSensorVelocity(1) * velToRPM_FX;
-    rpms[1] = frontLeft.GetSelectedSensorVelocity(1) * velToRPM_FX;
-    rpms[2] = backRight.GetSelectedSensorVelocity(1) * velToRPM_FX;
-    rpms[3] = frontRight.GetSelectedSensorVelocity(1) * velToRPM_FX;
+    rpms[0] = backLeft.GetSelectedSensorVelocity() * velToRPM_FX;
+    rpms[1] = frontLeft.GetSelectedSensorVelocity() * velToRPM_FX;
+    rpms[2] = backRight.GetSelectedSensorVelocity() * velToRPM_FX;
+    rpms[3] = frontRight.GetSelectedSensorVelocity() * velToRPM_FX;
 
     return rpms;
 }
@@ -314,7 +285,6 @@ void Drivetrain::dashboardPrinter() {
     frc::SmartDashboard::PutString("Drivetrain Gear", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "2nd Gear" : "1st Gear");
 
     frc::SmartDashboard::PutNumber("Back Left Current Position", positions[0]);
-    //frc::SmartDashboard::PutNumber("Back Left Current Position", positions[0]);
 }
 
 //----------------------------------------------------------------Auton---------------------------------------------------------------------------------//
@@ -332,7 +302,7 @@ void Drivetrain::autonBaseLine(double  userBackLeft, double forward, double turn
 
         backLeft.SetNeutralMode(NeutralMode::Brake); 
         backRight.SetNeutralMode(NeutralMode::Brake);
-        frontLeft.SetNeutralMode(NeutralMode::Brake);
+        frontLeft.SetNeutralMode(NeutralMode::Brake); //Use drivetrain function
         frontRight.SetNeutralMode(NeutralMode::Brake);
 
         frc::Wait(2);
