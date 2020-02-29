@@ -310,10 +310,10 @@ void Robot::TeleopPeriodic() {
   // ------------------------------------------------------------- INDICATOR LIGHTS FEEDBACK ----------------------------------------------------------------------------
 
   // TODO: Get Limelight feedback to get range of high target.
-  if (Pickup.armState == EXTENDED) {
-    Lights.setCommand(IndicatorLights::CMD::GREEN_DOWN);
-  } else if (Shoot.getSpeed() > 0) {
+  if (Shoot.getSpeed() > 0) {
     Lights.setCommand(IndicatorLights::CMD::GREEN_UP);
+  } else if (Pickup.armState == EXTENDED) {
+    Lights.setCommand(IndicatorLights::CMD::GREEN_DOWN);
   } else {
     Lights.setCommand(IndicatorLights::CMD::GREEN_SOLID);
   }
