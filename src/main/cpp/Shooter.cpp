@@ -191,4 +191,6 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
     frc::SmartDashboard::PutNumber("Wrist Position (0-5)", currentWristPos);
     frc::SmartDashboard::PutBoolean("Shooter Switch Open", checkLimitSwitch());
+    frc::SmartDashboard::PutString("", "");
+    frc::SmartDashboard::PutString("", "");
 }

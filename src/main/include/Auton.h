@@ -10,11 +10,15 @@
 #include "RobotMap.h"
 #include "Drivetrain.h"
 
+//This is not right, look at it again
+
 class Auton {
  public:
   Auton();
   void resetEncoderCounts(Drivetrain&);
   void crossBaseLine(double, double, double, Drivetrain&);
+  void Printer();
+  void dashboardPrinter();
 
   private:
     double backLeftAutonInitialPosition;

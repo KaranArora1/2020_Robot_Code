@@ -24,23 +24,22 @@ Drivetrain::Drivetrain() {
     configMotor(frontLeft);
     configMotor(frontRight);
     configMotor(backRight);
+
     setGear(1);
     setBrakeMode(DISABLED);
 
     //Current limits on devices and on Talon FX's
-    //Current too high for too long return to home position
-    //figure out encoder phase and inverting
-    //Velocity control on drivetain
+    //Current too high for too long return to home position 
+    //Other Safety stuff for BallPickup and Shooter
+    //Velocity control on drivetain - figure out encoder phase and inverting
+    //Print controls out
     //Indexer should be zeroed out at start
     //Switch gears automatically maybe? 
-    //Safety stuff for BallPickup and Shooter
     //Winch
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
     //figure out different PID slots for balaji
     //Integrate Auton
     //Comment unclear functions
-    //Remove Peak Outputs in Drivetrain
-    //Clean up Balaji code and other code 
     //Figure out brake mode stuff
     //Update smartdashboard and printer functions
     //Fix SmartDashboard boxes and clean them
@@ -48,6 +47,12 @@ Drivetrain::Drivetrain() {
     //Limit switch not being pressed when Shooter is down
     //Hard code Limelight values in browser into code
     //Learm how to grab log files in comp when radio is different and using USB in general
+    //Dither indexer override
+    //Reset position if override happens
+    //Make shooter so that when you increment it it updates to that speed
+    //Disable scissor automatically once it's deployed
+    //Test shooter overridre 
+    //Test ball pickup override
 }
 
 //Drive using ControlMode::Percent

@@ -60,10 +60,13 @@
    Drive Forward - Left Joystick Y Axis
    Turn - Right Joystick X Axis
    Shift Gears - A Button
+   Switch Pipeline - X Button
    Move Wrist Down - Left Bumper
    Move Wrist Up - Right Bumper
    Toggle Wrist Override - View Button 
    Move Wrist Down in Override - Right Trigger
+   Toggle Scissor Lift Can Be Deployed - Menu Button
+   Activate Scissor Lift - B Button
 
    Operator:
    Extend Pickup Arm, Move Pickup Belts, Rotate Indexer Sequence - Y Button
@@ -72,8 +75,6 @@
    Increment Shooter RPMs - Right Bumper
    Vision High Shoot - X Button 
    Cancel Vision High Shoot - Menu Button
-   Toggle Scissor Lift Can Be Deployed - View Button
-   Activate Scissor Lift - B Button
    Winch - Left Bumper
 */
 
@@ -147,12 +148,13 @@ constexpr int reverseBallPickupOverrideChl = 1; //Y Axis on Left Joystick (Opera
 
 constexpr int shifterBtnSequence = 1; ///A Button (Driver)
 
-constexpr int climbStatusBtnSequence = 7; //View Button (Operator)
-constexpr int climbScissorJoyBtnSequence = 2; //B Button (Operator)
+constexpr int climbStatusBtnSequence = 8; //View Button (Driver)
+constexpr int climbScissorJoyBtnSequence = 2; //B Button (Driver)
 constexpr int winchBtnSequence = 5; //Left Bumper (Operator)
 
 constexpr int activateVisionShootHighBtnSequence = 3; //X Button (Operator)
 constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
+constexpr int switchPipelineBtnSequence = 3; //X Button (Driver)
 
 constexpr int moveWristDownBtnSequence = 5; //Left Bumper (Driver)
 constexpr int moveWristUpBtnSequence = 6; //Right Bumper (Driver)
@@ -251,7 +253,7 @@ constexpr int pusherKForward = 7;
 constexpr int indexSwitchID = 1000;
 
 constexpr double INDEXER_SPEED_DEMO_BOT = 0.175;
-constexpr double INDEXER_SPEED_FINAL_BOT = 0.125;
+constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
 
 constexpr double FEEDER_WHEEL_SPEED = 1;
 

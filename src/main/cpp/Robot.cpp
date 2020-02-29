@@ -39,18 +39,15 @@ void Robot::RobotPeriodic() {}
  */
 void Robot::AutonomousInit() {
   m_autoSelected = m_chooser.GetSelected();
-  // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-  
-  //     kAutoNameDefault);
+  // m_autoSelected = SmartDashboard::GetString("Auto Selector", kAutoNameDefault);
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
-  
     // Custom Auto goes here
   } else {
     // Default Auto goes here
   }
-// -----------------------------------------------------------------------
+  // -----------------------------------------------------------------------
   Drive.resetEncoderCounts();
   Drive.setBrakeMode(ENABLED);
 }
@@ -225,6 +222,10 @@ void Robot::TeleopPeriodic() {
       }
     }*/
 
+    if (driverJoy.GetRawButtonPressed(switchPipelineBtnSequence)) {
+      Limelight.switchPipeline();
+    }
+
     //Drivetrain shifter
     if (driverJoy.GetRawButtonPressed(shifterBtnSequence) && Climb.scissorLiftStatus == RETRACTED) {
       Drive.Shift();
@@ -367,7 +368,7 @@ void Robot::TeleopPeriodic() {
     logThisTime = false;
     logTicker = 0;
 
-    Logger::instance()->Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
+    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
                             Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, pdp.GetTotalCurrent(), pdp.GetVoltage());
     }

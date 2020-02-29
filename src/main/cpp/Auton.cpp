@@ -21,8 +21,16 @@ void Auton::crossBaseLine(double userBackLeft, double fwd, double turn, Drivetra
 
     else {
         Drive.drivePercent(0, 0);
-        Drive.setBrakeMode(ENABLED);
+        Drive.setBrakeMode(ENABLED); //Only for testing
         frc::Wait(2);
-        Drive.setBrakeMode(DISABLED);
+        Drive.setBrakeMode(DISABLED); //Only for testing
     }
+}
+
+void Auton::Printer() {
+
+}
+
+void Auton::dashboardPrinter() {
+    
 }
