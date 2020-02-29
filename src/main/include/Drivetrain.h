@@ -43,6 +43,4 @@ class Drivetrain {
     frc::DoubleSolenoid shifter{PCMID, shiferFirstGear, shifterSecondGear};
 
     double turn, forward, leftThrot, rightThrot;
-    double backLeftInitialPosition = backLeft.GetSelectedSensorPosition();
-    double backLeftAutonGoalPosition;
 };

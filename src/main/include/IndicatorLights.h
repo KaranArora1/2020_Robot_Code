@@ -7,7 +7,7 @@
 
 #include "RobotMap.h"
 
-// Formerly STSLSHost
+//Formerly STSLSHost
 class IndicatorLights {
  public:
 	enum struct CMD {
@@ -37,7 +37,7 @@ class IndicatorLights {
 		RED_DOWN = 0x7
 	};
 	
-	// Baud is the speed of data transfer in bits/second.
+	//Baud is the speed of data transfer in bits/second.
 	static constexpr int BAUD = 9600;
 	frc::SerialPort* serial;
 	CMD_INTERNAL current = CMD_INTERNAL::NOOP;

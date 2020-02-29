@@ -8,7 +8,6 @@
 #pragma once
 
 #include "RobotMap.h"
-#include <frc/DriverStation.h>
 
 class PanelSpinner {
  public:

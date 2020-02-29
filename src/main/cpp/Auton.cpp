@@ -13,14 +13,14 @@ Auton::Auton() {}
 //Needs to be commented
 void Auton::crossBaseLine(double userBackLeft, double fwd, double turn, Drivetrain& Drive){
     Drive.resetEncoderCounts();
-    Drive.setGear(1);
+    Drive.setGear(1); //THIS IS DEFNIITELY NOT RIGHT
 
     if (Drive.getPositions()[0] <= backLeftAutonInitialPosition + userBackLeft) {
         Drive.drivePercent(-.10, 0);
     }
 
     else {
-        Drive.drivePercent(0,0);
+        Drive.drivePercent(0, 0);
         Drive.setBrakeMode(ENABLED);
         frc::Wait(2);
         Drive.setBrakeMode(DISABLED);

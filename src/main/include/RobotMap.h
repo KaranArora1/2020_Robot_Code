@@ -15,6 +15,7 @@
 #include "frc/AnalogInput.h" //Pressure
 #include "frc/DigitalInput.h" //Limit Switches
 #include "frc/TimedRobot.h" 
+#include "frc/DriverStation.h" //Panel Spinner
 #include "frc/smartdashboard/SendableChooser.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "networktables/NetworkTable.h" //Vision
@@ -187,6 +188,9 @@ constexpr int shifterSecondGear = 4;
 
 //Climber
 constexpr int winchMotorID = 4; //SRX
+
+constexpr int scissorKForward = 1;
+constexpr int scissorKReverse= 6;
 
 //Ball Pickup
 constexpr int pickupMotorID = 0; //SRX

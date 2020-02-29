@@ -26,7 +26,6 @@ class Climber {
  private:
   WPI_TalonSRX winch{winchMotorID};
   double encoderPosTarget = 1000000; //Unknown
-  //Constant velocity to a fixed number of encoder countd TBD
 
-  frc::DoubleSolenoid scissor{PCMID, 1, 6};
+  frc::DoubleSolenoid scissor{PCMID, scissorKForward, scissorKReverse};
 };

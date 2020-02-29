@@ -47,6 +47,7 @@ Drivetrain::Drivetrain() {
     //Shooter wheels need time to speed up before indexer feeds them ball
     //Limit switch not being pressed when Shooter is down
     //Hard code Limelight values in browser into code
+    //Learm how to grab log files in comp when radio is different and using USB in general
 }
 
 //Drive using ControlMode::Percent
