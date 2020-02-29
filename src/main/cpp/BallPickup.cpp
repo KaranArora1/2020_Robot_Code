@@ -19,17 +19,19 @@ BallPickup::BallPickup() {
     arm.ConfigPeakOutputForward(0.75);
     arm.ConfigPeakOutputReverse(-0.75);
 
-    arm.ConfigForwardSoftLimitThreshold(500); //Right direction for forward and reverse? 
-    arm.ConfigReverseSoftLimitThreshold(0); //Is this fine?
+    arm.ConfigForwardSoftLimitThreshold(500); //Right direction for forward and reverse? Is this fine?
+    arm.ConfigReverseSoftLimitThreshold(0); 
 
     arm.ConfigForwardSoftLimitEnable(true);
     arm.ConfigReverseSoftLimitEnable(true);
 }
 
+//Set speed of pickup belts
 void BallPickup::Pickup(double speed) {
     pickup.Set(ControlMode::PercentOutput, speed);
 }
 
+//Extend/retract arm with position control
 void BallPickup::moveArm() {
     if (armState == EXTENDED) {
         arm.Set(ControlMode::Position, posRetract);
@@ -43,14 +45,18 @@ void BallPickup::moveArm() {
     }
 }
 
-void BallPickup::moveArm(double speed) { //Used with Joystick
+//Extend/retract arm with Joystick instead of position control
+void BallPickup::moveArm(double speed) { 
     arm.Set(ControlMode::PercentOutput, speed);
 }
 
-void BallPickup::checkLimitSwitch() { //Is there a better way to update encoder counts?
+//Check if limit switch is pressed and set position to 0
+bool BallPickup::checkLimitSwitch() { //Is there a better way to update encoder counts?
     if (armSwitch.Get()) {
         arm.SetSelectedSensorPosition(0);
+        return true;
     }
+    return false;
 }
 
 int BallPickup::getPickupArmPosition() {

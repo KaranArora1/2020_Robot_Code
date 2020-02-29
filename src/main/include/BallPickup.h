@@ -16,7 +16,7 @@ class BallPickup {
   void Pickup(double);
   void moveArm();
   void moveArm(double);
-  void checkLimitSwitch();
+  bool checkLimitSwitch();
   int getPickupArmPosition();
   void Printer();
   void dashboardPrinter();
@@ -27,5 +27,5 @@ class BallPickup {
   WPI_TalonSRX pickup{pickupMotorID};
   WPI_TalonSRX arm{armMotorID};
 
-  frc::DigitalInput armSwitch{armSwitchID}; //9
+  frc::DigitalInput armSwitch{armSwitchID}; 
 };

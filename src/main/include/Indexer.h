@@ -18,7 +18,7 @@ class Indexer {
   void setPushBall(positionStatus);
   void feedBall(double);
   void Divet();
-  void checkLimitSwitch();
+  bool checkLimitSwitch();
   int getIndexerPosition();
   double getFeederRPM();
   double getCurrent();

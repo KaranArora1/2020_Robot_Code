@@ -56,8 +56,8 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-      Drive.autonBaseLine(31504, -0.10, 0);
-      Drive.dashboardPrinter();
+  Autonomous.crossBaseLine(31504, 1, 0, Drive);
+  Drive.dashboardPrinter();
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
@@ -74,7 +74,7 @@ void Robot::TeleopInit() {
 double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
   if (fabs(input) < .05) {
     input = 0.0;
-    }
+  }
   else {
     if (input > 0) {
       input = (input - .05) / (1 - .05);
@@ -84,14 +84,14 @@ double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a para
         }
       }
     return input;
-   }
+  }
 
 void Robot::TeleopPeriodic() {
 
   frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
   frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
-  Index.checkLimitSwitch();
+  Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
   Pickup.checkLimitSwitch();
 
@@ -108,41 +108,39 @@ void Robot::TeleopPeriodic() {
     leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
     rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
 
-    if (fabs(leftJoyY) <= 0.2) {
-      Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX));
+    if (fabs(leftJoyY) <= 0.2 || velocityControl == DISABLED) {
+      velocityControl = DISABLED;
+      Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); //Latch for Drivetrain - switch between PercentOutput and Velocity
     }
 
-    else {
+    else if (fabs(leftJoyY) > 0.25 || velocityControl == ENABLED) {
+      velocityControl = ENABLED;
       Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
     }
+
+    //Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); Use in case latch doesn't work
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
-    /* 3- after carousel full, stop carousel
-        3- turn on ball carousel CCW  (& set LED feedback)
-    Carousel - clear a jam
-    Shoot low (visual only)
-
-    */
-
-    //Picking up balls off the ground
+    //Picking up balls off the ground sequence
     if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { 
       Pickup.moveArm(); 
 
-      if (Pickup.armState == EXTENDED) { //Stuff that initially happens when the button is pressed
+      if (Pickup.armState == EXTENDED) { //Stuff that initially happens when button is pressed
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
         Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
       }
       else {
-        Pickup.Pickup(0);
+        Pickup.Pickup(0); //Turn off sequence
         Index.Spin(0);
-        Index.divetTime = 0; //Is this line needed really?
+        Index.divetTime = 0; 
       }
     }
 
-    if (Pickup.armState == EXTENDED) { //Stuff that should be constantly checked for when the arm is out and sequence is happening
+    if (Pickup.armState == EXTENDED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
       Index.Divet();
-      frc::SmartDashboard::PutString("Start Divet", " yes");
+
+      //Allows for operator to override Pickup belts in case they get jammed
       if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > 0)) { //Might cause some issues with change of direction, test and fix
         Pickup.Pickup(-BALLPICKUP_ARM_SPEED);
       }
@@ -151,34 +149,62 @@ void Robot::TeleopPeriodic() {
       }
    }
 
-    //Shooting without Vision
-    if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
-      Shoot.moveWristFixedPositions(true);
-    }
-
-    if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
-      Shoot.moveWristFixedPositions(false);
-    }
-
+    //Planned speed of Shooter can be incremented or decremented regardless of if the Pickup arm is out
     if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
-      Shoot.incSpeed();
+        Shoot.incSpeed(UP);
     }
 
+    if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
+      Shoot.incSpeed(DOWN);
+    }
+
+    //Shooting without Vision - only runs when Pickup Arm is not extended (so as to not interfere with Indexer direction)
     if (Pickup.armState == RETRACTED) {
-      if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
-      Shoot.ShootRPMs();
+
+      if (driverJoy.GetRawButtonPressed(wristOverrideStatusBtnSequence)) {
+        Shoot.toggleWristOverride();
       }
 
-      if (Shoot.currentRPM > 500) { //Maybe Fix to get target RPM
-        Index.feedBall(FEEDER_WHEEL_SPEED);
-        Index.setPushBall(EXTENDED);
-        Index.Spin(INDEXER_SPEED_FINAL_BOT);
+      //If the Wrist can be overridden, check if the right trigger is being pressed past 20% and move the wrist down
+      if (Shoot.wristOverride == ENABLED) {
+        if (Deadzone(driverJoy.GetRawAxis(moveWristDownOverrideChlSequence)) > .2) {
+          if (!(Shoot.checkLimitSwitch())) { //Only do this when the switch is not being pressed
+            Shoot.moveWristDownOverride();
+          }
+          else {
+            //When the switch is finally pressed and the wrist is home, make the override status back to disabled
+            Shoot.toggleWristOverride(); 
+          }
+        }
       }
 
-      else {
-        Index.feedBall(0);
-        Index.setPushBall(RETRACTED);
-        Index.Spin(0);
+      //Moving the wrist, shooting, and the sequence should only run when override is disabled
+      if (Shoot.wristOverride == DISABLED) { 
+        if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
+          Shoot.moveWristFixedPositions(UP);
+        }
+
+        //THIS SHOULD ONLY WORK WHEN THE PICKUP ARM IS NOT EXTENDED Does is though?? Fix maybe
+        if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
+          Shoot.moveWristFixedPositions(DOWN);
+        }
+
+        if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
+            Shoot.ShootRPMs();
+        }
+
+        //If the shooter wheels are rotating activate the sequence
+        if (Shoot.currentRPM > 900) { 
+          Index.feedBall(FEEDER_WHEEL_SPEED);
+          Index.setPushBall(EXTENDED);
+          Index.Spin(INDEXER_SPEED_FINAL_BOT);
+        }
+
+        else {
+          Index.feedBall(0);
+          Index.setPushBall(RETRACTED);
+          Index.Spin(0);
+        }
       }
     }
 
@@ -199,7 +225,7 @@ void Robot::TeleopPeriodic() {
       }
     }*/
 
-    //Drivetrain (Shifter)
+    //Drivetrain shifter
     if (driverJoy.GetRawButtonPressed(shifterBtnSequence) && Climb.scissorLiftStatus == RETRACTED) {
       Drive.Shift();
     }
@@ -217,9 +243,10 @@ void Robot::TeleopPeriodic() {
       }
     }
 
+    //Only turn on winch if scissor lift is extended
     if (Climb.scissorLiftStatus == EXTENDED) {
       if (operatorJoy.GetRawButtonPressed(winchBtnSequence)) {
-        Climb.Climb(10000); //Change to position
+        Climb.Climb(10000); 
       }
     }
   }
@@ -283,7 +310,7 @@ void Robot::TeleopPeriodic() {
 
     //Shooter (RPM Version)
     if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtn)) {
-      Shoot.incSpeed();
+      Shoot.incSpeed(1000);
     }
 
   // -------------------------------------------------------------- NON-SEQUENCING CLIMBING -----------------------------------------------------------------------------
@@ -307,18 +334,16 @@ void Robot::TeleopPeriodic() {
 
   // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
 
-  // ------------------------------------------------------------- INDICATOR LIGHTS FEEDBACK ----------------------------------------------------------------------------
-
   // TODO: Get Limelight feedback to get range of high target.
   if (Pickup.armState == EXTENDED) {
     Lights.setCommand(IndicatorLights::CMD::GREEN_DOWN);
-  } else if (Shoot.getSpeed() > 0) {
+  } 
+  else if (Shoot.getRPMs()[0] > 0) {
     Lights.setCommand(IndicatorLights::CMD::GREEN_UP);
-  } else {
+  } 
+  else {
     Lights.setCommand(IndicatorLights::CMD::GREEN_SOLID);
   }
-
-  // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
 
   //Dashboard and Printing
   Pickup.dashboardPrinter();
@@ -329,7 +354,6 @@ void Robot::TeleopPeriodic() {
   Shoot.dashboardPrinter();
   Limelight.dashboardPrinter();
  
-  
   /* Pickup.Printer();
   Climb.Printer();
   Drive.Printer();
@@ -338,7 +362,7 @@ void Robot::TeleopPeriodic() {
   Shoot.Printer(); 
   Limelight.Printer();*/
 
-  //Logging
+  //Logging - if the log is run, reset the time 
   if (logThisTime) {
     logThisTime = false;
     logTicker = 0;

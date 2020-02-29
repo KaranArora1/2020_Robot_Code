@@ -30,75 +30,65 @@ void PanelSpinner::spinRevolutions(double speed) { //Eventually Parameter for sp
 
 void PanelSpinner::spinToColor(double speed) {
    //Field data
-      if(gameData.length() > 0){
-          switch (gameData[0]){
-          case 'R':
-            targetColor = "Red";
-          break;
-          case 'G':
-            targetColor = "Green";
-          break;
-          case 'B':
-            targetColor = "Blue";
-            break;
-          case 'Y':
-            targetColor = "Yellow";
-            break;
-          }
-            if(targetColor != colorString){
-                spinner.Set(0.40);
-                spinStatus = true;
-            }
-            else {
-                spinner.Set(0);
-                spinStatus = false;
-            }
-            
-
-
-      }
-
-
+    if(gameData.length() > 0){
+        switch (gameData[0]){
+        case 'R':
+        targetColor = "Red";
+        break;
+        case 'G':
+        targetColor = "Green";
+        break;
+        case 'B':
+        targetColor = "Blue";
+        break;
+        case 'Y':
+        targetColor = "Yellow";
+        break;
+        }
+        if(targetColor != colorString){
+            spinner.Set(0.40);
+            spinStatus = true;
+        }
+        else {
+            spinner.Set(0);
+            spinStatus = false;
+        }
+    }
 }
 
 double PanelSpinner::getConfidence() { //Is this fine? 
-    detectedColor = m_colorSensor.GetColor();
-	matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
+detectedColor = m_colorSensor.GetColor();
+matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
 
-    return confidence;
+return confidence;
 }
 
 std::string PanelSpinner::detectColor() {
-	detectedColor = m_colorSensor.GetColor();
-	matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
-	
+    detectedColor = m_colorSensor.GetColor();
+    matchedColor = colorSensor.MatchClosestColor(detectedColor, confidence);
+
     if (matchedColor == kBlueTarget && confidence > 0.953) {
             colorString = "Blue";
             std::cout << "Detected Blue" << std::endl;
-        }
+    }
     else if (matchedColor == kRedTarget){
         colorString = "Red";
         std::cout << "Detected Red" << std::endl;
-        }
+    }
     else if (matchedColor == kGreenTarget && confidence > 0.953) {
         colorString = "Green";
         std::cout << "Detected Green" << std::endl; 
-        }
+    }
     else if (matchedColor == kYellowTarget && confidence > 0.953) {
         colorString = "Yellow";
         std::cout << "Detected Yellow" << std::endl; 
-        }
+    }
     else {
         colorString = "Unknown";
-        }
+    }
 
-    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-    frc::SmartDashboard::PutNumber("Confidence", confidence);
-    frc::SmartDashboard::PutString("This is the color", colorString);
+return colorString;
 
-    return colorString;
 }
 
 int PanelSpinner::getPosition() {
@@ -120,7 +110,12 @@ void PanelSpinner::Printer() {
 }
 
 void PanelSpinner::dashboardPrinter() {
-    frc::SmartDashboard::PutNumber("Spinner Position (counts)", getPosition());
-    frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", getVelocity());
-    frc::SmartDashboard::PutNumber("Spinner RPM", getRPM());
+    //frc::SmartDashboard::PutNumber("Spinner Position (counts)", getPosition());
+    //frc::SmartDashboard::PutNumber("Spinner Velocity (counts/100ms)", getVelocity());
+    //frc::SmartDashboard::PutNumber("Spinner RPM", getRPM());
+    frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+    frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+    frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+    frc::SmartDashboard::PutNumber("Confidence", confidence);
+    frc::SmartDashboard::PutString("This is the color", colorString);
 }

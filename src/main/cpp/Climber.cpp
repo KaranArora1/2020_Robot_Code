@@ -13,10 +13,12 @@ Climber::Climber() {
     
 }
 
-void Climber::Climb(double speed) { //Eventually will be a follower with no parameters to the encoder pos target
+//Spins winch using Joystick, eventually will be position control with no parameters to the encoder position target
+void Climber::Climb(double speed) { 
     winch.Set(ControlMode::PercentOutput, speed);
 }
 
+//Activate scissor lift - sets gear to one for Drivetrain for safety and limits peak output
 void Climber::scissorLift(Drivetrain& Drive) { 
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward

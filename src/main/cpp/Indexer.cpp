@@ -15,7 +15,8 @@ Indexer::Indexer() {
 	feeder.SetSelectedSensorPosition(0);
 }
 
-void Indexer::Spin(double triggerForward, double triggerReverse) { //Maybe make overloaded method for this? Only one argument is needed when operator is not controlling Indexer
+//Overloaded method - spins indexer using left and right trigger (originally for demo bot)
+void Indexer::Spin(double triggerForward, double triggerReverse) { 
 	if (triggerForward > 0 && triggerReverse > 0) {
     	index.Set(ControlMode::PercentOutput, 0);
 	}
@@ -24,10 +25,12 @@ void Indexer::Spin(double triggerForward, double triggerReverse) { //Maybe make 
 	}	
 }
 
+//Overloaded method - spins indexer just using one speed input
 void Indexer::Spin(double speed) {
 	index.Set(ControlMode::PercentOutput, speed);
 }
 
+//If pneumatic ball pusher is up, make it down, vice versa (not used in sequencing code)
 void Indexer::switchPushBall() {
     if (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse);
@@ -37,6 +40,7 @@ void Indexer::switchPushBall() {
 	}
 }
 
+//Set pneumatic ball pusher to a specific state (used in sequencing code)
 void Indexer::setPushBall(positionStatus position) { //FIX LATER
 	if (position == EXTENDED) {
 		pneumaticPusher.Set(frc::DoubleSolenoid::Value::kReverse); //UP
@@ -50,27 +54,28 @@ void Indexer::feedBall(double speed) {
 	feeder.Set(ControlMode::PercentOutput, speed);
 } 
 
+//Actual name should be Dither - makes indexer unjam by rotating backwards for 0.5 seconds every 2.5 seconds
 void Indexer::Divet() {
 
-	divetTime += 1;
-	realTime = (divetTime * 20) / 1000;
+	divetTime += 1; //Number of times loop repeats 
+	realTime = (divetTime * 20) / 1000; //Since loop repeats every 20ms this converts it into seconds
 
-	if ((realTime > 3) && (realTime < 3.5)) {
-		frc::SmartDashboard::PutString("Dither Moment Reached??", "yes");
-		Spin(INDEXER_SPEED_FINAL_BOT);
+	if ((realTime > 2.5) && (realTime < 3)) {
+		Spin(INDEXER_SPEED_FINAL_BOT); //Spin the bot in the opposite direction for these 0.5 seconds
 	}
 
-	else if (realTime > 3.5) {
-		Spin(-INDEXER_SPEED_FINAL_BOT);
-		frc::SmartDashboard::PutString("Dither Moment Reached?", "yes2");
+	else if (realTime > 3) {
+		Spin(-INDEXER_SPEED_FINAL_BOT); //Spin bot normally and reset time
 		divetTime = 0;
 	}
 }
 
-void Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?
+bool Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?
     if (indexSwitch.Get()) {
         index.SetSelectedSensorPosition(0);
+		return true; //Fix later
     }
+	return false;
 }
 
 int Indexer::getIndexerPosition() {
@@ -97,10 +102,10 @@ void Indexer::Printer() {
 void Indexer::dashboardPrinter() {
 	frc::SmartDashboard::PutNumber("Indexer Position (counts)", getIndexerPosition());
 	frc::SmartDashboard::PutNumber("Feeder RPM", getFeederRPM());
-	frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
+	//frc::SmartDashboard::PutNumber("Indexer Current (amps)", getCurrent());
 
 	frc::SmartDashboard::PutString("Ball Pusher State",
 		 (pneumaticPusher.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward (Up)" : "kReverse (Down)");
 
-	frc::SmartDashboard::PutNumber("Real Time", realTime);
+	//frc::SmartDashboard::PutNumber("Real Time", realTime);
 }

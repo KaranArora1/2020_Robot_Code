@@ -48,7 +48,8 @@ Shooter::Shooter() {
     slaveShooterPID.SetIZone(shooter_IZone);
 }
 
-void Shooter::Shoot(double speed) {
+//Will be used with Vision most likely
+void Shooter::Shoot(double speed) { 
     shooter.Set(speed);
     slaveShooter.Set(speed);
     /*if (shooter.GetOutputCurrent() > 45) { //FIX CURRENT VALUE
@@ -56,53 +57,107 @@ void Shooter::Shoot(double speed) {
     }*/
 }
 
-void Shooter::ShootRPMs() {
-    currentRPM = plannedRPM;
+//Shoot at a pre-set speed
+void Shooter::ShootRPMs() { 
+
+    //Each time button is pressed, it switches between enabled and disabled 
+    if (shooterEnabled == ENABLED) {
+        shooterEnabled = DISABLED;
+        currentRPM = 0;
+    }
+  
+    else {
+        shooterEnabled = ENABLED;
+        currentRPM = plannedRPM;
+    }
 
     shooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
     slaveShooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
 }
 
-void Shooter::incSpeed() {
-    plannedRPM += incRPM;
+//Overloaded method - increments desired RPM but a pre-set value
+void Shooter::incSpeed(int rpm) { 
+    
+    plannedRPM += rpm;
 
     if (plannedRPM > 6000) {
         plannedRPM = 0;
+    }
+    else if (plannedRPM < 0) {
+        plannedRPM = SHOOTER_MAX_RPM;
     }
     else if (plannedRPM > 5000) {
         plannedRPM = SHOOTER_MAX_RPM;
     } 
 }
 
-void Shooter::moveWristFixedPositions(bool moveUp) {
-    if (moveUp) {
+//Overloaded method - can increment and decrement RPM and uses array to do so
+void Shooter::incSpeed(direction dir) { 
+    if (dir == UP) {
+        currentSpeedPos++;
+        if (currentSpeedPos == 7) {
+            currentSpeedPos = 0;
+        }
+    }
+    else {
+        currentSpeedPos--;
+        if (currentSpeedPos == -1) {
+            currentSpeedPos = 6;
+        }
+    }
+
+    plannedRPM = speeds[currentSpeedPos];
+}
+
+//Move wrist up or down using array of positions
+void Shooter::moveWristFixedPositions(direction dir) { 
+    if (dir == UP) {
         currentWristPos++;
-        if (currentWristPos == 5) {
+        if (currentWristPos == 6) {
             currentWristPos = 0;
         }
     }
     else {
         currentWristPos--;
         if (currentWristPos == -1) {
-            currentWristPos = 4;
+            currentWristPos = 5;
         }
     }
 
     wrist.Set(ControlMode::Position, wristPosList[currentWristPos]);
 }
 
-void Shooter::moveWrist(double input) { //Use Joystick
+//Use joystick to move the Wrist
+void Shooter::moveWrist(double input) { 
     wrist.Set(ControlMode::PercentOutput, input);
 }
 
-void Shooter::moveWristToPosition(int pos) { //Limelight
+//Move wrist to a position determined by the Limelight
+void Shooter::moveWristToPosition(int pos) { 
 
 }
 
-void Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts?
-    if (!(wristSwitch.Get())) {
-        wrist.SetSelectedSensorPosition(0);
+//Used to override wrist and move it down forcibly
+void Shooter::moveWristDownOverride() {
+    wrist.Set(ControlMode::PercentOutput, -.15);
+}
+
+void Shooter::toggleWristOverride()  {
+    if (wristOverride == ENABLED) {
+        wristOverride = DISABLED;
     }
+    else {
+        wristOverride = ENABLED;
+    }
+}
+
+//Returns if switch is depressed
+bool Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts?
+    if (!(wristSwitch.Get())) {
+        wrist.SetSelectedSensorPosition(0); 
+        return true;
+    }
+    return false;
 }
 
 double * Shooter::getRPMs() {
@@ -114,10 +169,6 @@ double * Shooter::getRPMs() {
 
 int Shooter::getWristPosition() {
     return wrist.GetSelectedSensorPosition(0);
-}
-
-double Shooter::getSpeed() {
-    return shooter.Get();
 }
 
 void Shooter::Printer() {
@@ -138,5 +189,6 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
     frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
-    frc::SmartDashboard::PutBoolean("Shooter Switch Open", wristSwitch.Get());
+    frc::SmartDashboard::PutNumber("Wrist Position (0-5)", currentWristPos);
+    frc::SmartDashboard::PutBoolean("Shooter Switch Open", checkLimitSwitch());
 }

@@ -39,7 +39,7 @@ Logger::Logger() {
 			<< "backLeftVelocity" << ','
 			<< "frontLeftVelocity" << ','
 			<< "backRightVelocity" << ','
-			<< "frontRightVelocity" << ','
+			<< "frontRightVelocity" << ',' //Make sure that all commas and << are correct or else it won't log properly
 			<< "backLeftRPM" << ','
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','

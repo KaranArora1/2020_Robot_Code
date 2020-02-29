@@ -61,18 +61,19 @@
    Shift Gears - A Button
    Move Wrist Down - Left Bumper
    Move Wrist Up - Right Bumper
+   Toggle Wrist Override - View Button 
+   Move Wrist Down in Override - Right Trigger
 
    Operator:
    Extend Pickup Arm, Move Pickup Belts, Rotate Indexer Sequence - Y Button
    Shoot Ball - A Button
-   Vision High Shoot - X Button 
-   Activate Scissor Lift - B Button
-   Cancel Vision High Shoot - Menu Button
-   Change Climb Status - View Button
+   Decrement Shooter RPMs - Left Bumper
    Increment Shooter RPMs - Right Bumper
+   Vision High Shoot - X Button 
+   Cancel Vision High Shoot - Menu Button
+   Toggle Scissor Lift Can Be Deployed - View Button
+   Activate Scissor Lift - B Button
    Winch - Left Bumper
-
-
 */
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -99,6 +100,7 @@ constexpr int PCMID = 0;
 
 enum enableStatus {ENABLED, DISABLED};
 enum positionStatus {RETRACTED, EXTENDED};
+enum direction {UP, DOWN};
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -153,7 +155,10 @@ constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
 
 constexpr int moveWristDownBtnSequence = 5; //Left Bumper (Driver)
 constexpr int moveWristUpBtnSequence = 6; //Right Bumper (Driver)
+constexpr int wristOverrideStatusBtnSequence = 7; //View Button (Driver)
+constexpr int moveWristDownOverrideChlSequence = 3; //Right Trigger (Driver)
 constexpr int shootSpeedIncBtnSequence = 6; //Right Bumper (Operator)
+constexpr int shootSpeedDecBtnSequence = 5; //Left Bumper (Operator)
 constexpr int shootSpeedBtnSequence = 1; //A Button (Operator)
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -198,7 +203,7 @@ constexpr double pickup_F = 0;
 constexpr int posRetract = 0;
 constexpr int posOut = 500;
 
-constexpr int armSwitchID = 1000;
+constexpr int armSwitchID = 9;
 
 constexpr double BALLPICKUP_ARM_SPEED = .65;
 

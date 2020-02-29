@@ -20,7 +20,6 @@ class Drivetrain {
     void setSlot(int);
     void setScissorPeakOutput(positionStatus);
     void setBrakeMode(enableStatus);
-    void autonBaseLine(double, double, double);
     void resetEncoderCounts();
     void configMotor(WPI_TalonFX&);
     int * getPositions();

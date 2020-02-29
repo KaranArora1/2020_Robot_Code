@@ -57,6 +57,8 @@ class Robot : public frc::TimedRobot {
     double leftJoyY = 0;
     double rightJoyX = 0;
 
+    enableStatus velocityControl = DISABLED;
+
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";
     const std::string kAutoNameCustom = "My Auto";

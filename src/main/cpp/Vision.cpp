@@ -20,13 +20,14 @@ Vision::Vision() {
   2 PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream
  */
 
+//Switches pipeline of limelight from being able to detect targets to acting as a normal camera 
 void Vision::switchPipeline() {
     if (nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0) == 0) { 
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
-        }
+    }
     else {
         nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
-        }
+    }
 }
 
 void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
@@ -40,10 +41,10 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
     while (tv == 0) {
         Drive.drivePercent(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
-    }//end of finding
+    } //End of finding
 
 
-/*
+    /*
     while (tv != 0.0) {
         Drive.Drive(fwdspeed, 0);
         tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
@@ -68,7 +69,6 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
 
 
         //distance equasion goes here
-
 
 
         //start of long if statement for distance / velocity
@@ -104,13 +104,8 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
         }else if(distance =< 16.5){
 
         }*/
-
-
-
-
     }
 //}
-
 
 
 //Math goes here
@@ -137,6 +132,7 @@ if (distance <= 5.3){
 
 }*/
 
+//Orient the robot and the shooter to shoot at the high goal
 void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
 
@@ -155,6 +151,7 @@ void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     switchPipeline();
 }
 
+//Actually shoot balls into the high goal
 void Vision::shootHigh(Shooter& Shoot, Indexer& Index) {
     switchPipeline();
 

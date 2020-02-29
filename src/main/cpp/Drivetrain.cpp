@@ -9,13 +9,14 @@
 
 Drivetrain::Drivetrain() {
 
+    //Inverts and phases used to implement velocity control - encoder counts go up when Joystick is forward
     frontRight.SetInverted(true);
-    backRight.SetInverted(true); //Do I have to switch between these when doing percent and velocity control? 
+    backRight.SetInverted(true); 
     frontRight.SetSensorPhase(true);
     backRight.SetSensorPhase(true);
 
     frontLeft.SetInverted(false);
-    backLeft.SetInverted(false);
+    backLeft.SetInverted(false); 
     frontLeft.SetSensorPhase(false);
     backLeft.SetSensorPhase(false);
 
@@ -30,22 +31,34 @@ Drivetrain::Drivetrain() {
     //Current too high for too long return to home position
     //figure out encoder phase and inverting
     //Velocity control on drivetain
+    //Indexer should be zeroed out at start
     //Switch gears automatically maybe? 
     //Safety stuff for BallPickup and Shooter
     //Winch
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
     //figure out different PID slots for balaji
     //Integrate Auton
+    //Comment unclear functions
     //Remove Peak Outputs in Drivetrain
     //Clean up Balaji code and other code 
     //Figure out brake mode stuff
     //Update smartdashboard and printer functions
+    //Fix SmartDashboard boxes and clean them
+    //Shooter wheels need time to speed up before indexer feeds them ball
+    //Limit switch not being pressed when Shooter is down
+    //Hard code Limelight values in browser into code
 }
 
+//Drive using ControlMode::Percent
 void Drivetrain::drivePercent(double forward, double turn) {
     
-    leftThrot = turn - forward;
-    rightThrot = turn + forward;
+    //leftThrot = turn - forward;
+    //rightThrot = turn + forward;
+
+    leftThrot = turn + forward;
+    rightThrot = turn - forward;
+
+    setBrakeMode(DISABLED);
     
     backLeft.Set(TalonFXControlMode::PercentOutput, leftThrot);
     frontLeft.Set(TalonFXControlMode::PercentOutput, leftThrot);
@@ -53,6 +66,7 @@ void Drivetrain::drivePercent(double forward, double turn) {
     frontRight.Set(TalonFXControlMode::PercentOutput, rightThrot);
 }
 
+//Drive using ControlMode::Velocity
 void Drivetrain::driveVelocity(double forward, double turn) {
     
     leftThrot = turn - forward;
@@ -63,6 +77,8 @@ void Drivetrain::driveVelocity(double forward, double turn) {
 
     leftThrot = (leftThrot * 18750) - 1750;
     rightThrot = (rightThrot * 18750) - 1750;
+
+    setBrakeMode(ENABLED);
 
     getVelocities();
 
@@ -96,6 +112,7 @@ void Drivetrain::setGear(int gear) {
     }
 }
 
+//Configs peak output of motors when scissor lift is up
 void Drivetrain::setScissorPeakOutput(positionStatus scissor) {
     if (scissor == EXTENDED) {
         backLeft.ConfigPeakOutputForward(.2, 10);
@@ -148,6 +165,7 @@ void Drivetrain::setSlot(int slot) {
     frontRight.SelectProfileSlot(slot, 0);
 }
 
+//Used in constructor to make code shorter
 void Drivetrain::configMotor(WPI_TalonFX& falcon) {
     falcon.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
     falcon.ConfigClosedloopRamp(0, 10);
@@ -163,7 +181,7 @@ void Drivetrain::configMotor(WPI_TalonFX& falcon) {
     falcon.ConfigAllowableClosedloopError(0, drive_allowableClosedLoopError, 10);
     falcon.SelectProfileSlot(0, 0);
 
-     /*
+     /* REGARDING SupplyCurrentLimitConfiguration
     * Configure the current limits that will be used
     * Stator Current is the current that passes through the motor stators.
     * Use stator current limits to limit rotor acceleration/heat production
@@ -263,23 +281,23 @@ void Drivetrain::dashboardPrinter() {
 
     frc::SmartDashboard::PutNumber("Back Left Motor Position (counts)", positions[0]);
     frc::SmartDashboard::PutNumber("Back Left Motor Velocity (counts/100ms)", velocities[0]);
-    frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
-    frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
+    //frc::SmartDashboard::PutNumber("Back Left Motor RPM", rpms[0]);
+    //frc::SmartDashboard::PutNumber("Back Left Motor Current", currents[0]);
 
     frc::SmartDashboard::PutNumber("Front Left Motor Position (counts)", positions[1]);
     frc::SmartDashboard::PutNumber("Front Left Motor Velocity (counts/100ms)", velocities[1]);
-    frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
-    frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
+    //frc::SmartDashboard::PutNumber("Front Left Motor RPM", rpms[1]);
+    //frc::SmartDashboard::PutNumber("Front Left Motor Current", currents[1]);
 
     frc::SmartDashboard::PutNumber("Back Right Motor Position (counts)", positions[2]);
     frc::SmartDashboard::PutNumber("Back Right Motor Velocity (counts/100ms)", velocities[2]);
-    frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
-    frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
+    //frc::SmartDashboard::PutNumber("Back Right Motor RPM", rpms[2]);
+    //frc::SmartDashboard::PutNumber("Back Right Motor Current", currents[2]);
 
     frc::SmartDashboard::PutNumber("Front Right Motor Position (counts)", positions[3]);
     frc::SmartDashboard::PutNumber("Front Right Motor Velocity (counts/100ms)", velocities[3]);
-    frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
-    frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
+    //frc::SmartDashboard::PutNumber("Front Right Motor RPM", rpms[3]);
+    //frc::SmartDashboard::PutNumber("Front Right Motor Current", currents[3]);
 
     frc::SmartDashboard::PutString("Shifter State", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "kForward" : "kReverse"); 
     frc::SmartDashboard::PutString("Drivetrain Gear", (shifter.Get() == frc::DoubleSolenoid::Value::kForward) ? "2nd Gear" : "1st Gear");
@@ -287,36 +305,3 @@ void Drivetrain::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Back Left Current Position", positions[0]);
 }
 
-//----------------------------------------------------------------Auton---------------------------------------------------------------------------------//
-
-void Drivetrain::autonBaseLine(double  userBackLeft, double forward, double turn) {
-    
-    if (positions[0] <= backLeftInitialPosition + userBackLeft) {
-        leftThrot = turn - forward;
-        rightThrot = turn + forward;
-        
-        backLeft.Set(ControlMode::PercentOutput, leftThrot);
-        frontLeft.Set(ControlMode::PercentOutput, leftThrot);
-        backRight.Set(ControlMode::PercentOutput, rightThrot);
-        frontRight.Set(ControlMode::PercentOutput, rightThrot);
-
-        backLeft.SetNeutralMode(NeutralMode::Brake); 
-        backRight.SetNeutralMode(NeutralMode::Brake);
-        frontLeft.SetNeutralMode(NeutralMode::Brake); //Use drivetrain function
-        frontRight.SetNeutralMode(NeutralMode::Brake);
-
-        frc::Wait(2);
-
-        backLeft.SetNeutralMode(NeutralMode::Coast); 
-        backRight.SetNeutralMode(NeutralMode::Coast);
-        frontLeft.SetNeutralMode(NeutralMode::Coast);
-        frontRight.SetNeutralMode(NeutralMode::Coast); 
-    }
-    
-    else {
-        backLeft.Set(ControlMode::PercentOutput, 0);
-        frontLeft.Set(ControlMode::PercentOutput, 0);
-        backRight.Set(ControlMode::PercentOutput, 0);
-        frontRight.Set(ControlMode::PercentOutput, 0);
-    }
-}
