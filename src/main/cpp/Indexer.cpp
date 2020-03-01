@@ -60,6 +60,10 @@ void Indexer::Divet() {
 	divetTime += 1; //Number of times loop repeats 
 	realTime = (divetTime * 20) / 1000; //Since loop repeats every 20ms this converts it into seconds
 
+	if (realTime < 2.5) {
+		Spin(-INDEXER_SPEED_FINAL_BOT);
+	}
+
 	if ((realTime > 2.5) && (realTime < 3)) {
 		Spin(INDEXER_SPEED_FINAL_BOT); //Spin the bot in the opposite direction for these 0.5 seconds
 	}

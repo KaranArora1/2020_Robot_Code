@@ -31,8 +31,6 @@ Drivetrain::Drivetrain() {
     //Current limits on devices and on Talon FX's
     //Current too high for too long return to home position 
     //Other Safety stuff for BallPickup and Shooter
-    //Velocity control on drivetain - figure out encoder phase and inverting
-    //Print controls out
     //Indexer should be zeroed out at start
     //Switch gears automatically maybe? 
     //Winch
@@ -41,18 +39,21 @@ Drivetrain::Drivetrain() {
     //Integrate Auton
     //Comment unclear functions
     //Figure out brake mode stuff
-    //Update smartdashboard and printer functions
     //Fix SmartDashboard boxes and clean them
-    //Shooter wheels need time to speed up before indexer feeds them ball
+    //Shooter wheels need time to speed up before indexer feeds them ball Indexer encoder count thing
     //Limit switch not being pressed when Shooter is down
     //Hard code Limelight values in browser into code
     //Learm how to grab log files in comp when radio is different and using USB in general
-    //Dither indexer override
-    //Reset position if override happens
-    //Make shooter so that when you increment it it updates to that speed
-    //Disable scissor automatically once it's deployed
+    //Add lock to other mechanisms if winch is active? 
+    //Soft Limits for BallPickup Arm
+    
+    //Update smartdashboard and printer functions
+    //Make Shooter P Value higher
     //Test shooter overridre 
-    //Test ball pickup override
+    //Test if indexer for ball pickup override
+    //Check if normal indexer works
+    //Velocity control on drivetain - figure out encoder phase and inverting
+
 }
 
 //Drive using ControlMode::Percent

@@ -100,18 +100,18 @@ void Robot::TeleopPeriodic() {
   
   // ------------------------------------------------------------------ SEQUENCING CHANNELS ---------------------------------------------------------------------------
 
-  if (sequencingConfig == ENABLED) {
+  if (sequencingConfigStatus == ENABLED) {
 
     leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
     rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
 
-    if (fabs(leftJoyY) <= 0.2 || velocityControl == DISABLED) {
-      velocityControl = DISABLED;
+    if (fabs(leftJoyY) <= 0.2 || velocityControlStatus == DISABLED) {
+      velocityControlStatus = DISABLED;
       Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); //Latch for Drivetrain - switch between PercentOutput and Velocity
     }
 
-    else if (fabs(leftJoyY) > 0.25 || velocityControl == ENABLED) {
-      velocityControl = ENABLED;
+    else if (fabs(leftJoyY) > 0.25 || velocityControlStatus == ENABLED) {
+      velocityControlStatus = ENABLED;
       Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
     }
 
@@ -125,7 +125,7 @@ void Robot::TeleopPeriodic() {
 
       if (Pickup.armState == EXTENDED) { //Stuff that initially happens when button is pressed
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
-        Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
+        //Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
       }
       else {
         Pickup.Pickup(0); //Turn off sequence
@@ -157,26 +157,31 @@ void Robot::TeleopPeriodic() {
 
     //Shooting without Vision - only runs when Pickup Arm is not extended (so as to not interfere with Indexer direction)
     if (Pickup.armState == RETRACTED) {
+      
+      if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
+        Index.Divet();
+      } 
 
       if (driverJoy.GetRawButtonPressed(wristOverrideStatusBtnSequence)) {
         Shoot.toggleWristOverride();
       }
 
       //If the Wrist can be overridden, check if the right trigger is being pressed past 20% and move the wrist down
-      if (Shoot.wristOverride == ENABLED) {
-        if (Deadzone(driverJoy.GetRawAxis(moveWristDownOverrideChlSequence)) > .2) {
+      if (Shoot.wristOverrideStatus == ENABLED) {
+        if (fabs(Deadzone(driverJoy.GetRawAxis(moveWristDownOverrideChlSequence))) > .2) {
           if (!(Shoot.checkLimitSwitch())) { //Only do this when the switch is not being pressed
             Shoot.moveWristDownOverride();
           }
           else {
             //When the switch is finally pressed and the wrist is home, make the override status back to disabled
             Shoot.toggleWristOverride(); 
+            Shoot.currentWristPos = 0;
           }
         }
       }
 
       //Moving the wrist, shooting, and the sequence should only run when override is disabled
-      if (Shoot.wristOverride == DISABLED) { 
+      if (Shoot.wristOverrideStatus == DISABLED) { 
         if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
           Shoot.moveWristFixedPositions(UP);
         }
@@ -244,10 +249,10 @@ void Robot::TeleopPeriodic() {
       }
     }
 
-    //Only turn on winch if scissor lift is extended
-    if (Climb.scissorLiftStatus == EXTENDED) {
-      if (operatorJoy.GetRawButtonPressed(winchBtnSequence)) {
-        Climb.Climb(10000); 
+    //Only turn on winch if the hook is on - the hook is on when the lift is retracted for the first time
+    if (Climb.hookIsOn) {
+      if (fabs(Deadzone(driverJoy.GetRawAxis(winchChlSequence))) > 0.2) {
+        Climb.climbToPos(); 
       }
     }
   }
@@ -351,7 +356,7 @@ void Robot::TeleopPeriodic() {
   Climb.dashboardPrinter();
   Drive.dashboardPrinter();
   Index.dashboardPrinter();
-  Spinner.dashboardPrinter();
+  //Spinner.dashboardPrinter();
   Shoot.dashboardPrinter();
   Limelight.dashboardPrinter();
  

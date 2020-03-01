@@ -28,7 +28,9 @@ class Shooter {
     void dashboardPrinter();
 
     int currentRPM = 0;
-    enableStatus wristOverride = DISABLED;
+    int currentWristPos = 0;
+
+    enableStatus wristOverrideStatus = DISABLED;
 
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
@@ -47,7 +49,6 @@ class Shooter {
     frc::DigitalInput wristSwitch{wristSwitchID};
 
     int wristPosList[6] = {0, 500, 600, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
-    int currentWristPos = 0;
 
     int speeds[7] = {0, 1000, 1500, 2000, 2500, 3000, 3500};
     int currentSpeedPos = 0;
@@ -57,5 +58,5 @@ class Shooter {
     int ballsShot = 0;
     int plannedRPM = 0;
 
-    enableStatus shooterEnabled = DISABLED;
+    enableStatus shooterStatus = DISABLED;
 };

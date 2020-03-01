@@ -67,15 +67,21 @@
    Move Wrist Down in Override - Right Trigger
    Toggle Scissor Lift Can Be Deployed - Menu Button
    Activate Scissor Lift - B Button
+   Activate Winch - Left Trigger
+
+   FREE BUTTONS: Y BUTTON
 
    Operator:
+   Reverse Ball Pickup Belts - Left Joystick Y Axis
    Extend Pickup Arm, Move Pickup Belts, Rotate Indexer Sequence - Y Button
+   Override Dither - Right Joystick X Axis
    Shoot Ball - A Button
    Decrement Shooter RPMs - Left Bumper
    Increment Shooter RPMs - Right Bumper
    Vision High Shoot - X Button 
    Cancel Vision High Shoot - Menu Button
-   Winch - Left Bumper
+
+   FREE BUTTONS: B Button, Right Trigger, Left Trigger, View Button. X and Menu if we remove vision
 */
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -146,15 +152,17 @@ constexpr int switchVisionPipelineBtn = 7; //View Button (Driver)
 constexpr int ballPickupmMoveArmBtnSequence = 4; //Y button (Operator)
 constexpr int reverseBallPickupOverrideChl = 1; //Y Axis on Left Joystick (Operator)
 
-constexpr int shifterBtnSequence = 1; ///A Button (Driver)
+constexpr int shifterBtnSequence = 1; //A Button (Driver)
 
-constexpr int climbStatusBtnSequence = 8; //View Button (Driver)
+constexpr int climbStatusBtnSequence = 8; //Menu Button (Driver)
 constexpr int climbScissorJoyBtnSequence = 2; //B Button (Driver)
-constexpr int winchBtnSequence = 5; //Left Bumper (Operator)
+constexpr int winchChlSequence = 2; //Left Trigger (Driver)
 
 constexpr int activateVisionShootHighBtnSequence = 3; //X Button (Operator)
 constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
 constexpr int switchPipelineBtnSequence = 3; //X Button (Driver)
+
+constexpr int ditherOverrideChlSequence = 4; //X Axis on Right Joystick (Operator)
 
 constexpr int moveWristDownBtnSequence = 5; //Left Bumper (Driver)
 constexpr int moveWristUpBtnSequence = 6; //Right Bumper (Driver)
@@ -190,6 +198,12 @@ constexpr int shifterSecondGear = 4;
 
 //Climber
 constexpr int winchMotorID = 4; //SRX
+
+constexpr double winch_P = 0.75;
+constexpr double winch_I = 0;
+constexpr double winch_D = 0;
+
+constexpr int winchPos = 17000; //Fix
 
 constexpr int scissorKForward = 1;
 constexpr int scissorKReverse= 6;

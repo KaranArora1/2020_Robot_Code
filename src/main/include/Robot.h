@@ -48,7 +48,7 @@ class Robot : public frc::TimedRobot {
     Vision Limelight{};
     Auton Autonomous{};
 
-    enableStatus sequencingConfig = ENABLED;
+    enableStatus sequencingConfigStatus = ENABLED;
     
     bool logThisTime = false;
     int logTicker = 0;
@@ -57,7 +57,7 @@ class Robot : public frc::TimedRobot {
     double leftJoyY = 0;
     double rightJoyX = 0;
 
-    enableStatus velocityControl = DISABLED;
+    enableStatus velocityControlStatus = DISABLED;
 
     frc::SendableChooser<std::string> m_chooser;
     const std::string kAutoNameDefault = "Default";

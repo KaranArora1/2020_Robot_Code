@@ -14,6 +14,7 @@ class Climber {
  public:
   Climber();
   void Climb(double);
+  void climbToPos();
   void scissorLift(Drivetrain&);
   void toggleScissorCanBeDeployedStatus();
   int getWinchPosition();
@@ -22,6 +23,8 @@ class Climber {
 
   enableStatus scissorCanBeDeployedStatus = DISABLED;
   positionStatus scissorLiftStatus = RETRACTED;
+
+  bool hookIsOn = false;
  
  private:
   WPI_TalonSRX winch{winchMotorID};

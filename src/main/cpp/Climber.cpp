@@ -8,9 +8,18 @@
 #include "Climber.h"
 
 Climber::Climber() {
-    winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
+    winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); 
     winch.SetSelectedSensorPosition(0); 
-    
+
+    //Are these all of the settings to configure? Fix
+    winch.Config_kP(0, winch_P, 10);
+    winch.Config_kI(0, winch_I, 10);
+    winch.Config_kD(0, winch_D, 10);
+
+    winch.SetSensorPhase(true);
+
+    winch.ConfigPeakOutputForward(0.5, 10);
+    winch.ConfigPeakOutputReverse(-0.5, 10);
 }
 
 //Spins winch using Joystick, eventually will be position control with no parameters to the encoder position target
@@ -18,16 +27,23 @@ void Climber::Climb(double speed) {
     winch.Set(ControlMode::PercentOutput, speed);
 }
 
+void Climber::climbToPos() {
+    winch.Set(ControlMode::Position, winchPos);
+}
+
 //Activate scissor lift - sets gear to one for Drivetrain for safety and limits peak output
 void Climber::scissorLift(Drivetrain& Drive) { 
     if (scissor.Get() == frc::DoubleSolenoid::Value::kForward) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward
         scissorLiftStatus = RETRACTED;
+        hookIsOn = true;
+        toggleScissorCanBeDeployedStatus(); //Automatically makes scissorCanBeDeployed back to disabled once it is retracted
 	}
     else {
 		scissor.Set(frc::DoubleSolenoid::Value::kForward);
         scissorLiftStatus = EXTENDED;
         Drive.setGear(1);
+        hookIsOn = false;
 	}
 
     Drive.setScissorPeakOutput(scissorLiftStatus);
