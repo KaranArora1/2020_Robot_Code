@@ -16,7 +16,7 @@ class Shooter {
     void moveWristFixedPositions(direction);
     void moveWrist(double);
     void moveWristToPosition(int);
-    void moveWristDownOverride();
+    void moveWristDownOverride(double);
     void toggleWristOverride();
     bool checkLimitSwitch();
     void ShootRPMs();

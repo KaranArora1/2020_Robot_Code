@@ -13,7 +13,7 @@
 #include "Drivetrain.h"
 #include "BallPickup.h"
 #include "Indexer.h"
-#include "IndicatorLights.h"
+//#include "IndicatorLights.h"
 #include "Logger.h"
 #include "PanelSpinner.h"
 #include "Shooter.h"
@@ -35,7 +35,7 @@ class Robot : public frc::TimedRobot {
     frc::Joystick driverJoy{driverJoyUSBPort};
     frc::Joystick operatorJoy{operatorJoyUSBPort};
 
-    frc::PowerDistributionPanel pdp{pdpID};
+    //frc::PowerDistributionPanel pdp{pdpID};
     frc::AnalogInput pressure{pressureTransducerID};
 
     Drivetrain Drive{};
@@ -44,7 +44,7 @@ class Robot : public frc::TimedRobot {
     BallPickup Pickup{};
     PanelSpinner Spinner{};
     Indexer Index{};
-    IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
+    //IndicatorLights Lights{"ttyUSB0", "ttyUSB1", frc::SerialPort::Port::kUSB};
     Vision Limelight{};
     Auton Autonomous{};
 

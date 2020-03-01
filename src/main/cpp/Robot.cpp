@@ -15,7 +15,6 @@ void Robot::RobotInit() {
   //m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
-
 /**
  * This function is called every robot packet, no matter the mode. Use
  * this for items like diagnostics that you want ran during disabled,
@@ -50,6 +49,7 @@ void Robot::AutonomousInit() {
   // -----------------------------------------------------------------------
   Drive.resetEncoderCounts();
   Drive.setBrakeMode(ENABLED);
+  //TimedRobot::kDefaultPeriod = 40_ms;
 }
 
 void Robot::AutonomousPeriodic() {
@@ -86,7 +86,7 @@ double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a para
 void Robot::TeleopPeriodic() {
 
   frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
-  frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
+  //frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
   Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
@@ -115,6 +115,8 @@ void Robot::TeleopPeriodic() {
       Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
     }
 
+    frc::SmartDashboard::PutString("Velocity Control:", (velocityControlStatus == ENABLED) ? "ENABLED" : "DISABLED");
+
     //Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); Use in case latch doesn't work
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
@@ -138,7 +140,7 @@ void Robot::TeleopPeriodic() {
       Index.Divet();
 
       //Allows for operator to override Pickup belts in case they get jammed
-      if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > 0)) { //Might cause some issues with change of direction, test and fix
+      if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > .1)) { //Might cause some issues with change of direction, test and fix
         Pickup.Pickup(-BALLPICKUP_ARM_SPEED);
       }
       else {
@@ -170,11 +172,12 @@ void Robot::TeleopPeriodic() {
       if (Shoot.wristOverrideStatus == ENABLED) {
         if (fabs(Deadzone(driverJoy.GetRawAxis(moveWristDownOverrideChlSequence))) > .2) {
           if (!(Shoot.checkLimitSwitch())) { //Only do this when the switch is not being pressed
-            Shoot.moveWristDownOverride();
+            Shoot.moveWristDownOverride(-.15);
           }
           else {
             //When the switch is finally pressed and the wrist is home, make the override status back to disabled
             Shoot.toggleWristOverride(); 
+            Shoot.moveWristDownOverride(0);
             Shoot.currentWristPos = 0;
           }
         }
@@ -340,7 +343,7 @@ void Robot::TeleopPeriodic() {
 
   // ----------------------------------------------------------------------- END ----------------------------------------------------------------------------------------
 
-  // TODO: Get Limelight feedback to get range of high target.
+  /*// TODO: Get Limelight feedback to get range of high target.
   if (Shoot.getRPMs()[0] > 0) {
     Lights.setCommand(IndicatorLights::CMD::GREEN_UP);
   }
@@ -349,7 +352,7 @@ void Robot::TeleopPeriodic() {
   }
   else {
     Lights.setCommand(IndicatorLights::CMD::GREEN_SOLID);
-  }
+  }*/
 
   //Dashboard and Printing
   Pickup.dashboardPrinter();
@@ -375,7 +378,7 @@ void Robot::TeleopPeriodic() {
 
     Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
-                            Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, pdp.GetTotalCurrent(), pdp.GetVoltage());
+                            Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, 0.0005, 0.0005);
     }
 }
 

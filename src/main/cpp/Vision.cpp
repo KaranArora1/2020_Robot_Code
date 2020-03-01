@@ -9,7 +9,7 @@
 #include "math.h"
 
 Vision::Vision() {
-
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
 }
  
  /*

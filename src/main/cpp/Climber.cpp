@@ -17,6 +17,7 @@ Climber::Climber() {
     winch.Config_kD(0, winch_D, 10);
 
     winch.SetSensorPhase(true);
+    winch.SetInverted(false);
 
     winch.ConfigPeakOutputForward(0.5, 10);
     winch.ConfigPeakOutputReverse(-0.5, 10);
@@ -72,4 +73,5 @@ void Climber::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Winch Position (counts)", getWinchPosition());
     frc::SmartDashboard::PutString("Scissor Climb Can Be Deployed Status", (scissorCanBeDeployedStatus == ENABLED) ? "ENABLED" : "DISABLED"); 
     frc::SmartDashboard::PutString("Scissor Climb Deployed", (scissorLiftStatus == EXTENDED) ? "EXTENDED" : "RETRACTED");
+    frc::SmartDashboard::PutBoolean("Hook is On", hookIsOn);
 }

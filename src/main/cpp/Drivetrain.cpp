@@ -10,10 +10,15 @@
 Drivetrain::Drivetrain() {
 
     //Inverts and phases used to implement velocity control - encoder counts go up when Joystick is forward
-    frontRight.SetInverted(true);
-    backRight.SetInverted(true); 
-    frontRight.SetSensorPhase(true);
-    backRight.SetSensorPhase(true);
+    //frontRight.SetInverted(true);
+    //backRight.SetInverted(true); 
+    //frontRight.SetSensorPhase(true);
+    //backRight.SetSensorPhase(true);
+
+    frontRight.SetInverted(false);
+    backRight.SetInverted(false);
+    frontRight.SetSensorPhase(false);
+    backRight.SetSensorPhase(false);
 
     frontLeft.SetInverted(false);
     backLeft.SetInverted(false); 
@@ -46,24 +51,27 @@ Drivetrain::Drivetrain() {
     //Learm how to grab log files in comp when radio is different and using USB in general
     //Add lock to other mechanisms if winch is active? 
     //Soft Limits for BallPickup Arm
+    //Turn off limelight blinking
     
     //Update smartdashboard and printer functions
     //Make Shooter P Value higher
     //Test shooter overridre 
     //Test if indexer for ball pickup override
     //Check if normal indexer works
-    //Velocity control on drivetain - figure out encoder phase and inverting
+    //Velocity control on drivetain - figure out encoder phase and inverting, test latch
+    //Take out wrist wrapping
 
+    //TURN OFF BRAKE MODE IN VEL
+    //Use Shooter.Enabled in robot cpp
+    //Put Shooter Wrist override in smart dashboard 
+    //Turn limelight off at start
 }
 
 //Drive using ControlMode::Percent
 void Drivetrain::drivePercent(double forward, double turn) {
     
-    //leftThrot = turn - forward;
-    //rightThrot = turn + forward;
-
-    leftThrot = turn + forward;
-    rightThrot = turn - forward;
+    leftThrot = turn - forward;
+    rightThrot = turn + forward;
 
     setBrakeMode(DISABLED);
     
@@ -84,8 +92,6 @@ void Drivetrain::driveVelocity(double forward, double turn) {
 
     leftThrot = (leftThrot * 18750) - 1750;
     rightThrot = (rightThrot * 18750) - 1750;
-
-    setBrakeMode(ENABLED);
 
     getVelocities();
 

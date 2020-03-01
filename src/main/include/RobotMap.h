@@ -203,7 +203,7 @@ constexpr double winch_P = 0.75;
 constexpr double winch_I = 0;
 constexpr double winch_D = 0;
 
-constexpr int winchPos = 17000; //Fix
+constexpr int winchPos = 20000; //Fix
 
 constexpr int scissorKForward = 1;
 constexpr int scissorKReverse= 6;
@@ -221,11 +221,11 @@ constexpr double pickup_F = 0;
 //constexpr double posPOut = 4150; 
 
 constexpr int posRetract = 0;
-constexpr int posOut = 500;
+constexpr int posOut = 450;
 
 constexpr int armSwitchID = 9;
 
-constexpr double BALLPICKUP_ARM_SPEED = .65;
+constexpr double BALLPICKUP_ARM_SPEED = 1;
 
 //PanelSpinner
 constexpr int spinnerMotorID = 100; //SRX? Fix
@@ -242,7 +242,8 @@ constexpr int shooterMotorID = 21; //Spark
 constexpr int slaveShoooterMotorID = 20; //Spark
 constexpr int wristMotorID = 3; //SRX Changed from 8
 
-constexpr double shooter_P = 0.00006;
+//constexpr double shooter_P = 0.00006;
+constexpr double shooter_P = 0.00007;
 constexpr double shooter_I = 0.000001;
 constexpr double shooter_D = 0;
 constexpr double shooter_IZone = 0;

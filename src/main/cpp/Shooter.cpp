@@ -146,8 +146,8 @@ void Shooter::moveWristToPosition(int pos) {
 }
 
 //Used to override wrist and move it down forcibly
-void Shooter::moveWristDownOverride() {
-    wrist.Set(ControlMode::PercentOutput, -.15);
+void Shooter::moveWristDownOverride(double speed) {
+    wrist.Set(ControlMode::PercentOutput, speed);
 }
 
 void Shooter::toggleWristOverride()  {
