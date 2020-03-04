@@ -20,6 +20,7 @@
 #include "Vision.h"
 #include "Auton.h"
 
+
 class Robot : public frc::TimedRobot {
   public:
     void RobotInit() override;
@@ -30,6 +31,7 @@ class Robot : public frc::TimedRobot {
     void TeleopPeriodic() override;
     void TestPeriodic() override;
     double Deadzone(double);
+    Robot(): TimedRobot(40_ms) {} //removed semicolon and frc::
 
   private:
     frc::Joystick driverJoy{driverJoyUSBPort};
@@ -52,7 +54,7 @@ class Robot : public frc::TimedRobot {
     
     bool logThisTime = false;
     int logTicker = 0;
-    int logInterval = 15; //300 milliseconds
+    int logInterval = 15; //600 milliseconds
 
     double leftJoyY = 0;
     double rightJoyX = 0;

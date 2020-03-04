@@ -48,24 +48,36 @@ void Robot::AutonomousInit() {
   }
   // -----------------------------------------------------------------------
   Drive.resetEncoderCounts();
-  Drive.setBrakeMode(ENABLED);
-  //TimedRobot::kDefaultPeriod = 40_ms;
+  Drive.setBrakeMode(ENABLED);  
 }
 
 void Robot::AutonomousPeriodic() {
-  Autonomous.crossBaseLine(31504, 1, 0, Drive);
-  Drive.dashboardPrinter();
+
+  if (autonOption == 1) {
+    Autonomous.lowGoal(153000, 1, 0, Drive, Shoot, Index); //31504 = 4 feet
+    Drive.dashboardPrinter();
+  }
+
+  if (autonOption == 2) {
+    Autonomous.highGoal(89500, 1, 0, Drive, Shoot, Index);
+    Drive.dashboardPrinter();
+  }
+
+  else{
+    std::cout << "A valid Auton was not chosen";
+  }
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
-  } else {
+  } 
+  else {
     // Default Auto goes here
   }
 }  
 
 
 void Robot::TeleopInit() {
-  Drive.setBrakeMode(DISABLED);
+  Drive.setBrakeMode(ENABLED);
 }
 
 double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
@@ -84,17 +96,17 @@ double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a para
   }
 
 void Robot::TeleopPeriodic() {
-
+    
   frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
   //frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
-  Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
+  //Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
   Pickup.checkLimitSwitch();
 
 	logTicker++;
 	
-  if (logTicker == logInterval) {
+  if (logTicker == logInterval || logTicker > logInterval) {
 		logThisTime = true;
 	}  
   
@@ -105,29 +117,29 @@ void Robot::TeleopPeriodic() {
     leftJoyY = driverJoy.GetRawAxis(fwdJoyChl);
     rightJoyX = driverJoy.GetRawAxis(trnJoyChl);
 
-    if (fabs(leftJoyY) <= 0.2 || velocityControlStatus == DISABLED) {
+    /*if (fabs(leftJoyY) <= 0.2 || velocityControlStatus == DISABLED) {
       velocityControlStatus = DISABLED;
-      Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); //Latch for Drivetrain - switch between PercentOutput and Velocity
+      Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.30); //Latch for Drivetrain - switch between PercentOutput and Velocity
     }
 
     else if (fabs(leftJoyY) > 0.25 || velocityControlStatus == ENABLED) {
       velocityControlStatus = ENABLED;
-      Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35);
-    }
+      Drive.driveVelocity(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.275);
+    }*/
 
-    frc::SmartDashboard::PutString("Velocity Control:", (velocityControlStatus == ENABLED) ? "ENABLED" : "DISABLED");
+    //frc::SmartDashboard::PutString("Velocity Control:", (velocityControlStatus == ENABLED) ? "ENABLED" : "DISABLED");
 
-    //Drive.drivePercent(Deadzone(leftJoyY), Deadzone(rightJoyX) * 0.35); Use in case latch doesn't work
+    Drive.drivePercent(Deadzone(leftJoyY) * 0.75, Deadzone(rightJoyX) * 0.25); //Use in case latch doesn't work
     
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
     //Picking up balls off the ground sequence
-    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence)) { 
+    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence) && Shoot.wristOverrideStatus == DISABLED) { 
       Pickup.moveArm(); 
 
       if (Pickup.armState == EXTENDED) { //Stuff that initially happens when button is pressed
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
-        //Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
+        Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
       }
       else {
         Pickup.Pickup(0); //Turn off sequence
@@ -136,7 +148,7 @@ void Robot::TeleopPeriodic() {
       }
     }
 
-    if (Pickup.armState == EXTENDED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
+    if (Pickup.armState == EXTENDED && Shoot.wristOverrideStatus == DISABLED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
       Index.Divet();
 
       //Allows for operator to override Pickup belts in case they get jammed
@@ -146,23 +158,10 @@ void Robot::TeleopPeriodic() {
       else {
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
       }
-   }
-
-    //Planned speed of Shooter can be incremented or decremented regardless of if the Pickup arm is out
-    if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
-        Shoot.incSpeed(UP);
-    }
-
-    if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
-      Shoot.incSpeed(DOWN);
     }
 
     //Shooting without Vision - only runs when Pickup Arm is not extended (so as to not interfere with Indexer direction)
     if (Pickup.armState == RETRACTED) {
-      
-      if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
-        Index.Divet();
-      } 
 
       if (driverJoy.GetRawButtonPressed(wristOverrideStatusBtnSequence)) {
         Shoot.toggleWristOverride();
@@ -185,30 +184,32 @@ void Robot::TeleopPeriodic() {
 
       //Moving the wrist, shooting, and the sequence should only run when override is disabled
       if (Shoot.wristOverrideStatus == DISABLED) { 
-        if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
-          Shoot.moveWristFixedPositions(UP);
-        }
 
-        //THIS SHOULD ONLY WORK WHEN THE PICKUP ARM IS NOT EXTENDED Does is though?? Fix maybe
-        if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
-          Shoot.moveWristFixedPositions(DOWN);
-        }
+        //Shoot.moveWristDownOverride(0);
 
-        if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
-            Shoot.ShootRPMs();
-        }
-
-        //If the shooter wheels are rotating activate the sequence
-        if (Shoot.currentRPM > 900) { 
-          Index.feedBall(FEEDER_WHEEL_SPEED);
-          Index.setPushBall(EXTENDED);
-          Index.Spin(INDEXER_SPEED_FINAL_BOT);
+        if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
+          //Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
+          Index.Divet();
         }
 
         else {
-          Index.feedBall(0);
-          Index.setPushBall(RETRACTED);
-          Index.Spin(0);
+
+          if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
+              Shoot.ShootRPMs();
+          }
+
+          //If the shooter wheels are rotating activate the sequence
+          if (Shoot.currentRPM > 900) { 
+            Index.feedBall(FEEDER_WHEEL_SPEED);
+            Index.setPushBall(EXTENDED);
+            Index.Spin(INDEXER_SPEED_FINAL_BOT);
+          }
+
+          else {
+            Index.feedBall(0);
+            Index.setPushBall(RETRACTED);
+            Index.Spin(0);
+          }
         }
       }
     }
@@ -230,8 +231,27 @@ void Robot::TeleopPeriodic() {
       }
     }*/
 
+    //Stuff that always runs regardless of state
+    //Planned speed of Shooter can be incremented or decremented regardless of if the Pickup arm is out
+    if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
+        Shoot.incSpeed(UP);
+    }
+
+    if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
+      Shoot.incSpeed(DOWN);
+    }
+
     if (driverJoy.GetRawButtonPressed(switchPipelineBtnSequence)) {
       Limelight.switchPipeline();
+    }
+
+    if (Shoot.wristOverrideStatus == DISABLED) {
+      if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
+          Shoot.moveWristFixedPositions(UP);
+      }
+      if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
+        Shoot.moveWristFixedPositions(DOWN);
+        }
     }
 
     //Drivetrain shifter
@@ -376,10 +396,13 @@ void Robot::TeleopPeriodic() {
     logThisTime = false;
     logTicker = 0;
 
-    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
+    /*Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), Drive.getRPMs(), Drive.getCurrents(), Shoot.getRPMs(), 
                             Shoot.getWristPosition(), Spinner.getPosition(), Spinner.getVelocity(), Spinner.getRPM(), 
                             Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, 0.0005, 0.0005);
-    }
+    }*/
+
+    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX);
+  }
 }
 
 void Robot::TestPeriodic() {}
@@ -387,3 +410,9 @@ void Robot::TestPeriodic() {}
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif
+
+//Dither fix
+//Dither override 
+//Limit switch stuff
+//Delete Log Files
+//Shooter positions

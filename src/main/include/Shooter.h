@@ -48,9 +48,9 @@ class Shooter {
 
     frc::DigitalInput wristSwitch{wristSwitchID};
 
-    int wristPosList[6] = {0, 500, 600, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
+    int wristPosList[8] = {0, 500, 550, 600, 650, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
 
-    int speeds[7] = {0, 1000, 1500, 2000, 2500, 3000, 3500};
+    int speeds[10] = {0, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3500};
     int currentSpeedPos = 0;
 
     double rpms[2];

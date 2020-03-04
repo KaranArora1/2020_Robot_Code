@@ -58,7 +58,7 @@ void Indexer::feedBall(double speed) {
 void Indexer::Divet() {
 
 	divetTime += 1; //Number of times loop repeats 
-	realTime = (divetTime * 20) / 1000; //Since loop repeats every 20ms this converts it into seconds
+	realTime = (divetTime * 40) / 1000; //Since loop repeats every 40ms this converts it into seconds
 
 	if (realTime < 2.5) {
 		Spin(-INDEXER_SPEED_FINAL_BOT);
@@ -74,13 +74,13 @@ void Indexer::Divet() {
 	}
 }
 
-bool Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?
+/*bool Indexer::checkLimitSwitch() { //Is there a better way to update encoder counts?
     if (indexSwitch.Get()) {
         index.SetSelectedSensorPosition(0);
 		return true; //Fix later
     }
 	return false;
-}
+}*/
 
 int Indexer::getIndexerPosition() {
 	return index.GetSelectedSensorPosition(0);

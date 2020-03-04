@@ -11,7 +11,7 @@
 #include "frc/Joystick.h"
 #include "frc/DoubleSolenoid.h"
 #include "frc/SerialPort.h" //Lights
-#include "frc/PowerDistributionPanel.h"
+//#include "frc/PowerDistributionPanel.h"
 #include "frc/AnalogInput.h" //Pressure
 #include "frc/DigitalInput.h" //Limit Switches
 #include "frc/TimedRobot.h" 
@@ -203,7 +203,7 @@ constexpr double winch_P = 0.75;
 constexpr double winch_I = 0;
 constexpr double winch_D = 0;
 
-constexpr int winchPos = 20000; //Fix
+constexpr int winchPos = 30000; 
 
 constexpr int scissorKForward = 1;
 constexpr int scissorKReverse= 6;
@@ -272,4 +272,5 @@ constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
 
 constexpr double FEEDER_WHEEL_SPEED = 1;
 
-
+//Auton
+constexpr int autonOption = 1;

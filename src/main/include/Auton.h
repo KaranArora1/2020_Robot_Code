@@ -9,18 +9,23 @@
 
 #include "RobotMap.h"
 #include "Drivetrain.h"
+#include "Shooter.h"
+#include "Indexer.h"
 
 //This is not right, look at it again
 
 class Auton {
  public:
   Auton();
-  void resetEncoderCounts(Drivetrain&);
-  void crossBaseLine(double, double, double, Drivetrain&);
+  void lowGoal(double, double, double, Drivetrain&, Shooter&, Indexer&);
+  void highGoal(double, double, double, Drivetrain&, Shooter&, Indexer&);
   void Printer();
   void dashboardPrinter();
 
   private:
     double backLeftAutonInitialPosition;
+    bool ifshot = false;
+    double loopTime = 0;
+    double realTime = 0;
 };
 

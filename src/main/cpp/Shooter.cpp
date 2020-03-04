@@ -18,7 +18,7 @@ Shooter::Shooter() {
     wrist.SetSelectedSensorPosition(0);
 
     wrist.ConfigPeakOutputForward(.85);
-    wrist.ConfigPeakOutputReverse(-.85);
+    wrist.ConfigPeakOutputReverse(-.25);
 
     wrist.ConfigAllowableClosedloopError(0, 20, 10);
 
@@ -95,14 +95,14 @@ void Shooter::incSpeed(int rpm) {
 void Shooter::incSpeed(direction dir) { 
     if (dir == UP) {
         currentSpeedPos++;
-        if (currentSpeedPos == 7) {
+        if (currentSpeedPos == 8) {
             currentSpeedPos = 0;
         }
     }
     else {
         currentSpeedPos--;
         if (currentSpeedPos == -1) {
-            currentSpeedPos = 6;
+            currentSpeedPos = 7;
         }
     }
 
@@ -121,14 +121,14 @@ void Shooter::incSpeed(direction dir) {
 void Shooter::moveWristFixedPositions(direction dir) { 
     if (dir == UP) {
         currentWristPos++;
-        if (currentWristPos == 6) {
-            currentWristPos = 0;
+        if (currentWristPos == 10) {
+            currentWristPos = 9;
         }
     }
     else {
         currentWristPos--;
         if (currentWristPos == -1) {
-            currentWristPos = 5;
+            currentWristPos = 0;
         }
     }
 
@@ -142,7 +142,7 @@ void Shooter::moveWrist(double input) {
 
 //Move wrist to a position determined by the Limelight
 void Shooter::moveWristToPosition(int pos) { 
-
+    wrist.Set(ControlMode::Position, pos);
 }
 
 //Used to override wrist and move it down forcibly
@@ -197,7 +197,8 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
     frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
-    frc::SmartDashboard::PutNumber("Wrist Position (0-5)", currentWristPos);
-    frc::SmartDashboard::PutBoolean("Shooter Switch Open", checkLimitSwitch());
-    frc::SmartDashboard::PutString("Wrist Override Enabled", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
+    frc::SmartDashboard::PutNumber("Wrist Position (0-7)", currentWristPos);
+    frc::SmartDashboard::PutString("Wrist Override Get", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
+    frc::SmartDashboard::PutNumber("Wrist Targeted Position", wristPosList[currentWristPos]);
+    frc::SmartDashboard::PutString("Shooter Enabled", (shooterStatus == ENABLED) ? "ENABLED" : "DISABLED");
 }

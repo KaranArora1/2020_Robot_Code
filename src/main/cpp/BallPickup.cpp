@@ -52,7 +52,7 @@ void BallPickup::moveArm(double speed) {
 
 //Check if limit switch is pressed and set position to 0
 bool BallPickup::checkLimitSwitch() { //Is there a better way to update encoder counts?
-    if (armSwitch.Get()) {
+    if (!(armSwitch.Get())) {
         arm.SetSelectedSensorPosition(0);
         return true;
     }
@@ -69,4 +69,6 @@ void BallPickup::Printer() {
 
 void BallPickup::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Arm Position Counts", getPickupArmPosition());
+    frc::SmartDashboard::PutString("Dither Mode On", (armState == ENABLED) ? "ENABLED" : "DISABLED");
+    frc::SmartDashboard::PutBoolean("Arm Switch Get", armSwitch.Get());
 }

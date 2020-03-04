@@ -31,7 +31,7 @@ Drivetrain::Drivetrain() {
     configMotor(backRight);
 
     setGear(1);
-    setBrakeMode(DISABLED);
+    setBrakeMode(ENABLED);
 
     //Current limits on devices and on Talon FX's
     //Current too high for too long return to home position 
@@ -54,17 +54,22 @@ Drivetrain::Drivetrain() {
     //Turn off limelight blinking
     
     //Update smartdashboard and printer functions
-    //Make Shooter P Value higher
     //Test shooter overridre 
     //Test if indexer for ball pickup override
     //Check if normal indexer works
     //Velocity control on drivetain - figure out encoder phase and inverting, test latch
-    //Take out wrist wrapping
 
     //TURN OFF BRAKE MODE IN VEL
     //Use Shooter.Enabled in robot cpp
     //Put Shooter Wrist override in smart dashboard 
     //Turn limelight off at start
+    //Ln=imnelight
+    //Auton
+    //Make drivepercent only option
+    //Put BallPickup enabled on dashboard 
+    //Color code dashboard
+    //Check lockout errors and prepare thing to tell drive team
+    //Delete log filed
 }
 
 //Drive using ControlMode::Percent
@@ -72,8 +77,6 @@ void Drivetrain::drivePercent(double forward, double turn) {
     
     leftThrot = turn - forward;
     rightThrot = turn + forward;
-
-    setBrakeMode(DISABLED);
     
     backLeft.Set(TalonFXControlMode::PercentOutput, leftThrot);
     frontLeft.Set(TalonFXControlMode::PercentOutput, leftThrot);
@@ -181,7 +184,7 @@ void Drivetrain::setSlot(int slot) {
 //Used in constructor to make code shorter
 void Drivetrain::configMotor(WPI_TalonFX& falcon) {
     falcon.ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 10);
-    falcon.ConfigClosedloopRamp(0, 10);
+    falcon.ConfigClosedloopRamp(2, 10);
     falcon.ConfigSupplyCurrentLimit(SupplyCurrentLimitConfiguration(true, 40, 60, 1), 10);
     falcon.SetSelectedSensorPosition(0);
     falcon.Config_kP(0, drive_P, 10);
