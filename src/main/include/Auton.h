@@ -12,8 +12,6 @@
 #include "Shooter.h"
 #include "Indexer.h"
 
-//This is not right, look at it again
-
 class Auton {
  public:
   Auton();
@@ -22,10 +20,10 @@ class Auton {
   void Printer();
   void dashboardPrinter();
 
+  double backLeftAutonInitialPosition;
+  double loopTime;
+
   private:
-    double backLeftAutonInitialPosition;
-    bool ifshot = false;
-    double loopTime = 0;
     double realTime = 0;
 };
 

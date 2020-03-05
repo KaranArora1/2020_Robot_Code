@@ -47,25 +47,28 @@ void Robot::AutonomousInit() {
     // Default Auto goes here
   }
   // -----------------------------------------------------------------------
+  Drive.setBrakeMode(ENABLED); 
   Drive.resetEncoderCounts();
-  Drive.setBrakeMode(ENABLED);  
+  //Autonomous.backLeftAutonInitialPosition =  Drive.getPositions()[0];
 }
 
 void Robot::AutonomousPeriodic() {
 
   if (autonOption == 1) {
     Autonomous.lowGoal(153000, 1, 0, Drive, Shoot, Index); //31504 = 4 feet
-    Drive.dashboardPrinter();
   }
 
-  if (autonOption == 2) {
-    Autonomous.highGoal(89500, 1, 0, Drive, Shoot, Index);
-    Drive.dashboardPrinter();
+  else if (autonOption == 2) {
+    Autonomous.highGoal(91000, 1, 0, Drive, Shoot, Index); //89500
   }
 
   else{
     std::cout << "A valid Auton was not chosen";
   }
+
+  Drive.dashboardPrinter();
+  Shoot.dashboardPrinter();
+  Index.dashboardPrinter();
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
@@ -75,21 +78,28 @@ void Robot::AutonomousPeriodic() {
   }
 }  
 
-
 void Robot::TeleopInit() {
-  Drive.setBrakeMode(ENABLED);
+  Index.Spin(0);
+  Index.feedBall(0);
+  Index.setPushBall(RETRACTED);
+  Shoot.Shoot(0);
+  Shoot.moveWristToPosition(0);
+  Drive.drivePercent(0, 0);
+
+  Autonomous.loopTime = 0;
+  Drive.resetEncoderCounts();
 }
 
 double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a parameter? Have two arguments different for each function 
-  if (fabs(input) < .05) {
+  if (fabs(input) < .03) {
     input = 0.0;
   }
   else {
     if (input > 0) {
-      input = (input - .05) / (1 - .05);
+      input = (input - .03) / (1 - .03);
       }
       else {
-        input = (input + .05) / (1 - .05);
+        input = (input + .03) / (1 - .03);
         }
       }
     return input;
@@ -97,12 +107,11 @@ double Robot::Deadzone(double input) { //Maybe make Deadzone value to hit a para
 
 void Robot::TeleopPeriodic() {
     
-  frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
+  //frc::SmartDashboard::PutNumber("Pressure (PSI?)", ((pressure.GetValue() - 404)/3418) * 120); //Don't know what this conversion is, PSI? //Not logged yet
   //frc::SmartDashboard::PutNumber("Total Current Draw (Amps)", pdp.GetTotalCurrent());
 
   //Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
-  Pickup.checkLimitSwitch();
 
 	logTicker++;
 	
@@ -247,11 +256,11 @@ void Robot::TeleopPeriodic() {
 
     if (Shoot.wristOverrideStatus == DISABLED) {
       if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
-          Shoot.moveWristFixedPositions(UP);
+        Shoot.moveWristFixedPositions(UP);
       }
       if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
         Shoot.moveWristFixedPositions(DOWN);
-        }
+      }
     }
 
     //Drivetrain shifter

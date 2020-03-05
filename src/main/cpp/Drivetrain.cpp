@@ -54,18 +54,14 @@ Drivetrain::Drivetrain() {
     //Turn off limelight blinking
     
     //Update smartdashboard and printer functions
-    //Test shooter overridre 
-    //Test if indexer for ball pickup override
-    //Check if normal indexer works
+  
     //Velocity control on drivetain - figure out encoder phase and inverting, test latch
 
-    //TURN OFF BRAKE MODE IN VEL
     //Use Shooter.Enabled in robot cpp
     //Put Shooter Wrist override in smart dashboard 
     //Turn limelight off at start
     //Ln=imnelight
     //Auton
-    //Make drivepercent only option
     //Put BallPickup enabled on dashboard 
     //Color code dashboard
     //Check lockout errors and prepare thing to tell drive team

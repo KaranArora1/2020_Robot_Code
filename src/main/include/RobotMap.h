@@ -203,7 +203,7 @@ constexpr double winch_P = 0.75;
 constexpr double winch_I = 0;
 constexpr double winch_D = 0;
 
-constexpr int winchPos = 30000; 
+constexpr int winchPos = 25000; 
 
 constexpr int scissorKForward = 1;
 constexpr int scissorKReverse= 6;
@@ -273,4 +273,4 @@ constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
 constexpr double FEEDER_WHEEL_SPEED = 1;
 
 //Auton
-constexpr int autonOption = 1;
+constexpr int autonOption = 2;

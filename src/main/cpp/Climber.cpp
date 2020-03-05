@@ -11,7 +11,6 @@ Climber::Climber() {
     winch.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); 
     winch.SetSelectedSensorPosition(0); 
 
-    //Are these all of the settings to configure? Fix
     winch.Config_kP(0, winch_P, 10);
     winch.Config_kI(0, winch_I, 10);
     winch.Config_kD(0, winch_D, 10);
