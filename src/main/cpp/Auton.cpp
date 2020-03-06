@@ -17,7 +17,7 @@ void Auton::lowGoal(double userBackLeft, double fwd, double turn, Drivetrain& Dr
         Drive.drivePercent(-.20, 0);
         
         Shoot.moveWristToPosition(500);
-        Shoot.Shoot(1000); 
+        Shoot.ShootRPMs(1000); 
     }
        
     else {
@@ -36,7 +36,7 @@ void Auton::lowGoal(double userBackLeft, double fwd, double turn, Drivetrain& Dr
             Index.feedBall(0);
             Index.setPushBall(RETRACTED);
             Index.Spin(0);
-            Shoot.Shoot(0);
+            Shoot.ShootRPMs(0);
             Shoot.moveWristToPosition(0);
         }
     }
@@ -48,7 +48,7 @@ void Auton::highGoal(double userBackLeft, double fwd, double turn, Drivetrain& D
         Drive.drivePercent(-.20, 0);
         
         Shoot.moveWristToPosition(1100);
-        Shoot.Shoot(2250); 
+        Shoot.ShootRPMs(2250); 
     }
 
     else {
@@ -67,7 +67,7 @@ void Auton::highGoal(double userBackLeft, double fwd, double turn, Drivetrain& D
             Index.feedBall(0);
             Index.setPushBall(RETRACTED);
             Index.Spin(0);
-            Shoot.Shoot(0);
+            Shoot.ShootRPMs(0);
             Shoot.moveWristToPosition(0);
         }
     }

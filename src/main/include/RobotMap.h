@@ -20,6 +20,7 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "networktables/NetworkTable.h" //Vision
 #include "networktables/NetworkTableInstance.h" //Vision
+#include "Math.h"
 #include "cameraserver/CameraServer.h"
 #include "rev/ColorSensorV3.h" //Color Sensor
 #include "rev/ColorMatch.h" //Color Sensor
@@ -203,7 +204,7 @@ constexpr double winch_P = 0.75;
 constexpr double winch_I = 0;
 constexpr double winch_D = 0;
 
-constexpr int winchPos = 25000; 
+constexpr int winchPos = 30000; 
 
 constexpr int scissorKForward = 1;
 constexpr int scissorKReverse= 6;
@@ -217,13 +218,8 @@ constexpr double pickup_I = 0;
 constexpr double pickup_D = 0; 
 constexpr double pickup_F = 0;
 
-//constexpr double posRetract = 3650;
-//constexpr double posPOut = 4150; 
-
 constexpr int posRetract = 0;
 constexpr int posOut = 450;
-
-constexpr int armSwitchID = 9;
 
 constexpr double BALLPICKUP_ARM_SPEED = 1;
 
@@ -273,4 +269,11 @@ constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
 constexpr double FEEDER_WHEEL_SPEED = 1;
 
 //Auton
-constexpr int autonOption = 2;
+constexpr int autonOption = 1;
+
+//Vision 
+constexpr int driverPipeline = 1;
+constexpr int visionPipeline = 0;
+
+constexpr int LED_OFF = 1;
+constexpr int LED_ON = 3;

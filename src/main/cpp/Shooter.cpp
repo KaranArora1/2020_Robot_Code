@@ -49,16 +49,13 @@ Shooter::Shooter() {
 }
 
 //Will be used with Vision most likely
-void Shooter::Shoot(double speed) { 
+void Shooter::ShootRPMs(double speed) { 
     shooterPID.SetReference(speed, rev::ControlType::kVelocity);
     slaveShooterPID.SetReference(speed, rev::ControlType::kVelocity);
-    /*if (shooter.GetOutputCurrent() > 45) { //FIX CURRENT VALUE
-        ballsShot++;
-    }*/
 }
 
 //Shoot at a pre-set speed
-void Shooter::ShootRPMs() { 
+void Shooter::ShootFixedRPMS() { 
 
     //Each time button is pressed, it switches between enabled and disabled 
     if (shooterStatus == ENABLED) {
@@ -140,11 +137,6 @@ void Shooter::moveWristToPosition(int pos) {
     wrist.Set(ControlMode::Position, pos);
 }
 
-//Used to override wrist and move it down forcibly
-void Shooter::moveWristDownOverride(double speed) {
-    wrist.Set(ControlMode::PercentOutput, speed);
-}
-
 void Shooter::toggleWristOverride()  {
     if (wristOverrideStatus == ENABLED) {
         wristOverrideStatus = DISABLED;
@@ -159,9 +151,12 @@ void Shooter::moveWrist(double speed) {
 }
 
 //Returns if switch is depressed
-bool Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts?
-    if (!(wristSwitch.Get())) {
-        wrist.SetSelectedSensorPosition(0); 
+bool Shooter::checkLimitSwitch() { //Is there a better way to update encoder counts? //WHEN SWITCH IS PRESSED GET() is FALSE
+    if (!(wristSwitch.Get())) { 
+        moveWrist(0); //Used to not be there
+        wrist.SetSelectedSensorPosition(0);
+        currentWristPos = 0; //Used to not be here
+
         return true;
     }
     return false;
@@ -195,9 +190,9 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
-    frc::SmartDashboard::PutNumber("Balls Shot", ballsShot);
     frc::SmartDashboard::PutNumber("Wrist Position (0-7)", currentWristPos);
     frc::SmartDashboard::PutString("Wrist Override", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
     frc::SmartDashboard::PutNumber("Wrist Targeted Position", wristPosList[currentWristPos]);
     frc::SmartDashboard::PutString("Shooter Enabled", (shooterStatus == ENABLED) ? "ENABLED" : "DISABLED");
+    frc::SmartDashboard::PutBoolean("Shooter Switch Get()", wristSwitch.Get());
 }

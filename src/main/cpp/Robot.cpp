@@ -82,7 +82,7 @@ void Robot::TeleopInit() {
   Index.Spin(0);
   Index.feedBall(0);
   Index.setPushBall(RETRACTED);
-  Shoot.Shoot(0);
+  Shoot.ShootRPMs(0);
   Shoot.moveWristToPosition(0);
   Drive.drivePercent(0, 0);
 
@@ -161,7 +161,7 @@ void Robot::TeleopPeriodic() {
       Index.Divet();
 
       //Allows for operator to override Pickup belts in case they get jammed
-      if (Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl) > .1)) { //Might cause some issues with change of direction, test and fix
+      if (fabs(Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl)) > .1)) { //Might cause some issues with change of direction, test and fix
         Pickup.Pickup(-BALLPICKUP_ARM_SPEED);
       }
       else {
@@ -178,15 +178,19 @@ void Robot::TeleopPeriodic() {
 
       //If the Wrist can be overridden, check if the right trigger is being pressed past 20% and move the wrist down
       if (Shoot.wristOverrideStatus == ENABLED) {
+        
+        Shoot.ShootRPMs(0);
+        Shoot.shooterStatus = DISABLED;
+
         if (fabs(Deadzone(driverJoy.GetRawAxis(moveWristDownOverrideChlSequence))) > .2) {
           if (!(Shoot.checkLimitSwitch())) { //Only do this when the switch is not being pressed
-            Shoot.moveWristDownOverride(-.15);
+            Shoot.moveWrist(-.15);
           }
           else {
             //When the switch is finally pressed and the wrist is home, make the override status back to disabled
             Shoot.toggleWristOverride(); 
-            Shoot.moveWristDownOverride(0);
-            Shoot.currentWristPos = 0;
+            //Shoot.moveWrist(0);
+            //Shoot.currentWristPos = 0;
           }
         }
       }
@@ -194,17 +198,16 @@ void Robot::TeleopPeriodic() {
       //Moving the wrist, shooting, and the sequence should only run when override is disabled
       if (Shoot.wristOverrideStatus == DISABLED) { 
 
-        //Shoot.moveWristDownOverride(0);
+        //Shoot.moveWrist(0);
 
         if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
-          //Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
           Index.Divet();
         }
 
         else {
 
           if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
-              Shoot.ShootRPMs();
+              Shoot.ShootFixedRPMS();
           }
 
           //If the shooter wheels are rotating activate the sequence
@@ -303,13 +306,13 @@ void Robot::TeleopPeriodic() {
 
     //Shooter
     if (fabs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl))) > 0 && operatorJoy.GetRawButtonPressed(shootBtn)) {
-      Shoot.Shoot(0);
+      Shoot.ShootRPMs(0);
     }
     else if (operatorJoy.GetRawButton(shootBtn)) {
-      Shoot.ShootRPMs();
+      Shoot.ShootRPMs(5);
     }
     else { //If button is not pressed, go to Joystick, and Joystick will be 0 probably so the result is no movement but it will move if the Joystick is tilted
-      Shoot.Shoot(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
+      Shoot.ShootRPMs(Deadzone(operatorJoy.GetRawAxis(shootJoyChl)));
     }
 
     Shoot.moveWrist(operatorJoy.GetRawAxis(moveWristChl));
@@ -410,7 +413,7 @@ void Robot::TeleopPeriodic() {
                             Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, 0.0005, 0.0005);
     }*/
 
-    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX);
+    //Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX);
   }
 }
 
@@ -419,9 +422,3 @@ void Robot::TestPeriodic() {}
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif
-
-//Dither fix
-//Dither override 
-//Limit switch stuff
-//Delete Log Files
-//Shooter positions

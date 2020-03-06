@@ -35,12 +35,10 @@ void BallPickup::Pickup(double speed) {
 void BallPickup::moveArm() {
     if (armState == EXTENDED) {
         arm.Set(ControlMode::Position, posRetract);
-        //arm.Set(ControlMode::Position, 0); //Need to fix?
         armState = RETRACTED;
     }
     else { //shooter to
         arm.Set(ControlMode::Position, posOut);
-        //arm.Set(ControlMode::Position, 500);
         armState = EXTENDED; 
     }
 }
@@ -60,5 +58,5 @@ void BallPickup::Printer() {
 
 void BallPickup::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Arm Position Counts", getPickupArmPosition());
-    frc::SmartDashboard::PutString("Dither Mode On", (armState == ENABLED) ? "ENABLED" : "DISABLED");
+    frc::SmartDashboard::PutString("Dither Mode On", (armState == EXTENDED) ? "ENABLED" : "DISABLED");
 }

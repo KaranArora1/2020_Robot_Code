@@ -38,34 +38,27 @@ Drivetrain::Drivetrain() {
     //Other Safety stuff for BallPickup and Shooter
     //Indexer should be zeroed out at start
     //Switch gears automatically maybe? 
-    //Winch
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
-    //figure out different PID slots for balaji
-    //Integrate Auton
     //Comment unclear functions
-    //Figure out brake mode stuff
     //Fix SmartDashboard boxes and clean them
     //Shooter wheels need time to speed up before indexer feeds them ball Indexer encoder count thing
-    //Limit switch not being pressed when Shooter is down
     //Hard code Limelight values in browser into code
     //Learm how to grab log files in comp when radio is different and using USB in general
     //Add lock to other mechanisms if winch is active? 
     //Soft Limits for BallPickup Arm
-    //Turn off limelight blinking
     
     //Update smartdashboard and printer functions
   
     //Velocity control on drivetain - figure out encoder phase and inverting, test latch
 
-    //Use Shooter.Enabled in robot cpp
-    //Put Shooter Wrist override in smart dashboard 
-    //Turn limelight off at start
+    //Turn limelight off at start and blinking
     //Ln=imnelight
-    //Auton
     //Put BallPickup enabled on dashboard 
     //Color code dashboard
     //Check lockout errors and prepare thing to tell drive team
     //Delete log filed
+    //Make limelight code simpler - use camMode in API, look through all of the settings on API  - replace getinstsnce boilerplate code with variable
+    //Reinstitute PDP code
 }
 
 //Drive using ControlMode::Percent
@@ -93,11 +86,6 @@ void Drivetrain::driveVelocity(double forward, double turn) {
     rightThrot = (rightThrot * 18750) - 1750;
 
     getVelocities();
-
-    frc::SmartDashboard::PutNumber("leftThrot", leftThrot);
-    frc::SmartDashboard::PutNumber("velocity on backLeft", velocities[0]);
-    frc::SmartDashboard::PutNumber("closed loop errror", backLeft.GetClosedLoopError(0));
-    frc::SmartDashboard::PutNumber("Setpoint", backLeft.GetClosedLoopTarget(0));
 
     backLeft.Set(TalonFXControlMode::Velocity, leftThrot);
     frontLeft.Set(TalonFXControlMode::Velocity, leftThrot);

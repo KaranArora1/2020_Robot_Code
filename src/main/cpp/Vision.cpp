@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Vision.h"
-#include "math.h"
 
 Vision::Vision() {
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", driverPipeline);
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", LED_OFF);
 }
  
  /*
@@ -22,16 +22,18 @@ Vision::Vision() {
 
 //Switches pipeline of limelight from being able to detect targets to acting as a normal camera 
 void Vision::switchPipeline() {
-    if (nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0) == 0) { 
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 1);
+    if (nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0) == visionPipeline) {  
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", driverPipeline); //Driver View Pipe
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", LED_OFF); //Force LED off
     }
     else {
-        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0);
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", visionPipeline); //Vision pipe
+        nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("ledMode", LED_ON); //Force LED on
     }
 }
 
 void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
-    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 2); //Sets pipeline to pipe 0 (the vision one)
+    /*nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 2); //Sets pipeline to pipe 0 (the vision one)
 
     std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
     float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
@@ -41,7 +43,7 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
     while (tv == 0) {
         Drive.drivePercent(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
-    } //End of finding
+    } //End of finding*/
 
 
     /*
@@ -118,9 +120,9 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
 //the angle from 0 - 90 
 
 //put a method here that takes the shooters encoder counts and converts them into degrees 0-90 and have it equal to shooterAng
+
 /*shooterang = 45;
 distance = (91 - 10)/tan(shooterang);
-
 
 if (distance <= 5.3){
     //shoot at 24 
@@ -136,7 +138,7 @@ if (distance <= 5.3){
 void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     //nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 0); //Sets pipeline to pipe 0 (the vision one)
 
-    switchPipeline();
+    /*switchPipeline();
 
     std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
     float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
@@ -148,12 +150,12 @@ void Vision::setupShootHigh(Drivetrain& Drive, Shooter& Shoot) {
     //calculateDistance();
 
     Drive.drivePercent(1000, 100); //Something based on tx value (orient robot)
-    switchPipeline();
+    switchPipeline();*/
 }
 
 //Actually shoot balls into the high goal
 void Vision::shootHigh(Shooter& Shoot, Indexer& Index) {
-    switchPipeline();
+    /*switchPipeline();
 
     Shoot.moveWrist(20000); //Orient SHOOTER to actual position it would need to be to make target
 
@@ -170,7 +172,7 @@ void Vision::shootHigh(Shooter& Shoot, Indexer& Index) {
     Index.feedBall(0);
     Shoot.Shoot(0);
 
-    switchPipeline();
+    switchPipeline();*/
 }
 
 void Vision::shootLow(Drivetrain& Drive, Shooter& Shoot, Indexer& Index) {
@@ -196,7 +198,6 @@ void Vision::Printer() {
 }
 
 void Vision::dashboardPrinter() {
-   
     frc::SmartDashboard::PutNumber("Current Limelight Pipeline Number", nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("getpipe", 0));
     frc::SmartDashboard::PutNumber("Current Limelight targets",  nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0));
 }

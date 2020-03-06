@@ -12,14 +12,13 @@
 class Shooter {
  public:
     Shooter();
-    void Shoot(double);
     void moveWristFixedPositions(direction);
     void moveWrist(double);
     void moveWristToPosition(int);
-    void moveWristDownOverride(double);
     void toggleWristOverride();
     bool checkLimitSwitch();
-    void ShootRPMs();
+    void ShootRPMs(double);
+    void ShootFixedRPMS();
     void incSpeed(int);    
     void incSpeed(direction);
     double * getRPMs();
@@ -31,6 +30,7 @@ class Shooter {
     int currentWristPos = 0;
 
     enableStatus wristOverrideStatus = DISABLED;
+    enableStatus shooterStatus = DISABLED;
 
   private:
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
@@ -55,8 +55,5 @@ class Shooter {
 
     double rpms[2];
 
-    int ballsShot = 0;
     int plannedRPM = 0;
-
-    enableStatus shooterStatus = DISABLED;
 };
