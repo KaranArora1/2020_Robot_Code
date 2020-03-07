@@ -159,7 +159,7 @@ constexpr int climbStatusBtnSequence = 8; //Menu Button (Driver)
 constexpr int climbScissorJoyBtnSequence = 2; //B Button (Driver)
 constexpr int winchChlSequence = 2; //Left Trigger (Driver)
 
-constexpr int activateVisionShootHighBtnSequence = 3; //X Button (Operator)
+constexpr int overrideShooterDirectionBtnSequence = 3; //X Button (Operator)
 constexpr int cancelVisionShootHighBtnSequence = 8; //Menu Button (Operator)
 constexpr int switchPipelineBtnSequence = 3; //X Button (Driver)
 
@@ -265,11 +265,13 @@ constexpr int indexSwitchID = 1000;
 
 constexpr double INDEXER_SPEED_DEMO_BOT = 0.175;
 constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
+constexpr double INDEXER_MANUAL_DITHER_SPEED = 0.225;
 
 constexpr double FEEDER_WHEEL_SPEED = 1;
 
 //Auton
-constexpr int autonOption = 1;
+constexpr int autonOption = 2;
+constexpr int autonTime = 3;
 
 //Vision 
 constexpr int driverPipeline = 1;

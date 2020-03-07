@@ -27,7 +27,7 @@ void Auton::lowGoal(double userBackLeft, double fwd, double turn, Drivetrain& Dr
         loopTime += 1;
         realTime = (loopTime * 40) / 1000;
         
-        if (realTime < 3) {
+        if (realTime < autonTime) {
             Index.feedBall(FEEDER_WHEEL_SPEED);
             Index.setPushBall(EXTENDED);
             Index.Spin(INDEXER_SPEED_FINAL_BOT);
@@ -44,31 +44,32 @@ void Auton::lowGoal(double userBackLeft, double fwd, double turn, Drivetrain& Dr
 
 void Auton::highGoal(double userBackLeft, double fwd, double turn, Drivetrain& Drive, Shooter& Shoot, Indexer& Index){
 
-    if (Drive.getPositions()[0] <= backLeftAutonInitialPosition + userBackLeft) {
-        Drive.drivePercent(-.20, 0);
-        
-        Shoot.moveWristToPosition(1100);
-        Shoot.ShootRPMs(2250); 
+    loopTime += 1;
+    realTime = (loopTime * 40) / 1000;
+
+    if (realTime < 4) {
+        Shoot.moveWristToPosition(700); //Used to be 1100
+        Shoot.ShootRPMs(2250); //Used to be 2250
+    }
+
+    else if (realTime < 8) {
+        Index.feedBall(FEEDER_WHEEL_SPEED);
+        Index.setPushBall(EXTENDED);
+        Index.Spin(INDEXER_SPEED_FINAL_BOT);
     }
 
     else {
-        Drive.drivePercent(0, 0);
-        Drive.setBrakeMode(ENABLED); //Only for testing
+        Index.feedBall(0);
+        Index.setPushBall(RETRACTED);
+        Index.Spin(0);
+        Shoot.ShootRPMs(0);
+        Shoot.moveWristToPosition(0);
 
-        loopTime += 1;
-        realTime = (loopTime * 40) / 1000;
-        
-        if (realTime < 3) {
-            Index.feedBall(FEEDER_WHEEL_SPEED);
-            Index.setPushBall(EXTENDED);
-            Index.Spin(INDEXER_SPEED_FINAL_BOT);
+        if (Drive.getPositions()[0] >= backLeftAutonInitialPosition + userBackLeft) {
+            Drive.drivePercent(.20, 0);
         }
         else {
-            Index.feedBall(0);
-            Index.setPushBall(RETRACTED);
-            Index.Spin(0);
-            Shoot.ShootRPMs(0);
-            Shoot.moveWristToPosition(0);
+            Drive.drivePercent(0, 0);
         }
     }
 }

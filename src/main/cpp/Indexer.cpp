@@ -55,21 +55,21 @@ void Indexer::feedBall(double speed) {
 } 
 
 //Actual name should be Dither - makes indexer unjam by rotating backwards for 0.5 seconds every 2.5 seconds
-void Indexer::Divet() {
+void Indexer::Divet(double time, double timeTwo, double speed) {
 
 	divetTime += 1; //Number of times loop repeats 
 	realTime = (divetTime * 40) / 1000; //Since loop repeats every 40ms this converts it into seconds
 
-	if (realTime < 2.5) {
-		Spin(-INDEXER_SPEED_FINAL_BOT);
+	if (realTime < time) {
+		Spin(-1 * speed);
 	}
 
-	if ((realTime > 2.5) && (realTime < 3)) {
-		Spin(INDEXER_SPEED_FINAL_BOT); //Spin the bot in the opposite direction for these 0.5 seconds
+	if ((realTime > time) && (realTime < timeTwo)) {
+		Spin(speed); //Spin the bot in the opposite direction for these 0.5 seconds
 	}
 
-	else if (realTime > 3) {
-		Spin(-INDEXER_SPEED_FINAL_BOT); //Spin bot normally and reset time
+	else if (realTime > timeTwo) {
+		Spin(-1 * speed); //Spin bot normally and reset time
 		divetTime = 0;
 	}
 }

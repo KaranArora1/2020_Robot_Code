@@ -19,6 +19,7 @@ class Shooter {
     bool checkLimitSwitch();
     void ShootRPMs(double);
     void ShootFixedRPMS();
+    void shootOverride();
     void incSpeed(int);    
     void incSpeed(direction);
     double * getRPMs();
@@ -30,6 +31,7 @@ class Shooter {
     int currentWristPos = 0;
 
     enableStatus wristOverrideStatus = DISABLED;
+    enableStatus shootOverrideStatus = DISABLED;
     enableStatus shooterStatus = DISABLED;
 
   private:

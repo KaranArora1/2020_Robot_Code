@@ -39,13 +39,13 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() {
   m_autoSelected = m_chooser.GetSelected();
   // m_autoSelected = SmartDashboard::GetString("Auto Selector", kAutoNameDefault);
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
+  /*std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
   } else {
     // Default Auto goes here
-  }
+  }*/
   // -----------------------------------------------------------------------
   Drive.setBrakeMode(ENABLED); 
   Drive.resetEncoderCounts();
@@ -59,7 +59,7 @@ void Robot::AutonomousPeriodic() {
   }
 
   else if (autonOption == 2) {
-    Autonomous.highGoal(91000, 1, 0, Drive, Shoot, Index); //89500
+    Autonomous.highGoal(-40000, 1, 0, Drive, Shoot, Index); //91000
   }
 
   else{
@@ -70,12 +70,12 @@ void Robot::AutonomousPeriodic() {
   Shoot.dashboardPrinter();
   Index.dashboardPrinter();
 
-  if (m_autoSelected == kAutoNameCustom) {
+  /*if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
   } 
   else {
     // Default Auto goes here
-  }
+  }*/
 }  
 
 void Robot::TeleopInit() {
@@ -143,12 +143,15 @@ void Robot::TeleopPeriodic() {
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
     //Picking up balls off the ground sequence
-    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence) && Shoot.wristOverrideStatus == DISABLED) { 
+    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence) && Shoot.wristOverrideStatus == DISABLED) {  //Consider deleting Shootwristoverridestatus in here and below
       Pickup.moveArm(); 
 
       if (Pickup.armState == EXTENDED) { //Stuff that initially happens when button is pressed
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
-        Index.Spin(-INDEXER_SPEED_FINAL_BOT); 
+        Index.Spin(-INDEXER_SPEED_FINAL_BOT);
+
+        //Shoot.ShootRPMs(0);
+        //Shoot.shooterStatus = DISABLED;
       }
       else {
         Pickup.Pickup(0); //Turn off sequence
@@ -158,10 +161,10 @@ void Robot::TeleopPeriodic() {
     }
 
     if (Pickup.armState == EXTENDED && Shoot.wristOverrideStatus == DISABLED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
-      Index.Divet();
+      Index.Divet(2.5, 3, INDEXER_SPEED_FINAL_BOT); 
 
       //Allows for operator to override Pickup belts in case they get jammed
-      if (fabs(Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl)) > .1)) { //Might cause some issues with change of direction, test and fix
+      if (fabs(Deadzone(operatorJoy.GetRawAxis(reverseBallPickupOverrideChl)) > .2)) { //Might cause some issues with change of direction, test and fix
         Pickup.Pickup(-BALLPICKUP_ARM_SPEED);
       }
       else {
@@ -188,7 +191,7 @@ void Robot::TeleopPeriodic() {
           }
           else {
             //When the switch is finally pressed and the wrist is home, make the override status back to disabled
-            Shoot.toggleWristOverride(); 
+            //Shoot.toggleWristOverride(); 
             //Shoot.moveWrist(0);
             //Shoot.currentWristPos = 0;
           }
@@ -201,10 +204,17 @@ void Robot::TeleopPeriodic() {
         //Shoot.moveWrist(0);
 
         if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
-          Index.Divet();
+          Shoot.shooterStatus = DISABLED; 
+          Shoot.ShootRPMs(0);
+          
+          Index.Divet(2, 2.5, INDEXER_MANUAL_DITHER_SPEED);
         }
 
         else {
+
+          if (operatorJoy.GetRawButtonPressed(overrideShooterDirectionBtnSequence)) {
+            Shoot.shootOverride();
+          }
 
           if (operatorJoy.GetRawButtonPressed(shootSpeedBtnSequence)) { 
               Shoot.ShootFixedRPMS();
@@ -227,7 +237,7 @@ void Robot::TeleopPeriodic() {
     }
 
     //Vision Shoot High
-    if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
+    if (operatorJoy.GetRawButtonPressed(overrideShooterDirectionBtnSequence)) {
       //Limelight.Run(0, .15, Drive);
       //Limelight.toggleShootHighStatus();
       //Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights

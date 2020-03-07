@@ -59,4 +59,5 @@ void BallPickup::Printer() {
 void BallPickup::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Arm Position Counts", getPickupArmPosition());
     frc::SmartDashboard::PutString("Dither Mode On", (armState == EXTENDED) ? "ENABLED" : "DISABLED");
+    //frc::SmartDashboard::PutString("Ball Pickup Mode", (armState == EXTENDED) ? "ENABLED" : "DISABLED");
 }
