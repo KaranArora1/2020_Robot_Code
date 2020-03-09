@@ -37,7 +37,7 @@ void Climber::scissorLift(Drivetrain& Drive) {
 		scissor.Set(frc::DoubleSolenoid::Value::kReverse); //Which one means that it actually goes up? assuming its kForward
         scissorLiftStatus = RETRACTED;
         hookIsOn = true;
-        toggleScissorCanBeDeployedStatus(); //Automatically makes scissorCanBeDeployed back to disabled once it is retracted
+        //toggleScissorCanBeDeployedStatus(); //Automatically makes scissorCanBeDeployed back to disabled once it is retracted
 	}
     else {
 		scissor.Set(frc::DoubleSolenoid::Value::kForward);

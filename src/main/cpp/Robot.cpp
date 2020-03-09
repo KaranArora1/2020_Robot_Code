@@ -62,6 +62,10 @@ void Robot::AutonomousPeriodic() {
     Autonomous.highGoal(-40000, 1, 0, Drive, Shoot, Index); //91000
   }
 
+  else if (autonOption == 3) {
+    Autonomous.highGoalPickup(-80000, 1, 0, Drive, Shoot, Index, Pickup);
+  }
+
   else{
     std::cout << "A valid Auton was not chosen";
   }
@@ -85,7 +89,13 @@ void Robot::TeleopInit() {
   Shoot.ShootRPMs(0);
   Shoot.moveWristToPosition(0);
   Drive.drivePercent(0, 0);
+  Pickup.Pickup(0);
 
+  if (Pickup.armState == EXTENDED) { //Fix maybe
+    Pickup.moveArm();
+  }
+
+  Index.divetTime = 0;
   Autonomous.loopTime = 0;
   Drive.resetEncoderCounts();
 }
@@ -189,22 +199,15 @@ void Robot::TeleopPeriodic() {
           if (!(Shoot.checkLimitSwitch())) { //Only do this when the switch is not being pressed
             Shoot.moveWrist(-.15);
           }
-          else {
-            //When the switch is finally pressed and the wrist is home, make the override status back to disabled
-            //Shoot.toggleWristOverride(); 
-            //Shoot.moveWrist(0);
-            //Shoot.currentWristPos = 0;
-          }
         }
       }
 
       //Moving the wrist, shooting, and the sequence should only run when override is disabled
       if (Shoot.wristOverrideStatus == DISABLED) { 
 
-        //Shoot.moveWrist(0);
-
         if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
-          Shoot.shooterStatus = DISABLED; 
+          Shoot.shooterStatus = DISABLED; //Fix this so that 
+          //Shoot.currentRPM = 0;
           Shoot.ShootRPMs(0);
           
           Index.Divet(2, 2.5, INDEXER_MANUAL_DITHER_SPEED);
@@ -221,7 +224,7 @@ void Robot::TeleopPeriodic() {
           }
 
           //If the shooter wheels are rotating activate the sequence
-          if (Shoot.currentRPM > 900) { 
+          if (Shoot.currentRPM > 900) { //Make Shooter.Enabled
             Index.feedBall(FEEDER_WHEEL_SPEED);
             Index.setPushBall(EXTENDED);
             Index.Spin(INDEXER_SPEED_FINAL_BOT);
@@ -255,24 +258,33 @@ void Robot::TeleopPeriodic() {
 
     //Stuff that always runs regardless of state
     //Planned speed of Shooter can be incremented or decremented regardless of if the Pickup arm is out
-    if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
+    /*if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
         Shoot.incSpeed(UP);
     }
 
     if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
       Shoot.incSpeed(DOWN);
-    }
+    }*/
+
+    /*if (Shoot.wristOverrideStatus == DISABLED) {
+      if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
+        Shoot.moveWristFixedPositions(UP);
+      }
+      if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
+        Shoot.moveWristFixedPositions(DOWN);
+      }
+    }*/
 
     if (driverJoy.GetRawButtonPressed(switchPipelineBtnSequence)) {
       Limelight.switchPipeline();
     }
 
     if (Shoot.wristOverrideStatus == DISABLED) {
-      if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
-        Shoot.moveWristFixedPositions(UP);
+      if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
+        Shoot.shootSolution(UP);
       }
-      if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
-        Shoot.moveWristFixedPositions(DOWN);
+      if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
+        Shoot.shootSolution(DOWN);
       }
     }
 

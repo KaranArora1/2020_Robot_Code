@@ -11,12 +11,14 @@
 #include "Drivetrain.h"
 #include "Shooter.h"
 #include "Indexer.h"
+#include "BallPickup.h"
 
 class Auton {
  public:
   Auton();
   void lowGoal(double, double, double, Drivetrain&, Shooter&, Indexer&);
   void highGoal(double, double, double, Drivetrain&, Shooter&, Indexer&);
+  void highGoalPickup(double, double, double, Drivetrain&, Shooter&, Indexer&, BallPickup&);
   void Printer();
   void dashboardPrinter();
 

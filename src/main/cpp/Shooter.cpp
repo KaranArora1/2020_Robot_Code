@@ -54,7 +54,7 @@ void Shooter::ShootRPMs(double speed) {
     slaveShooterPID.SetReference(speed, rev::ControlType::kVelocity);
 }
 
-//Shoot at a pre-set speed
+//Shoot at a pre-set speed determined by plannedRPM, gotten from the speeds[] array
 void Shooter::ShootFixedRPMS() { 
 
     if (shootOverrideStatus == DISABLED) {
@@ -152,6 +152,43 @@ void Shooter::moveWristFixedPositions(direction dir) {
     wrist.Set(ControlMode::Position, wristPosList[currentWristPos]);
 }
 
+void Shooter::shootSolution(direction dir) {
+    if (dir == UP) {
+        currentWristPos++;
+        currentSpeedPos++;
+
+        if (currentWristPos == 4) {
+            currentWristPos = 3;
+        }
+        if (currentSpeedPos == 4) {
+            currentSpeedPos = 3;
+        } 
+    }
+
+    else {
+        currentSpeedPos--;
+        currentWristPos--;
+
+        if (currentWristPos == -1) {
+            currentWristPos = 0;
+        }
+        if (currentSpeedPos == -1) {
+            currentSpeedPos = 0;
+        }
+    }
+
+    wrist.Set(ControlMode::Position, wristPosList[currentWristPos]);
+    
+    plannedRPM = speeds[currentSpeedPos];
+
+    if (shooterStatus == ENABLED) {
+        currentRPM = plannedRPM;
+
+        shooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
+        slaveShooterPID.SetReference(currentRPM, rev::ControlType::kVelocity);
+    }
+}
+
 //Move wrist to a position determined by the Limelight
 void Shooter::moveWristToPosition(int pos) { 
     wrist.Set(ControlMode::Position, pos);
@@ -177,6 +214,7 @@ bool Shooter::checkLimitSwitch() { //Is there a better way to update encoder cou
             moveWrist(0); //Used to not be there
             wrist.SetSelectedSensorPosition(0);
             currentWristPos = 0; //Used to not be here
+            currentSpeedPos = 0; //Fix?
 
             if (wristOverrideStatus == ENABLED) {
                 wristOverrideStatus = DISABLED; //Used to not be here
@@ -214,10 +252,10 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Difference Between Target and Actual", shooterEncoder.GetVelocity() - currentRPM);
     frc::SmartDashboard::PutNumber("Shooter (CAN ID 1) RPM", rpms[0]);
     frc::SmartDashboard::PutNumber("Slave Shooter (CAN ID 2) RPM", rpms[1]);
-    //frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
+    frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     //frc::SmartDashboard::PutNumber("Actual Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
-    frc::SmartDashboard::PutNumber("Wrist Position (0-7)", currentWristPos);
+    frc::SmartDashboard::PutNumber("Wrist Position (0-3)", currentWristPos);
     frc::SmartDashboard::PutString("Wrist Override", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
     frc::SmartDashboard::PutNumber("Wrist Targeted Position", wristPosList[currentWristPos]);
     frc::SmartDashboard::PutString("Shooter Enabled", (shooterStatus == ENABLED) ? "ENABLED" : "DISABLED");

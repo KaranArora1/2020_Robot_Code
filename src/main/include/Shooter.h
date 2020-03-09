@@ -19,6 +19,7 @@ class Shooter {
     bool checkLimitSwitch();
     void ShootRPMs(double);
     void ShootFixedRPMS();
+    void shootSolution(direction);
     void shootOverride();
     void incSpeed(int);    
     void incSpeed(direction);
@@ -50,12 +51,15 @@ class Shooter {
 
     frc::DigitalInput wristSwitch{wristSwitchID};
 
-    int wristPosList[8] = {0, 500, 550, 600, 650, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
+    //int wristPosList[8] = {0, 500, 550, 600, 650, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
+    //int speeds[10] = {0, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3500};
 
-    int speeds[10] = {0, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3500};
+    int wristPosList[4] = {0, 550, 750, 650};
+    int speeds[4] = {1000, 1000, 2500, 3000};
+    
     int currentSpeedPos = 0;
 
     double rpms[2];
 
-    int plannedRPM = 0;
+    int plannedRPM = speeds[0];
 };

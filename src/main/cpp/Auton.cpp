@@ -16,7 +16,7 @@ void Auton::lowGoal(double userBackLeft, double fwd, double turn, Drivetrain& Dr
     if (Drive.getPositions()[0] <= backLeftAutonInitialPosition + userBackLeft) {
         Drive.drivePercent(-.20, 0);
         
-        Shoot.moveWristToPosition(500);
+        Shoot.moveWristToPosition(550);
         Shoot.ShootRPMs(1000); 
     }
        
@@ -48,8 +48,8 @@ void Auton::highGoal(double userBackLeft, double fwd, double turn, Drivetrain& D
     realTime = (loopTime * 40) / 1000;
 
     if (realTime < 4) {
-        Shoot.moveWristToPosition(700); //Used to be 1100
-        Shoot.ShootRPMs(2250); //Used to be 2250
+        Shoot.moveWristToPosition(750); //Used to be 700
+        Shoot.ShootRPMs(2500); //Used to be 2250
     }
 
     else if (realTime < 8) {
@@ -71,6 +71,51 @@ void Auton::highGoal(double userBackLeft, double fwd, double turn, Drivetrain& D
         else {
             Drive.drivePercent(0, 0);
         }
+    }
+}
+
+void Auton::highGoalPickup(double userBackLeft, double fwd, double turn, Drivetrain& Drive, Shooter& Shoot, Indexer& Index, BallPickup& Pickup) {
+    
+    loopTime += 1;
+    realTime = (loopTime * 40) / 1000;
+
+    if (realTime < 4) {
+        Shoot.moveWristToPosition(750); //Used to be 700
+        Shoot.ShootRPMs(2500); //Used to be 2250
+    }
+
+    else if (realTime < 8) {
+        Index.feedBall(FEEDER_WHEEL_SPEED);
+        Index.setPushBall(EXTENDED);
+        Index.Spin(INDEXER_SPEED_FINAL_BOT);
+    }
+
+    else {
+        Index.feedBall(0);
+        Index.setPushBall(RETRACTED);
+        //Index.Spin(0);
+        Shoot.ShootRPMs(0);
+        Shoot.moveWristToPosition(0);
+
+        Index.Divet(2.5, 3, INDEXER_SPEED_FINAL_BOT); 
+
+        if (Drive.getPositions()[0] >= backLeftAutonInitialPosition + userBackLeft) {
+            Drive.drivePercent(.17, 0);
+
+            if (Pickup.armState == RETRACTED) {
+                Pickup.moveArm();
+            }
+
+            Pickup.Pickup(BALLPICKUP_ARM_SPEED);
+        }
+        else {
+            if (Pickup.armState == EXTENDED) {
+                Pickup.moveArm();
+            }
+
+            Pickup.Pickup(0);
+            Drive.drivePercent(0, 0);
+        } 
     }
 }
 
