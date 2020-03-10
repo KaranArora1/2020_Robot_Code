@@ -33,28 +33,29 @@ void Vision::switchPipeline() {
 }
 
 void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
-    /*nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 2); //Sets pipeline to pipe 0 (the vision one)
+    nt::NetworkTableInstance::GetDefault().GetTable("limelight")->PutNumber("pipeline", 2); //Sets pipeline to pipe 0 (the vision one)
 
     std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
     float tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
     float tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0);
     float ty = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx", 0.0); //Declare all the degree variables
     
+    /*
     while (tv == 0) {
         Drive.drivePercent(fwdspeed, trnspeed); 
         tv = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0); //Robot spins till it finds a vision target
     } //End of finding*/
 
 
-    /*
+    
     while (tv != 0.0) {
-        Drive.Drive(fwdspeed, 0);
+        Drive.drivePercent(fwdspeed, 0);
         tx = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv", 0.0);
         
         if (tx > 0) {
-            Drive.Drive(fwdspeed, trnspeed); //Robot turns left till there is no X error 
+            Drive.drivePercent(fwdspeed, trnspeed); //Robot turns left till there is no X error 
         }else if (tx < 0) {
-            Drive.Drive(fwdspeed * -1, trnspeed * -1); //Robot turns right untill there is no horizontal error
+            Drive.drivePercent(fwdspeed * -1, trnspeed * -1); //Robot turns right untill there is no horizontal error
         }//end of x axis seeking
         
         else if (tx == 0) {
@@ -107,7 +108,7 @@ void Vision::Run(double fwdspeed, double trnspeed, Drivetrain& Drive) {
 
         }*/
     }
-//}
+}
 
 
 //Math goes here

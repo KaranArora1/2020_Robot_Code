@@ -25,25 +25,25 @@ class Logger {
 		//Drivetrain
 		int backLeftPosition, frontLeftPosition, backRightPosition, frontRightPosition;
 		int backLeftVelocity, frontLeftVelocity, backRightVelocity, frontRightVelocity;
-		//double backLeftRPM, frontLeftRPM, backRightRPM, frontRightRPM;
-		//double backLeftCurrent, frontLeftCurrent, backRightCurrent, frontRightCurrent;
+		double backLeftRPM, frontLeftRPM, backRightRPM, frontRightRPM;
+		double backLeftCurrent, frontLeftCurrent, backRightCurrent, frontRightCurrent;
 
 		//Shooter
-		//int shooterRPM, slaveShooterRPM;
-		//int wristPosition;
+		int shooterRPM, slaveShooterRPM;
+		int wristPosition;
 
 		//Ball Pickup
 
 		//Climber
-		//int winchPosition;
+		int winchPosition;
 
 		//Indexer
 
 		//Panel Spinner
-		//int spinnerPosition;
-		//int spinnerVelocity;
-		//double spinnerRPM;
-		//double confidence;
+		int spinnerPosition;
+		int spinnerVelocity;
+		double spinnerRPM;
+		double confidence;
 	};
 
 	virtual ~Logger();
@@ -52,7 +52,7 @@ class Logger {
 	void logInfo(const char *msg, ... );
 	void logCSV(struct CSVVals *data);
 	void Run(int *, int *, double *, double *, double*, int, int, int, double, double, int, double, double, double, double);
-	void Run(int *, int *, double, double);
+	void Run(int *, int *, double, double, int, int);
 	void Save();
 
     static Logger *instance() {

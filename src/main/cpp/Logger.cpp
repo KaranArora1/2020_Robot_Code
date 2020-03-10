@@ -39,7 +39,7 @@ Logger::Logger() {
 			<< "backLeftVelocity" << ','
 			<< "frontLeftVelocity" << ','
 			<< "backRightVelocity" << ','
-			<< "frontRightVelocity" << //Make sure that all commas and << are correct or else it won't log properly
+			<< "frontRightVelocity" << ',' //Make sure that all commas and << are correct or else it won't log properly
 			/*<< "backLeftRPM" << ','
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','
@@ -47,10 +47,10 @@ Logger::Logger() {
 			<< "backLeftCurrent" << ','
 			<< "frontLeftCurrent" << ','
 			<< "backRightCurrent" << ','
-			<< "frontRightCurrent" << ','
+			<< "frontRightCurrent" << ','*/
 			<< "shooterRPM" << ','
-			<< "slaveShooterRPM" 
-			<< "wristPosition" << ','
+			<< "slaveShooterRPM" <<
+			/*<< "wristPosition" << ','
 			<< "winchPosition" << ','
 			<< "spinnerPosition" << ','
 			<< "spinnerVelocity" << ','
@@ -104,7 +104,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> backLeftVelocity << ','
 			<< data-> frontLeftVelocity << ','
 			<< data-> backRightVelocity << ','
-			<< data-> frontRightVelocity <<
+			<< data-> frontRightVelocity << ','
 
 			/*<< data-> backLeftRPM << ','
 			<< data-> frontLeftRPM << ','
@@ -114,11 +114,11 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> backLeftCurrent << ','
 			<< data-> frontLeftCurrent << ','
 			<< data-> backRightCurrent << ','
-			<< data-> frontRightCurrent << ','
+			<< data-> frontRightCurrent << ','*/
 			
 			<< data-> shooterRPM << ','
-			<< data-> slaveShooterRPM 
-			<< data-> wristPosition << ','
+			<< data-> slaveShooterRPM << 
+			/*<< data-> wristPosition << ','
 
 			<< data-> winchPosition << ','
 
@@ -188,7 +188,7 @@ void Logger::Run(int * drivePositions, int * driveVelocities, double * driveRPMs
 	logCSV(&csvData);
 }
 
-void Logger::Run(int* drivePositions, int* driveVelocities, double leftJoyY, double rightJoyX) {
+void Logger::Run(int* drivePositions, int* driveVelocities, double leftJoyY, double rightJoyX, int shooterRPM, int slaveShooterRPM) {
 	struct Logger::CSVVals csvData;
 
 	//Joystick
@@ -205,6 +205,9 @@ void Logger::Run(int* drivePositions, int* driveVelocities, double leftJoyY, dou
 	csvData.frontLeftVelocity = driveVelocities[1];
 	csvData.backRightVelocity = driveVelocities[2];
 	csvData.frontRightVelocity = driveVelocities[3];
+
+	csvData.shooterRPM = shooterRPM;
+	csvData.slaveShooterRPM = slaveShooterRPM;
 
 	logCSV(&csvData);
 }

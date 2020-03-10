@@ -240,44 +240,22 @@ void Robot::TeleopPeriodic() {
     }
 
     //Vision Shoot High
-    if (operatorJoy.GetRawButtonPressed(overrideShooterDirectionBtnSequence)) {
+   /* if (operatorJoy.GetRawButtonPressed(overrideShooterDirectionBtnSequence)) {
       //Limelight.Run(0, .15, Drive);
       //Limelight.toggleShootHighStatus();
       //Limelight.setupShootHigh(Drive, Shoot); //Add indicator lights
-    }
-
-    /*if (Limelight.shootHighStatus == ENABLED) {
-      if (operatorJoy.GetRawButtonPressed(cancelVisionShootHighBtnSequence)) {
-        Limelight.toggleShootHighStatus();
-      }
-      else if (operatorJoy.GetRawButtonPressed(activateVisionShootHighBtnSequence)) {
-        Limelight.shootHigh(Shoot, Index); //Add indicator lights
-        Index.Spin(-INDEXER_SPEED_FINAL_BOT); //Is this needed
-      }
     }*/
 
     //Stuff that always runs regardless of state
     //Planned speed of Shooter can be incremented or decremented regardless of if the Pickup arm is out
-    /*if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
-        Shoot.incSpeed(UP);
-    }
-
-    if (operatorJoy.GetRawButtonPressed(shootSpeedDecBtnSequence)) {
-      Shoot.incSpeed(DOWN);
-    }*/
-
-    /*if (Shoot.wristOverrideStatus == DISABLED) {
-      if (driverJoy.GetRawButtonPressed(moveWristUpBtnSequence)) {
-        Shoot.moveWristFixedPositions(UP);
-      }
-      if (driverJoy.GetRawButtonPressed(moveWristDownBtnSequence)) {
-        Shoot.moveWristFixedPositions(DOWN);
-      }
-    }*/
-
     if (driverJoy.GetRawButtonPressed(switchPipelineBtnSequence)) {
       Limelight.switchPipeline();
     }
+   
+   /* if (driverJoy.GetRawButtonPressed(overrideShooterDirectionBtnSequence)) {
+      Limelight.Run(0.5, 0.5, Drive);
+    }*/
+
 
     if (Shoot.wristOverrideStatus == DISABLED) {
       if (operatorJoy.GetRawButtonPressed(shootSpeedIncBtnSequence)) {
@@ -435,7 +413,7 @@ void Robot::TeleopPeriodic() {
                             Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, 0.0005, 0.0005);
     }*/
 
-    //Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX);
+    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX, Shoot.getRPMs()[0], Shoot.getRPMs()[1]);
   }
 }
 
