@@ -50,6 +50,8 @@ Shooter::Shooter() {
 
 //Will be used with Vision most likely
 void Shooter::ShootRPMs(double speed) { 
+    currentRPM = speed; //Keep?
+
     shooterPID.SetReference(speed, rev::ControlType::kVelocity);
     slaveShooterPID.SetReference(speed, rev::ControlType::kVelocity);
 }
@@ -264,4 +266,28 @@ void Shooter::dashboardPrinter() {
 
     //frc::SmartDashboard::PutString("Wrist Override Enabled", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
     //frc::SmartDashboard::PutString("Shooter Override Enabled", (shootOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
+}
+
+void Shooter::unJamBall(){
+    getRPMs(); //Gets Current RPM
+
+    if (currentRPM > 1000 && rpms[0] < 500 || rpms[1] < 500 ) {
+        
+        shooterLoopTime += 1;
+        shooterRealTime = (shooterLoopTime * 40) / 1000;
+      
+        if (shooterRealTime > 2) {
+
+            if (shooterRealTime < 4){
+                shooterPID.SetReference(-250, rev::ControlType::kVelocity);
+                slaveShooterPID.SetReference(-250, rev::ControlType::kVelocity);
+                shooterRealTime = 0;
+
+            }
+        }
+    }
+
+    else{
+        shooterRealTime = 0;
+    }
 }

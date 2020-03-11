@@ -27,6 +27,7 @@ class Shooter {
     int getWristPosition();
     void Printer();
     void dashboardPrinter();
+    void unJamBall();
 
     int currentRPM = 0;
     int currentWristPos = 0;
@@ -35,7 +36,11 @@ class Shooter {
     enableStatus shootOverrideStatus = DISABLED;
     enableStatus shooterStatus = DISABLED;
 
+    double shooterLoopTime;
+
   private:
+
+    double shooterRealTime = 0;
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
 
     //Rename this possibly if I don't make it into a slave

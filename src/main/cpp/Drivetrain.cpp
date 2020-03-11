@@ -37,10 +37,8 @@ Drivetrain::Drivetrain() {
     //Current too high for too long return to home position 
     //Other Safety stuff for BallPickup and Shooter
     //Indexer should be zeroed out at start
-    //Switch gears automatically maybe? 
     //Set range on what counts each devicd can operate for encoder counts ADD OVERRIDE AND TALK WITH ANITA
     //Comment unclear functions
-    //Fix SmartDashboard boxes and clean them
     //Shooter wheels need time to speed up before indexer feeds them ball Indexer encoder count thing
     //Hard code Limelight values in browser into code
     //Learm how to grab log files in comp when radio is different and using USB in general
@@ -52,13 +50,14 @@ Drivetrain::Drivetrain() {
     //Velocity control on drivetain - figure out encoder phase and inverting, test latch
 
     //Turn limelight off at start and blinking
-    //Ln=imnelight
     //Put BallPickup enabled on dashboard 
     //Color code dashboard
     //Check lockout errors and prepare thing to tell drive team
     //Delete log filed
     //Make limelight code simpler - use camMode in API, look through all of the settings on API  - replace getinstsnce boilerplate code with variable
     //Reinstitute PDP code
+    //Make "turn off stuff" function
+    //Make it so that if Indexer is on when the climber is put up
 }
 
 //Drive using ControlMode::Percent

@@ -11,6 +11,10 @@ Indexer::Indexer() {
 	index.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10); //Relative or Absolute? 
     index.SetSelectedSensorPosition(0);
 
+	index.Config_kP(0, index_P, 10);
+	index.Config_kI(0, index_I, 10);
+	index.Config_kD(0, index_D, 10);
+
 	feeder.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 10);
 	feeder.SetSelectedSensorPosition(0);
 }
@@ -23,6 +27,10 @@ void Indexer::Spin(double triggerForward, double triggerReverse) {
 	else {
 		index.Set(ControlMode::PercentOutput, triggerForward - triggerReverse);
 	}	
+}
+
+void Indexer::moveFixedPositions() {
+	
 }
 
 //Overloaded method - spins indexer just using one speed input
