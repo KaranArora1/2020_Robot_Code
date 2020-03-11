@@ -153,15 +153,15 @@ void Robot::TeleopPeriodic() {
   // ------------------------------------------------------------------ SEQUENCING BUTTONS ----------------------------------------------------------------------------
 
     //Picking up balls off the ground sequence
-    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence) && Shoot.wristOverrideStatus == DISABLED) {  //Consider deleting Shootwristoverridestatus in here and below
+    if (operatorJoy.GetRawButtonPressed(ballPickupmMoveArmBtnSequence) && Shoot.wristOverrideStatus == DISABLED && Climb.scissorLiftStatus == RETRACTED) {  //Consider deleting Shootwristoverridestatus in here and below
       Pickup.moveArm(); 
 
       if (Pickup.armState == EXTENDED) { //Stuff that initially happens when button is pressed
         Pickup.Pickup(BALLPICKUP_ARM_SPEED);
         Index.Spin(-INDEXER_SPEED_FINAL_BOT);
 
-        //Shoot.ShootRPMs(0);
-        //Shoot.shooterStatus = DISABLED;
+        Shoot.ShootRPMs(0);
+        Shoot.shooterStatus = DISABLED;
       }
       else {
         Pickup.Pickup(0); //Turn off sequence
@@ -170,7 +170,7 @@ void Robot::TeleopPeriodic() {
       }
     }
 
-    if (Pickup.armState == EXTENDED && Shoot.wristOverrideStatus == DISABLED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
+    if (Pickup.armState == EXTENDED && Shoot.wristOverrideStatus == DISABLED && Climb.scissorLiftStatus == RETRACTED) { //Stuff that should be constantly checked for when the arm is out and the sequence is happening
       Index.Divet(2.5, 3, INDEXER_SPEED_FINAL_BOT); 
 
       //Allows for operator to override Pickup belts in case they get jammed
@@ -183,7 +183,7 @@ void Robot::TeleopPeriodic() {
     }
 
     //Shooting without Vision - only runs when Pickup Arm is not extended (so as to not interfere with Indexer direction)
-    if (Pickup.armState == RETRACTED) {
+    if (Pickup.armState == RETRACTED && Climb.scissorLiftStatus == RETRACTED) {
 
       if (driverJoy.GetRawButtonPressed(wristOverrideStatusBtnSequence)) {
         Shoot.toggleWristOverride();
@@ -207,7 +207,6 @@ void Robot::TeleopPeriodic() {
 
         if (fabs(Deadzone(operatorJoy.GetRawAxis(ditherOverrideChlSequence))) > .2) { //Has to be constantly held
           Shoot.shooterStatus = DISABLED; //Fix this so that 
-          //Shoot.currentRPM = 0;
           Shoot.ShootRPMs(0);
           
           Index.Divet(2, 2.5, INDEXER_MANUAL_DITHER_SPEED);
@@ -281,6 +280,11 @@ void Robot::TeleopPeriodic() {
     if (Climb.scissorCanBeDeployedStatus == ENABLED) {
       if (driverJoy.GetRawButtonPressed(climbScissorJoyBtnSequence)) { 
         Climb.scissorLift(Drive);
+        Pickup.Pickup(0);
+        Index.Spin(0);
+        Index.feedBall(0); 
+        Shoot.ShootRPMs(0);
+        Shoot.shooterStatus = DISABLED;
       }
     }
 

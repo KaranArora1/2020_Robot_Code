@@ -258,6 +258,10 @@ constexpr double wrist_maxIntegralAccum = 10;
 constexpr int indexerMotorID = 7; //SRX 
 constexpr int feederMotorID = 1; //SRX
 
+constexpr int index_P = 0;
+constexpr int index_I = 0;
+constexpr int index_D = 0;
+
 constexpr int pusherKReverse = 0;
 constexpr int pusherKForward = 7;
 

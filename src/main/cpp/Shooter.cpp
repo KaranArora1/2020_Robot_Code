@@ -50,6 +50,8 @@ Shooter::Shooter() {
 
 //Will be used with Vision most likely
 void Shooter::ShootRPMs(double speed) { 
+    currentRPM = speed; //Keep?
+
     shooterPID.SetReference(speed, rev::ControlType::kVelocity);
     slaveShooterPID.SetReference(speed, rev::ControlType::kVelocity);
 }
