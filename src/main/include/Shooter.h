@@ -40,11 +40,10 @@ class Shooter {
 
   private:
 
-    double shooterRealTime = 0;
     rev::CANSparkMax shooter{shooterMotorID, rev::CANSparkMax::MotorType::kBrushless};
 
     //Rename this possibly if I don't make it into a slave
-    rev::CANSparkMax slaveShooter{slaveShoooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave FIX
+    rev::CANSparkMax slaveShooter{slaveShooterMotorID, rev::CANSparkMax::MotorType::kBrushless}; //Make into Slave FIX
 
     rev::CANPIDController shooterPID = shooter.GetPIDController();
     rev::CANPIDController slaveShooterPID = slaveShooter.GetPIDController();
@@ -59,12 +58,13 @@ class Shooter {
     //int wristPosList[8] = {0, 500, 550, 600, 650, 700, 800, 1100}; //About 44, 52, 61, and 70, 100 degrees LOOK AT THIS 
     //int speeds[10] = {0, 1000, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3500};
 
-    int wristPosList[4] = {0, 550, 700, 600};
-    int speeds[4] = {1000, 1000, 2500, 3000};
+    int wristPosList[5] = {0, 550, 850, 700, 550};
+    int speeds[5] = {1000, 1000, 2000, 2500, 3000};
     
     int currentSpeedPos = 0;
 
     double rpms[2];
 
     int plannedRPM = speeds[0];
+    double shooterRealTime = 0;
 };

@@ -30,7 +30,7 @@ Logger::Logger() {
 			<< "time" << ','
 			//<< "voltage" << ','
 			//<< "totalCurrent" << ','
-			<< "leftJoyY" << ',' 
+			/*<< "leftJoyY" << ',' 
 			<< "rightJoyX" << ','
 			<< "backLeftPosition" << ','
 			<< "frontLeftPosition" << ','
@@ -39,7 +39,7 @@ Logger::Logger() {
 			<< "backLeftVelocity" << ','
 			<< "frontLeftVelocity" << ','
 			<< "backRightVelocity" << ','
-			<< "frontRightVelocity" << ',' //Make sure that all commas and << are correct or else it won't log properly
+			<< "frontRightVelocity" << ','*/ //Make sure that all commas and << are correct or else it won't log properly
 			/*<< "backLeftRPM" << ','
 			<< "frontLeftRPM" << ','
 			<< "backRightRPM" << ','
@@ -93,7 +93,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			//<< data-> voltage << ','
 			//<< data-> totalCurrent << ','
 
-			<< data-> leftJoyY << ','
+			/*<< data-> leftJoyY << ','
 			<< data-> rightJoyX << ','
 
 			<< data-> backLeftPosition << ','
@@ -104,7 +104,7 @@ void Logger::logCSV(struct CSVVals *data) {
 			<< data-> backLeftVelocity << ','
 			<< data-> frontLeftVelocity << ','
 			<< data-> backRightVelocity << ','
-			<< data-> frontRightVelocity << ','
+			<< data-> frontRightVelocity << ','*/
 
 			/*<< data-> backLeftRPM << ','
 			<< data-> frontLeftRPM << ','
@@ -210,6 +210,13 @@ void Logger::Run(int* drivePositions, int* driveVelocities, double leftJoyY, dou
 	csvData.slaveShooterRPM = slaveShooterRPM;
 
 	logCSV(&csvData);
+}
+
+void Logger::Run(int shooterRPM, int slaveShooterRPM) {
+	struct Logger::CSVVals csvData;
+
+	csvData.shooterRPM = shooterRPM;
+	csvData.slaveShooterRPM = slaveShooterRPM;
 }
 
 Logger::~Logger() {

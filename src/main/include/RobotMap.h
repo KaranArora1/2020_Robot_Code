@@ -235,7 +235,7 @@ static constexpr frc::Color kYellowTarget = frc::Color(0.320, 0.563, 0.114);
 
 //Shooter
 constexpr int shooterMotorID = 21; //Spark
-constexpr int slaveShoooterMotorID = 20; //Spark
+constexpr int slaveShooterMotorID = 20; //Spark
 constexpr int wristMotorID = 3; //SRX Changed from 8
 
 //constexpr double shooter_P = 0.00006;

@@ -122,7 +122,7 @@ void Robot::TeleopPeriodic() {
 
   //Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
-  Shoot.unJamBall();
+  //Shoot.unJamBall();
 	logTicker++;
 	
   if (logTicker == logInterval || logTicker > logInterval) {
@@ -417,7 +417,7 @@ void Robot::TeleopPeriodic() {
                             Spinner.getConfidence(), Climb.getWinchPosition(), leftJoyY, rightJoyX, 0.0005, 0.0005);
     }*/
 
-    Logger::instance()-> Run(Drive.getPositions(), Drive.getVelocities(), leftJoyY, rightJoyX, Shoot.getRPMs()[0], Shoot.getRPMs()[1]);
+    Logger::instance()-> Run(Shoot.getRPMs()[0], Shoot.getRPMs()[1]);
   }
 }
 

@@ -159,11 +159,11 @@ void Shooter::shootSolution(direction dir) {
         currentWristPos++;
         currentSpeedPos++;
 
-        if (currentWristPos == 4) {
-            currentWristPos = 3;
+        if (currentWristPos == 5) {
+            currentWristPos = 4;
         }
-        if (currentSpeedPos == 4) {
-            currentSpeedPos = 3;
+        if (currentSpeedPos == 5) {
+            currentSpeedPos = 4;
         } 
     }
 
@@ -257,7 +257,7 @@ void Shooter::dashboardPrinter() {
     frc::SmartDashboard::PutNumber("Wrist Position (counts)", getWristPosition());
     //frc::SmartDashboard::PutNumber("Actual Wrist Position (counts)", getWristPosition());
     frc::SmartDashboard::PutNumber("Target RPM", plannedRPM);
-    frc::SmartDashboard::PutNumber("Wrist Position (0-3)", currentWristPos);
+    frc::SmartDashboard::PutNumber("Wrist Position (0-4)", currentWristPos);
     frc::SmartDashboard::PutString("Wrist Override", (wristOverrideStatus == ENABLED) ? "ENABLED" : "DISABLED");
     frc::SmartDashboard::PutNumber("Wrist Targeted Position", wristPosList[currentWristPos]);
     frc::SmartDashboard::PutString("Shooter Enabled", (shooterStatus == ENABLED) ? "ENABLED" : "DISABLED");
@@ -269,7 +269,7 @@ void Shooter::dashboardPrinter() {
 }
 
 void Shooter::unJamBall(){
-    getRPMs(); //Gets Current RPM
+    getRPMs(); 
 
     if (currentRPM > 1000 && rpms[0] < 500 || rpms[1] < 500 ) {
         
@@ -277,17 +277,16 @@ void Shooter::unJamBall(){
         shooterRealTime = (shooterLoopTime * 40) / 1000;
       
         if (shooterRealTime > 2) {
-
-            if (shooterRealTime < 4){
+            if (shooterRealTime < 4) {
                 shooterPID.SetReference(-250, rev::ControlType::kVelocity);
                 slaveShooterPID.SetReference(-250, rev::ControlType::kVelocity);
-                shooterRealTime = 0;
 
+                shooterRealTime = 0;
             }
         }
     }
 
-    else{
+    else {
         shooterRealTime = 0;
     }
 }
