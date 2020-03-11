@@ -288,7 +288,6 @@ void Shooter::unJamBall(){
     }
 
     else{
-        
         shooterRealTime = 0;
     }
 }
