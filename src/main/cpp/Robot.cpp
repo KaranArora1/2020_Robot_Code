@@ -122,7 +122,7 @@ void Robot::TeleopPeriodic() {
 
   //Index.checkLimitSwitch(); //Reset encoder counts at the beginning of each loop
   Shoot.checkLimitSwitch();
-
+  Shoot.unJamBall();
 	logTicker++;
 	
   if (logTicker == logInterval || logTicker > logInterval) {
