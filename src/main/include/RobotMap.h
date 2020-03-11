@@ -264,7 +264,7 @@ constexpr int pusherKForward = 7;
 constexpr int indexSwitchID = 1000;
 
 constexpr double INDEXER_SPEED_DEMO_BOT = 0.175;
-constexpr double INDEXER_SPEED_FINAL_BOT = 0.15;
+constexpr double INDEXER_SPEED_FINAL_BOT = 0.20;
 constexpr double INDEXER_MANUAL_DITHER_SPEED = 0.225;
 
 constexpr double FEEDER_WHEEL_SPEED = 1;
